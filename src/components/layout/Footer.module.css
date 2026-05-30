@@ -168,14 +168,18 @@
 }
 
 .madeByLink {
-  color: #FFD700;
-  text-decoration: none;
-  font-weight: 600;
+  color: var(--white-60);
+  text-decoration: underline;
+  text-underline-offset: 3px;
   transition: color 0.2s;
 }
 
 .madeByLink:hover {
-  color: #FFC200;
+  color: var(--white);
+}
+
+.heart {
+  color: #FFD700;
 }
 
 /* ── Tablet (1024px) ── */

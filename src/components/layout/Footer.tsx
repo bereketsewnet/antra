@@ -100,7 +100,7 @@ export function Footer() {
             <a href="https://wubsites.com" target="_blank" rel="noopener noreferrer" className={styles.madeByLink}>
               Wubsites
             </a>
-            {' '}&#10084;&#65039;
+            {' '}<span className={styles.heart}>♥</span>
           </p>
         </div>
       </div>
