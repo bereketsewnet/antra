@@ -161,6 +161,23 @@
   color: var(--white);
 }
 
+.madeBy {
+  font-size: 12px;
+  color: var(--white-60);
+  margin: 0;
+}
+
+.madeByLink {
+  color: #FFD700;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.madeByLink:hover {
+  color: #FFC200;
+}
+
 /* ── Tablet (1024px) ── */
 @media (max-width: 1024px) {
   .container {

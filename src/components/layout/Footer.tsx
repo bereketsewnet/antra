@@ -95,6 +95,13 @@ export function Footer() {
             <NavLink to="/about" className={styles.bottomLink}>About</NavLink>
             <NavLink to="/contact" className={styles.bottomLink}>Contact</NavLink>
           </div>
+          <p className={styles.madeBy}>
+            Made by{' '}
+            <a href="https://wubsites.com" target="_blank" rel="noopener noreferrer" className={styles.madeByLink}>
+              Wubsites
+            </a>
+            {' '}&#10084;&#65039;
+          </p>
         </div>
       </div>
     </footer>
