@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: http://antra.lula.com.et/sitemap.xml

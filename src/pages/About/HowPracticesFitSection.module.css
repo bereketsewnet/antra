@@ -1,0 +1,320 @@
+.section {
+  background: var(--navy-dark);
+  padding-block: var(--section-pad-y);
+  position: relative;
+  overflow: hidden;
+}
+
+.gridOverlay {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-pad);
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Section label ── */
+.sectionLabel {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: clamp(40px, 5vw, 64px);
+}
+
+.labelNumber {
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--orange);
+}
+
+.labelText {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  color: var(--white-60);
+  text-transform: uppercase;
+}
+
+.labelLine {
+  flex: 1;
+  height: 1px;
+  background: var(--white-10);
+}
+
+/* ── Main grid ── */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(40px, 6vw, 80px);
+  align-items: start;
+  margin-bottom: clamp(60px, 10vw, 120px);
+}
+
+/* ── Map column ── */
+.mapCol {
+  position: sticky;
+  top: 100px;
+}
+
+.mapWrap {
+  position: relative;
+}
+
+.mapImage {
+  width: 100%;
+  height: clamp(380px, 45vw, 600px);
+  object-fit: cover;
+  border-radius: 4px;
+  display: block;
+  filter: saturate(0.85) contrast(1.05);
+}
+
+.mapLabel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px 24px;
+  background: linear-gradient(to top, rgba(6, 15, 26, 0.9) 0%, transparent 100%);
+  border-radius: 0 0 4px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mapLabelText {
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--white);
+  letter-spacing: 0.02em;
+}
+
+.mapLabelSub {
+  font-size: 11px;
+  color: var(--orange);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ── Connections column ── */
+.connectionsCol {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.heading {
+  font-family: var(--font-heading);
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.headingAccent {
+  color: var(--orange);
+}
+
+.intro {
+  font-size: clamp(14px, 1.1vw, 16px);
+  color: var(--white-60);
+  line-height: 1.8;
+  margin: 0;
+}
+
+.connections {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-top: 1px solid var(--white-10);
+}
+
+.connection {
+  display: flex;
+  gap: 20px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--white-10);
+  transition: background 0.2s var(--ease-out);
+}
+
+.connection:hover .connTitle {
+  color: var(--orange);
+}
+
+.connIndex {
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--orange);
+  flex-shrink: 0;
+  padding-top: 2px;
+  width: 28px;
+}
+
+.connContent {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.connTitle {
+  font-family: var(--font-heading);
+  font-size: clamp(15px, 1.4vw, 18px);
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -0.01em;
+  margin: 0;
+  transition: color 0.2s var(--ease-out);
+}
+
+.connBody {
+  font-size: clamp(13px, 1vw, 15px);
+  color: var(--white-60);
+  line-height: 1.75;
+  margin: 0;
+}
+
+/* ── Closing CTA ── */
+.cta {
+  border-top: 1px solid var(--white-10);
+  padding-top: clamp(40px, 6vw, 72px);
+}
+
+.ctaInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.ctaText {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  min-width: 240px;
+}
+
+.ctaHeading {
+  font-family: var(--font-heading);
+  font-size: clamp(24px, 3vw, 40px);
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.ctaSub {
+  font-size: clamp(14px, 1.1vw, 16px);
+  color: var(--white-60);
+  line-height: 1.7;
+  margin: 0;
+  max-width: 480px;
+}
+
+.ctaActions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+
+/* ── CTA buttons ── */
+.ctaBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 28px;
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border-radius: 4px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.25s var(--ease-out), color 0.25s var(--ease-out), border-color 0.25s var(--ease-out);
+}
+
+.ctaBtnPrimary {
+  background: var(--orange);
+  color: var(--white);
+  border: 2px solid var(--orange);
+}
+
+.ctaBtnPrimary:hover {
+  background: var(--orange-hover);
+  border-color: var(--orange-hover);
+}
+
+.ctaBtnGhost {
+  background: transparent;
+  color: var(--white);
+  border: 2px solid var(--white-60);
+}
+
+.ctaBtnGhost:hover {
+  background: var(--white-10);
+  border-color: var(--white);
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .mapCol {
+    position: static;
+  }
+
+  .mapImage {
+    height: clamp(300px, 40vw, 480px);
+  }
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .mapCol {
+    order: -1;
+  }
+
+  .mapImage {
+    height: clamp(260px, 55vw, 380px);
+  }
+
+  .ctaInner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .ctaActions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .ctaActions > * {
+    width: 100%;
+    justify-content: center;
+  }
+}

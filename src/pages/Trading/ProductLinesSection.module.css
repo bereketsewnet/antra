@@ -1,0 +1,362 @@
+.section {
+  background: var(--navy);
+  padding-block: var(--section-pad-y);
+  position: relative;
+  overflow: hidden;
+}
+
+.section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-pad);
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Section label ── */
+.sectionLabel {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: clamp(40px, 5vw, 64px);
+}
+
+.labelNumber {
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--orange);
+}
+
+.labelText {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  color: var(--white-60);
+  text-transform: uppercase;
+}
+
+.labelLine {
+  flex: 1;
+  height: 1px;
+  background: var(--white-10);
+}
+
+/* ── Heading + intro ── */
+.heading {
+  font-family: var(--font-heading);
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin: 0 0 20px;
+}
+
+.headingAccent {
+  color: var(--orange);
+}
+
+.intro {
+  font-size: clamp(14px, 1.1vw, 16px);
+  color: var(--white-60);
+  line-height: 1.8;
+  max-width: 620px;
+  margin: 0 0 clamp(40px, 6vw, 72px);
+}
+
+/* ── Product cards grid ── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(16px, 2.5vw, 28px);
+  margin-bottom: clamp(60px, 10vw, 120px);
+}
+
+/* ── Card ── */
+.card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--white-10);
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  cursor: default;
+  transition: border-color 0.25s var(--ease-out);
+}
+
+.card:hover {
+  border-color: rgba(217, 121, 17, 0.35);
+}
+
+.imageWrap {
+  position: relative;
+  overflow: hidden;
+  height: clamp(200px, 24vw, 300px);
+  flex-shrink: 0;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.55s var(--ease-out);
+}
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(11, 33, 53, 0.15) 0%,
+    rgba(6, 15, 26, 0.55) 100%
+  );
+}
+
+.tag {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--orange);
+  background: rgba(6, 15, 26, 0.75);
+  padding: 5px 10px;
+  border-radius: 2px;
+  border: 1px solid rgba(217, 121, 17, 0.3);
+}
+
+/* Orange line below tag on hover */
+.tagLine {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--orange);
+}
+
+.body {
+  padding: clamp(20px, 2.5vw, 32px);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: clamp(18px, 1.8vw, 24px);
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.short {
+  font-size: clamp(13px, 1vw, 15px);
+  color: var(--white-60);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.specs {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.specItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--white-60);
+  line-height: 1.5;
+}
+
+.specDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--orange);
+  flex-shrink: 0;
+}
+
+.bottomBar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--orange);
+  transform-origin: left;
+  transition: transform 0.35s var(--ease-out);
+}
+
+/* ── Freezone feature ── */
+.freezone {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(40px, 6vw, 80px);
+  align-items: start;
+  border-top: 1px solid var(--white-10);
+  padding-top: clamp(60px, 8vw, 100px);
+}
+
+.freezoneImageCol {
+  position: sticky;
+  top: 100px;
+}
+
+.freezoneImage {
+  width: 100%;
+  height: clamp(360px, 44vw, 580px);
+  object-fit: cover;
+  border-radius: 4px;
+  display: block;
+}
+
+.freezoneBadge {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 16px;
+  padding: 16px 20px;
+  border: 1px solid rgba(217, 121, 17, 0.25);
+  background: rgba(217, 121, 17, 0.06);
+  border-radius: 4px;
+}
+
+.freezoneBadgeTitle {
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -0.01em;
+}
+
+.freezoneBadgeSub {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+
+.freezoneContent {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.freezoneHeading {
+  font-family: var(--font-heading);
+  font-size: clamp(28px, 3.5vw, 48px);
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.freezonePoints {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-top: 1px solid var(--white-10);
+}
+
+.freezonePoint {
+  display: flex;
+  gap: 20px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--white-10);
+  align-items: flex-start;
+  transition: background 0.2s;
+}
+
+.freezonePoint:hover .freezonePointTitle {
+  color: var(--orange);
+}
+
+.freezonePointBar {
+  width: 2px;
+  height: 40px;
+  background: var(--orange);
+  flex-shrink: 0;
+  border-radius: 1px;
+}
+
+.freezonePointTitle {
+  font-family: var(--font-heading);
+  font-size: clamp(15px, 1.4vw, 18px);
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -0.01em;
+  margin: 0 0 6px;
+  transition: color 0.2s var(--ease-out);
+}
+
+.freezonePointText {
+  font-size: clamp(13px, 1vw, 15px);
+  color: var(--white-60);
+  line-height: 1.75;
+  margin: 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .freezoneImageCol {
+    position: static;
+  }
+
+  .freezoneImage {
+    height: clamp(280px, 40vw, 440px);
+  }
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .imageWrap {
+    height: clamp(220px, 55vw, 340px);
+  }
+
+  .freezone {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .freezoneImageCol {
+    order: -1;
+  }
+
+  .freezoneImage {
+    height: clamp(240px, 55vw, 360px);
+  }
+}

@@ -1,0 +1,140 @@
+name = og-social-preview
+Dimenstions = 1200 × 630
+Aspect Ratio = 2:1
+AI prompt Direction = Antra logo centered on deep navy background, subtle orange geometric lines
+
+
+name = favicon-source
+Dimenstions = 512 × 512
+Aspect Ratio = 1:1
+AI prompt Direction = Just the orange arrow 'a' symbol isolated on navy — you already have the logo so crop this yourself
+
+
+
+name = hero-bg
+Dimenstions = 2560 × 1440
+Aspect Ratio = 16:9
+AI prompt Direction = Addis Ababa skyline at dusk, shot from high vantage point, golden-orange ambient light bleeding through deep navy sky, dramatic clouds, cinematic color grade, sharp modern buildings in foreground, no people
+
+
+
+name = consultancy-pillar-card
+Dimenstions = 1200 × 800
+Aspect Ratio = 3:2
+AI prompt Direction = Ethiopian executive boardroom, dark interior, warm single-source overhead amber light, two or three silhouetted business people around a glass table, moody and cinematic, deep shadows
+
+
+
+name = trading-pillar-card
+Dimenstions = 1200 × 800
+Aspect Ratio = 3:2
+AI prompt Direction = Djibouti port at sunrise, shipping containers stacked in deep navy shadow, a crane lit by orange sunrise light, industrial and powerful, no people visible, photorealistic
+
+
+
+name = why-us-section-bg
+Dimenstions = 1920 × 600
+Aspect Ratio = 32:10
+AI prompt Direction = Abstract top-down aerial view of Addis Ababa streets at night, city lights creating organic orange and white line patterns against dark asphalt, blurred long exposure, cinematic
+
+
+name = about-hero-bg
+Dimenstions = 2560 × 1440
+Aspect Ratio = 16:9
+AI prompt Direction = Wide interior shot of a modern Ethiopian corporate office, floor-to-ceiling glass windows showing Addis Ababa outside, warm ambient desk lights, dark navy walls, empty desks, cinematic
+
+
+
+name = trade-corridor-map
+Dimenstions = 1400 × 900	
+Aspect Ratio = 14:9
+AI prompt Direction = Abstract dark map of East Africa focusing on Ethiopia and Djibouti connected by a glowing orange route line, satellite/topographic style, deep navy base color, minimal and elegant
+
+
+
+
+name = our-story-image
+Dimenstions = 1200 × 900
+Aspect Ratio = 4:3
+AI prompt Direction = Close-up of two Ethiopian business professionals in a serious conversation across a dark wood desk, warm side light from a window, bokeh background of a city, intimate and real, not stock-looking
+
+
+
+name = values-section-bg
+Dimenstions = 1920 × 700
+Aspect Ratio = 27:10
+AI prompt Direction = Abstract architectural texture — close-up of a dark navy concrete or brushed steel surface with fine grid lines, subtle and premium, no people
+
+
+name = consultancy-hero-bg
+Dimenstions = 2560 × 1440
+Aspect Ratio = 16:9
+AI prompt Direction = Ethiopian executive leadership workshop, large conference room, presenter standing before a group of senior professionals, warm spotlight on presenter, rest of room in dark blue shadow, cinematic depth of field
+
+
+name = 	leadership-development
+Dimenstions = 900 × 700
+Aspect Ratio = 	9:7
+AI prompt Direction = Small cohort of African professionals around a whiteboard, mid-shot, warm natural light from a side window, engaged and focused, documentary style, not stock
+
+
+name = talent-search
+Dimenstions = 900 × 700
+Aspect Ratio = 9:7
+AI prompt Direction = One-on-one professional interview in a modern dark-interior office, subject in sharp focus, interviewer blurred, strong side window light, serious and premium
+
+
+name = coaching-mentorship
+Dimenstions = 900 × 700
+Aspect Ratio = 9:7
+AI prompt Direction = Senior Ethiopian businessperson mentoring a younger professional, both looking at a document together, warm table lamp light, intimate framing, shallow depth of field
+
+
+name = org-transformation
+Dimenstions = 900 × 700
+Aspect Ratio = 9:7
+AI prompt Direction = Wide shot of a full company all-hands meeting, large hall, speaker on stage with projected slides (slides blurred/abstract), audience in rows, cinematic and dramatic stage lighting
+
+
+name = trading-hero-bg
+Dimenstions = 2560 × 1440
+Aspect Ratio = 16:9
+AI prompt Direction = Djibouti port at golden hour, massive container ship docked, cranes silhouetted against orange sky, deep navy water reflection, no people, cinematic and wide
+
+
+name = product-ev-fleet
+Dimenstions = 1200 × 900
+Aspect Ratio = 4:3
+AI prompt Direction = Row of modern white electric vehicles parked in a clean industrial lot at dusk, orange sunset sky, subtle reflections on the cars, East African environment context
+
+
+name = product-sanitary
+Dimenstions = 1200 × 900
+Aspect Ratio = 4:3
+AI prompt Direction = Premium minimalist bathroom interior, white marble and dark fittings, warm accent lighting inside a modern Ethiopian residential or hotel space, elegant and architectural
+
+
+
+name =	product-medical-equipment
+Dimenstions = 1200 × 900
+Aspect Ratio = 4:3
+AI prompt Direction = Modern hospital diagnostic room in Africa, MRI or CT scanner machine in a clean white room with cool blue-white lighting, no patients, clinical and high-tech
+
+
+
+name = product-construction-machinery
+Dimenstions = 1200 × 900
+Aspect Ratio = 4:3
+AI prompt Direction = Modern hospital diagnostic room in Africa, MRI or CT scanner machine in a clean white room with cool blue-white lighting, no patients, clinical and high-tech
+
+
+name = 	freezone-operations
+Dimenstions = 1400 × 800
+Aspect Ratio = 7:4
+AI prompt Direction = Aerial drone shot of Djibouti Freezone warehouse district, organized rows of warehouses and logistics roads, orange sunset light casting long shadows, no branding visible
+
+
+name = contact-hero-bg
+Dimenstions = 2560 × 1440
+Aspect Ratio = 16:9
+AI prompt Direction = Addis Ababa Africa Avenue (Bole Road) at night, wide shot, car light trails, modern office buildings with warm lit windows against deep navy sky, long exposure, cinematic

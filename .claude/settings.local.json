@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c ' *)",
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\berek\\\\Documents\\\\projects\\\\vscode\\\\antra\" -Force)",
+      "Bash(Select-Object Name, FullName)",
+      "PowerShell(Get-ChildItem -Path \"c:\\\\Users\\\\berek\\\\Documents\\\\projects\\\\vscode\\\\antra\\\\public\\\\assets\" -Recurse | ForEach-Object { $_.FullName.Replace\\('c:\\\\Users\\\\berek\\\\Documents\\\\projects\\\\vscode\\\\antra\\\\public\\\\assets\\\\', ''\\) })",
+      "Bash(npm install *)",
+      "Bash(node -e \"require\\('./node_modules/framer-motion/package.json'\\); require\\('./node_modules/gsap/package.json'\\); require\\('./node_modules/three/package.json'\\); require\\('./node_modules/lenis/package.json'\\); console.log\\('All packages ready'\\)\")",
+      "Bash(npx tsc *)",
+      "Bash(npm run *)",
+      "Bash(Read \"C:\\\\Users\\\\berek\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-berek-Documents-projects-vscode-antra\\\\8d014749-6686-4f9a-b221-fd3b19eaaf87\\\\tasks\\\\buepemagt.output\")",
+      "Bash(powershell -Command \"Compress-Archive -Path dist\\\\* -DestinationPath antra-dist.zip -Force\")",
+      "Bash(powershell -Command \"\\(Get-Item antra-dist.zip\\).Length / 1MB\")",
+      "Bash(git init *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)"
+    ]
+  }
+}

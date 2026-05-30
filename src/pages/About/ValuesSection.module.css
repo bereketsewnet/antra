@@ -1,0 +1,212 @@
+.section {
+  position: relative;
+  padding-block: var(--section-pad-y);
+  background-image: url('/assets/about%20assets/values-section-bg.webp');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  overflow: hidden;
+}
+
+.bgOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    160deg,
+    rgba(6, 15, 26, 0.92) 0%,
+    rgba(11, 33, 53, 0.85) 60%,
+    rgba(11, 33, 53, 0.78) 100%
+  );
+  z-index: 0;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-pad);
+}
+
+/* ── Section label ── */
+.sectionLabel {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: clamp(40px, 5vw, 64px);
+}
+
+.labelNumber {
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--orange);
+}
+
+.labelText {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  color: var(--white-60);
+  text-transform: uppercase;
+}
+
+.labelLine {
+  flex: 1;
+  height: 1px;
+  background: var(--white-10);
+}
+
+/* ── Heading ── */
+.heading {
+  font-family: var(--font-heading);
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin: 0 0 clamp(36px, 5vw, 64px);
+}
+
+.headingAccent {
+  color: var(--orange);
+}
+
+/* ── Mission pair ── */
+.missions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(16px, 3vw, 32px);
+  margin-bottom: clamp(40px, 6vw, 72px);
+}
+
+.missionCard {
+  border: 1px solid var(--white-10);
+  padding: clamp(24px, 3vw, 40px);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: background 0.25s var(--ease-out), border-color 0.25s var(--ease-out);
+}
+
+.missionCard:hover {
+  background: rgba(217, 121, 17, 0.07);
+  border-color: rgba(217, 121, 17, 0.3);
+}
+
+.missionTag {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+
+.missionText {
+  font-size: clamp(14px, 1.1vw, 16px);
+  color: var(--white-60);
+  line-height: 1.8;
+  margin: 0;
+}
+
+/* ── Divider ── */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, var(--orange) 0%, rgba(217, 121, 17, 0.2) 60%, transparent 100%);
+  margin-bottom: clamp(40px, 6vw, 72px);
+  transform-origin: left;
+}
+
+/* ── Values grid ── */
+.valuesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--white-10);
+}
+
+.valueCard {
+  background: rgba(11, 33, 53, 0.6);
+  padding: clamp(24px, 3vw, 40px);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: background 0.25s var(--ease-out);
+  position: relative;
+  overflow: hidden;
+}
+
+.valueCard::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--orange);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s var(--ease-out);
+}
+
+.valueCard:hover {
+  background: rgba(217, 121, 17, 0.08);
+}
+
+.valueCard:hover::after {
+  transform: scaleX(1);
+}
+
+.valueNumber {
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--orange);
+}
+
+.valueTitle {
+  font-family: var(--font-heading);
+  font-size: clamp(18px, 1.8vw, 24px);
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.valueBody {
+  font-size: clamp(13px, 1vw, 15px);
+  color: var(--white-60);
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .valuesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    background-attachment: scroll;
+  }
+
+  .missions {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 540px) {
+  .valuesGrid {
+    grid-template-columns: 1fr;
+  }
+}

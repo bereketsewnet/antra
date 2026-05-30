@@ -1,0 +1,237 @@
+.section {
+  background: var(--navy);
+  padding-block: var(--section-pad-y);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle grid texture on the background */
+.section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-pad);
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Top row ── */
+.topRow {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 60px;
+  align-items: start;
+  margin-bottom: clamp(48px, 8vw, 100px);
+}
+
+/* Left label column */
+.labelCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 12px;
+  gap: 16px;
+}
+
+.rotatedLabel {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  color: var(--orange);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.labelLine {
+  width: 2px;
+  height: 60px;
+  background: var(--orange);
+  border-radius: 2px;
+}
+
+/* Right content column */
+.contentCol {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.heading {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--white);
+  font-size: clamp(30px, 4.5vw, 60px);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 680px;
+}
+
+.body p {
+  font-size: clamp(14px, 1.1vw, 17px);
+  color: var(--white-60);
+  line-height: 1.75;
+  margin: 0;
+}
+
+.accentLine {
+  width: 64px;
+  height: 3px;
+  background: var(--orange);
+  border-radius: 2px;
+  transform-origin: left;
+}
+
+/* ── Tiles ── */
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+}
+
+.tile {
+  text-decoration: none;
+  cursor: pointer;
+  display: block;
+}
+
+.tileInner {
+  padding: 36px 32px;
+  border: 1px solid var(--white-10);
+  background: rgba(255, 255, 255, 0.02);
+  position: relative;
+  transition: background 0.3s var(--ease-out), border-color 0.3s var(--ease-out);
+}
+
+.tile:hover .tileInner {
+  background: rgba(217, 121, 17, 0.06);
+  border-color: var(--orange-20);
+}
+
+.tileTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.tileNumber {
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: var(--orange);
+}
+
+.tileArrow {
+  color: var(--orange);
+  opacity: 0.5;
+}
+
+.tile:hover .tileArrow {
+  opacity: 1;
+}
+
+.tileLabel {
+  font-family: var(--font-heading);
+  font-size: clamp(18px, 2vw, 26px);
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -0.02em;
+  margin: 0 0 10px 0;
+  line-height: 1.2;
+}
+
+.tileDesc {
+  font-size: 14px;
+  color: var(--white-60);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.tileBorder {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--orange);
+  transition: width 0.4s var(--ease-out);
+}
+
+.tile:hover .tileBorder {
+  width: 100%;
+}
+
+/* ── Tablet (900px) ── */
+@media (max-width: 900px) {
+  .topRow {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .labelCol {
+    flex-direction: row;
+    align-items: center;
+    padding-top: 0;
+    gap: 12px;
+  }
+
+  .rotatedLabel {
+    writing-mode: horizontal-tb;
+    transform: none;
+  }
+
+  .labelLine {
+    width: 40px;
+    height: 2px;
+  }
+}
+
+/* ── Mobile (600px) ── */
+@media (max-width: 600px) {
+  .tiles {
+    grid-template-columns: 1fr;
+    gap: 1px;
+  }
+
+  .tileInner {
+    padding: 28px 20px;
+  }
+
+  .contentCol {
+    gap: 20px;
+  }
+}
+
+/* ── Small mobile (400px) ── */
+@media (max-width: 400px) {
+  .tileInner {
+    padding: 22px 16px;
+  }
+
+  .tileLabel {
+    font-size: 18px;
+  }
+}

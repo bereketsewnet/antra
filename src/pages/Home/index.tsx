@@ -1,0 +1,54 @@
+import { motion } from 'framer-motion'
+import { SEO } from '@/components/SEO'
+import { HeroSection } from './HeroSection'
+import { WhatWeDoSection } from './WhatWeDoSection'
+import { ServicePillarsSection } from './ServicePillarsSection'
+import { WhyUsSection } from './WhyUsSection'
+import { ClosingCTASection } from './ClosingCTASection'
+
+const pageVariants = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1, transition: { duration: 0.4 } },
+  exit:    { opacity: 0, transition: { duration: 0.3 } },
+}
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Antra Business Group',
+  url: 'http://antra.lula.com.et',
+  logo: 'http://antra.lula.com.et/logo.png',
+  description: 'Diversified business group based in Addis Ababa, Ethiopia, operating in management consultancy and strategic trade.',
+  foundingDate: '2006',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Addis Ababa',
+    addressCountry: 'ET',
+  },
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: '+251-951-77-97-77',
+    contactType: 'customer service',
+    email: 'info@antragroup.et',
+  },
+}
+
+export function HomePage() {
+  return (
+    <>
+      <SEO
+        title="Antra Business Group"
+        description="Antra Business Group — Management consultancy and strategic trading company based in Addis Ababa, Ethiopia. 18+ years enabling growth and transformation for leaders and organisations across the region."
+        path="/"
+        jsonLd={jsonLd}
+      />
+      <motion.main variants={pageVariants} initial="initial" animate="animate" exit="exit">
+        <HeroSection />
+        <WhatWeDoSection />
+        <ServicePillarsSection />
+        <WhyUsSection />
+        <ClosingCTASection />
+      </motion.main>
+    </>
+  )
+}

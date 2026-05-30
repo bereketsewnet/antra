@@ -1,0 +1,245 @@
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-nav);
+  transition: background 0.35s var(--ease-out), backdrop-filter 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out);
+}
+
+.nav.scrolled {
+  background: rgba(11, 33, 53, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.06);
+}
+
+.inner {
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-pad);
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.logo img {
+  height: 32px;
+  width: auto;
+}
+
+/* Desktop links */
+.desktopLinks {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.link {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--white-80);
+  padding: 8px 12px;
+  border-radius: 4px;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.2s;
+  white-space: nowrap;
+}
+
+.link::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 12px;
+  right: 12px;
+  height: 1.5px;
+  background: var(--orange);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s var(--ease-out);
+}
+
+.link:hover {
+  color: var(--white);
+}
+
+.link:hover::after,
+.active::after {
+  transform: scaleX(1);
+}
+
+.active {
+  color: var(--white);
+}
+
+/* Desktop CTA */
+.desktopCta {
+  flex-shrink: 0;
+}
+
+.ctaBtn {
+  display: inline-flex;
+  align-items: center;
+  padding: 9px 20px;
+  background: var(--orange);
+  color: var(--white);
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+  white-space: nowrap;
+}
+
+.ctaBtn:hover {
+  background: var(--orange-hover);
+  transform: translateY(-1px);
+}
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  padding: 8px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  z-index: calc(var(--z-nav) + 10);
+  flex-shrink: 0;
+}
+
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--white);
+  border-radius: 2px;
+  transform-origin: center;
+  transition: transform 0.3s var(--ease-out), opacity 0.3s;
+}
+
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ── Mobile menu ── */
+.mobileMenu {
+  position: fixed;
+  inset: 0;
+  background: var(--navy-dark);
+  z-index: calc(var(--z-nav) - 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 90px var(--container-pad) 48px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mobileLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.mobileLink {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-family: var(--font-heading);
+  font-size: clamp(24px, 7vw, 48px);
+  font-weight: 700;
+  color: var(--white-60);
+  text-decoration: none;
+  padding-block: 12px;
+  border-bottom: 1px solid var(--white-10);
+  transition: color 0.2s;
+  letter-spacing: -0.02em;
+}
+
+.mobileLink:last-child {
+  border-bottom: none;
+}
+
+.mobileLink:hover,
+.mobileLinkActive {
+  color: var(--white);
+}
+
+.mobileLinkActive {
+  color: var(--orange) !important;
+}
+
+.mobileLinkNum {
+  font-size: 11px;
+  font-family: var(--font-body);
+  font-weight: 400;
+  color: var(--orange);
+  letter-spacing: 0.1em;
+  min-width: 22px;
+}
+
+.mobileContact {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-top: 1px solid var(--white-10);
+  padding-top: 24px;
+}
+
+.mobileContact p {
+  font-size: 13px;
+  color: var(--white-60);
+  margin: 0;
+}
+
+/* ── Responsive breakpoints ── */
+
+/* Hide hamburger on desktop */
+@media (min-width: 901px) {
+  .hamburger {
+    display: none !important;
+  }
+}
+
+/* Tablet + mobile: show hamburger, hide desktop nav */
+@media (max-width: 900px) {
+  .desktopLinks,
+  .desktopCta {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+}
+
+/* Small phone tweaks */
+@media (max-width: 400px) {
+  .inner {
+    height: 64px;
+  }
+
+  .logo img {
+    height: 28px;
+  }
+
+  .mobileMenu {
+    padding-top: 80px;
+  }
+}

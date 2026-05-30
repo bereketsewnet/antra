@@ -1,0 +1,236 @@
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100dvh;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* ── Background image ── */
+.bgWrap {
+  position: absolute;
+  inset: -20% 0 -20% 0;
+  z-index: 0;
+}
+
+.bg {
+  width: 100%;
+  height: 100%;
+  background-image: url('/assets/home%20assets/hero-bg.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* ── Gradient overlay ── */
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    135deg,
+    rgba(6, 15, 26, 0.82) 0%,
+    rgba(11, 33, 53, 0.55) 60%,
+    rgba(11, 33, 53, 0.3) 100%
+  );
+}
+
+/* ── R3F canvas ── */
+.canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.canvas > div {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* ── Content ── */
+.content {
+  position: relative;
+  z-index: var(--z-content);
+  text-align: center;
+  padding-inline: clamp(20px, 4vw, 60px);
+  padding-top: 72px;
+  max-width: 1100px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+/* Eyebrow */
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.35em;
+  color: var(--orange);
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* Headline */
+.headline {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(26px, 7vw, 78px);
+  color: var(--white);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.line {
+  display: flex;
+  gap: 0.25em;
+  overflow: hidden;
+  padding-bottom: 0.05em;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+.word {
+  display: inline-block;
+}
+
+.orangeWord {
+  color: var(--orange);
+}
+
+/* Subheadline */
+.subhead {
+  font-family: var(--font-body);
+  font-size: clamp(14px, 1.5vw, 19px);
+  font-weight: 300;
+  color: var(--white-80);
+  line-height: 1.7;
+  max-width: 580px;
+  margin: 0;
+}
+
+/* CTAs */
+.ctas {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+/* ── Scroll indicator ── */
+.scrollIndicator {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--z-content);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.scrollLabel {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  color: var(--white-60);
+  text-transform: uppercase;
+}
+
+.scrollChevron {
+  opacity: 0.6;
+}
+
+/* ── Tablet (1024px) ── */
+@media (max-width: 1024px) {
+  .content {
+    max-width: 900px;
+  }
+}
+
+/* ── Tablet (768px) ── */
+@media (max-width: 768px) {
+  .content {
+    gap: 18px;
+    padding-top: 80px;
+    max-width: 100%;
+  }
+
+  .subhead br {
+    display: none;
+  }
+
+  .ctas {
+    gap: 10px;
+  }
+}
+
+/* ── Mobile (540px) ── */
+@media (max-width: 540px) {
+  .content {
+    gap: 16px;
+    padding-top: 76px;
+    padding-bottom: 60px;
+    padding-inline: 20px;
+  }
+
+  .eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+  }
+}
+
+/* ── Small mobile (480px) ── */
+@media (max-width: 480px) {
+  .hero {
+    min-height: 580px;
+  }
+
+  .content {
+    gap: 14px;
+    padding-top: 72px;
+  }
+
+  .line {
+    white-space: normal;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .ctas {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .scrollIndicator {
+    bottom: 20px;
+  }
+}
+
+/* ── Very small (360px) ── */
+@media (max-width: 360px) {
+  .content {
+    gap: 12px;
+    padding-inline: 16px;
+  }
+
+  .headline {
+    font-size: clamp(24px, 7vw, 36px);
+  }
+}

@@ -1,0 +1,206 @@
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100dvh;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.bgWrap {
+  position: absolute;
+  inset: -20% 0 -20% 0;
+  z-index: 0;
+}
+
+.bg {
+  width: 100%;
+  height: 100%;
+  background-image: url('/assets/consultancy%20assets/consultancy-hero-bg.webp');
+  background-size: cover;
+  background-position: center;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    155deg,
+    rgba(6, 15, 26, 0.90) 0%,
+    rgba(11, 33, 53, 0.68) 55%,
+    rgba(11, 33, 53, 0.42) 100%
+  );
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.canvas > div {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* ── Content ── */
+.content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding-inline: clamp(20px, 4vw, 60px);
+  padding-top: 72px;
+  max-width: 940px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--white-60);
+}
+
+.breadcrumb a {
+  color: var(--white-60);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.breadcrumb a:hover {
+  color: var(--orange);
+}
+
+.breadcrumb span:last-child {
+  color: var(--orange);
+}
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.35em;
+  color: var(--orange);
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* Headline */
+.headline {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(48px, 8.5vw, 104px);
+  color: var(--white);
+  line-height: 1.0;
+  letter-spacing: -0.04em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.headlinePrefix {
+  display: flex;
+  gap: 0.22em;
+}
+
+.headlineAccentRow {
+  display: flex;
+  gap: 0.22em;
+}
+
+.word {
+  display: inline-block;
+}
+
+.wordAccent {
+  display: inline-block;
+  color: var(--orange);
+}
+
+.subhead {
+  font-family: var(--font-body);
+  font-size: clamp(15px, 1.4vw, 19px);
+  font-weight: 300;
+  color: var(--white-80);
+  line-height: 1.7;
+  max-width: 620px;
+  margin: 0;
+}
+
+/* Scroll indicator */
+.scrollLine {
+  width: 1px;
+  height: 60px;
+  background: var(--white-20);
+  position: relative;
+  margin-top: 16px;
+  overflow: hidden;
+}
+
+.scrollDot {
+  width: 1px;
+  height: 20px;
+  background: var(--orange);
+  position: absolute;
+  top: 0;
+}
+
+/* Bottom rule */
+.bottomRule {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--orange) 30%, var(--orange) 70%, transparent);
+  transform-origin: left;
+  z-index: 10;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .content {
+    gap: 16px;
+    padding-top: 80px;
+  }
+
+  .headline {
+    font-size: clamp(44px, 10vw, 72px);
+  }
+
+  .subhead {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .headline {
+    font-size: clamp(38px, 11vw, 60px);
+  }
+
+  .headlinePrefix,
+  .headlineAccentRow {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .scrollLine {
+    height: 40px;
+    margin-top: 8px;
+  }
+}
