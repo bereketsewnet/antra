@@ -14,7 +14,10 @@
       "Bash(powershell -Command \"\\(Get-Item antra-dist.zip\\).Length / 1MB\")",
       "Bash(git init *)",
       "Bash(git add *)",
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "Bash(git branch *)",
+      "Bash(git remote *)",
+      "Bash(git push *)"
     ]
   }
 }
