@@ -22,10 +22,18 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
-    <script type="module" crossorigin src="/assets/index-DleZ240X.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-CJT9iTJ3.css">
+    <script type="module" crossorigin src="/assets/index-NxUduYFV.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-eTpm_gBE.css">
   </head>
   <body>
+    <script>
+      (function() {
+        var stored = localStorage.getItem('antra-theme');
+        var theme = (stored === 'dark') ? 'dark' : 'light';
+        if (!stored) localStorage.setItem('antra-theme', 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
     <div id="root"></div>
   </body>
 </html>

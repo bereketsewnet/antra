@@ -7,12 +7,12 @@ interface ThemeContextValue {
   toggle: () => void
 }
 
-const ThemeContext = createContext<ThemeContextValue>({ theme: 'dark', toggle: () => {} })
+const ThemeContext = createContext<ThemeContextValue>({ theme: 'light', toggle: () => {} })
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>(() => {
-    if (typeof window === 'undefined') return 'dark'
-    return (localStorage.getItem('antra-theme') as Theme) || 'dark'
+    if (typeof window === 'undefined') return 'light'
+    return (localStorage.getItem('antra-theme') as Theme) || 'light'
   })
 
   useEffect(() => {

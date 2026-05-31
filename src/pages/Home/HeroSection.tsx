@@ -73,6 +73,7 @@ export function HeroSection() {
 
       {/* Dark gradient overlay */}
       <div className={styles.overlay} />
+      <div className={styles.bottomFade} />
 
       {/* R3F 3D Particle Canvas */}
       <div className={styles.canvas}>
@@ -99,6 +100,14 @@ export function HeroSection() {
         >
           ADDIS ABABA · ETHIOPIA
         </motion.p>
+
+        <motion.div
+          className={styles.accentLine}
+          initial={{ scaleX: 0, opacity: 0 }}
+          animate={{ scaleX: 1, opacity: 0.7 }}
+          transition={{ delay: 0.35, duration: 0.6, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] }}
+          style={{ transformOrigin: 'center' }}
+        />
 
         {/* Headline line 1 */}
         <h1 className={styles.headline}>
@@ -139,9 +148,7 @@ export function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.0, duration: 0.7 }}
         >
-          A management consultancy and trading company based in Addis Ababa.
-          <br />
-          We help organizations grow — and supply what they need to do it.
+          A management consultancy and trading company based in Addis Ababa. We help organizations grow — and supply what they need to do it.
         </motion.p>
 
         {/* CTAs */}
