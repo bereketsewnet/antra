@@ -212,6 +212,12 @@
   opacity: 1;
 }
 
+/* ── Light mode: card overlays are always dark so text must stay white ── */
+:global([data-theme="light"]) .cardHeadline { color: #ffffff; }
+:global([data-theme="light"]) .cardText     { color: rgba(255, 255, 255, 0.65); }
+:global([data-theme="light"]) .cardTag      { color: rgba(255, 255, 255, 0.6); border-color: rgba(255, 255, 255, 0.2); }
+:global([data-theme="light"]) .cardNumber   { color: var(--orange); }
+
 /* ── Tablet (900px) ── */
 @media (max-width: 900px) {
   .card {

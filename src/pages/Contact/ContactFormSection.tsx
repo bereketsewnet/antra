@@ -107,7 +107,7 @@ export function ContactFormSection() {
   }
 
   return (
-    <section ref={sectionRef} className={styles.section} onMouseMove={handleMouseMove}>
+    <section ref={sectionRef} data-theme-section="hero" className={styles.section} onMouseMove={handleMouseMove}>
       {/* Hero bg with parallax */}
       <div ref={bgRef} className={styles.bgWrap}>
         <div className={styles.bg} />
@@ -187,7 +187,7 @@ export function ContactFormSection() {
       />
 
       {/* ── Main form + details ── */}
-      <div ref={formRef} className={styles.body}>
+      <div ref={formRef} data-theme-reset className={styles.body}>
         <div className={styles.bodyContainer}>
 
           {/* Left: form */}

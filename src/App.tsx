@@ -3,9 +3,10 @@ import { AnimatePresence } from 'framer-motion'
 import { useLenis } from '@/hooks/useLenis'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
+import { ThemeProvider } from '@/contexts/ThemeContext'
 import '@/styles/globals.css'
 
-export default function App() {
+function AppInner() {
   useLenis()
   const location = useLocation()
 
@@ -17,5 +18,13 @@ export default function App() {
       </AnimatePresence>
       <Footer />
     </>
+  )
+}
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <AppInner />
+    </ThemeProvider>
   )
 }

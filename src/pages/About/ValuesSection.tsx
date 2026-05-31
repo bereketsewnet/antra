@@ -48,7 +48,7 @@ export function ValuesSection() {
   const isInView = useInView(sectionRef, { once: true, margin: '-80px' })
 
   return (
-    <section ref={sectionRef} className={styles.section}>
+    <section ref={sectionRef} data-theme-section="hero" className={styles.section}>
       <div className={styles.bgOverlay} />
 
       <div className={styles.container}>

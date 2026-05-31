@@ -11,8 +11,8 @@
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    linear-gradient(var(--white-10) 1px, transparent 1px),
+    linear-gradient(90deg, var(--white-10) 1px, transparent 1px);
   background-size: 60px 60px;
   pointer-events: none;
 }
@@ -116,6 +116,14 @@
   transition: background 0.25s var(--ease-out);
 }
 
+:global([data-theme="light"]) .milestone {
+  background: rgba(11, 33, 53, 0.03);
+}
+
+:global([data-theme="light"]) .milestones {
+  border-color: rgba(11, 33, 53, 0.1);
+}
+
 .milestone:hover {
   background: rgba(217, 121, 17, 0.07);
 }
@@ -169,7 +177,7 @@
   font-family: var(--font-heading);
   font-size: 13px;
   font-weight: 600;
-  color: var(--white);
+  color: #ffffff;
   line-height: 1.5;
   margin: 0 0 10px 0;
   font-style: italic;

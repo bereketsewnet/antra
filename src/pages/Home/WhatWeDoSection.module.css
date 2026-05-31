@@ -11,8 +11,8 @@
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    linear-gradient(var(--white-10) 1px, transparent 1px),
+    linear-gradient(90deg, var(--white-10) 1px, transparent 1px);
   background-size: 60px 60px;
   pointer-events: none;
 }
@@ -122,6 +122,11 @@
   background: rgba(255, 255, 255, 0.02);
   position: relative;
   transition: background 0.3s var(--ease-out), border-color 0.3s var(--ease-out);
+}
+
+:global([data-theme="light"]) .tileInner {
+  background: rgba(11, 33, 53, 0.03);
+  border-color: rgba(11, 33, 53, 0.1);
 }
 
 .tile:hover .tileInner {

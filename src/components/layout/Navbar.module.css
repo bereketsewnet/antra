@@ -8,10 +8,11 @@
 }
 
 .nav.scrolled {
-  background: rgba(11, 33, 53, 0.92);
+  background: var(--nav-scrolled-bg);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  box-shadow: 0 1px 0 rgba(255,255,255,0.06);
+  box-shadow: var(--nav-scrolled-shadow);
+  transition: background 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out);
 }
 
 .inner {
@@ -48,13 +49,18 @@
   font-family: var(--font-body);
   font-size: 14px;
   font-weight: 500;
-  color: var(--white-80);
+  color: rgba(255, 255, 255, 0.8);
   padding: 8px 12px;
   border-radius: 4px;
   text-decoration: none;
   position: relative;
   transition: color 0.2s;
   white-space: nowrap;
+}
+
+/* Scrolled nav adapts to theme */
+.nav.scrolled .link {
+  color: var(--white-80);
 }
 
 .link::after {
@@ -70,8 +76,9 @@
   transition: transform 0.25s var(--ease-out);
 }
 
-.link:hover {
-  color: var(--white);
+.link:hover,
+.nav:not(.scrolled) .link:hover {
+  color: #ffffff;
 }
 
 .link:hover::after,
@@ -79,7 +86,16 @@
   transform: scaleX(1);
 }
 
-.active {
+.active,
+.nav:not(.scrolled) .active {
+  color: #ffffff;
+}
+
+.nav.scrolled .link:hover {
+  color: var(--white);
+}
+
+.nav.scrolled .active {
   color: var(--white);
 }
 
@@ -126,10 +142,45 @@
   display: block;
   width: 22px;
   height: 2px;
-  background: var(--white);
+  background: #ffffff;
   border-radius: 2px;
   transform-origin: center;
-  transition: transform 0.3s var(--ease-out), opacity 0.3s;
+  transition: transform 0.3s var(--ease-out), opacity 0.3s, background 0.35s;
+}
+
+.nav.scrolled .hamburger span {
+  background: var(--white);
+}
+
+/* ── Theme toggle ── */
+.themeToggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  background: none;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+  flex-shrink: 0;
+}
+
+.themeToggle:hover {
+  border-color: var(--orange);
+  color: var(--orange);
+}
+
+.nav.scrolled .themeToggle {
+  border-color: var(--white-20);
+  color: var(--white-60);
+}
+
+.nav.scrolled .themeToggle:hover {
+  border-color: var(--orange);
+  color: var(--orange);
 }
 
 .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }

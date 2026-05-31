@@ -248,6 +248,16 @@
   color: rgba(255, 255, 255, 0.25);
 }
 
+:global([data-theme="light"]) .input {
+  background: #ffffff;
+  border-color: rgba(11, 33, 53, 0.15);
+  color: #0B2135;
+}
+
+:global([data-theme="light"]) .input::placeholder {
+  color: rgba(11, 33, 53, 0.35);
+}
+
 .input:focus {
   border-color: var(--orange);
   background: rgba(217, 121, 17, 0.05);
@@ -290,7 +300,7 @@
   justify-content: center;
   padding: 15px 36px;
   background: var(--orange);
-  color: var(--white);
+  color: #ffffff;
   border: 2px solid var(--orange);
   border-radius: 4px;
   font-family: var(--font-heading);
@@ -340,7 +350,7 @@
   height: 56px;
   border-radius: 50%;
   background: var(--orange);
-  color: var(--white);
+  color: #ffffff;
   font-size: 24px;
   display: flex;
   align-items: center;
@@ -473,6 +483,7 @@
     background: var(--navy-dark);
     padding: 20px;
     border-bottom: none;
+    outline: 1px solid var(--white-10);
   }
 
   .detailCard:hover {

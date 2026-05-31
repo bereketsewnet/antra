@@ -14,6 +14,10 @@
   --white-20:     rgba(255, 255, 255, 0.2);
   --white-10:     rgba(255, 255, 255, 0.1);
 
+  /* Nav */
+  --nav-scrolled-bg: rgba(11, 33, 53, 0.92);
+  --nav-scrolled-shadow: 0 1px 0 rgba(255,255,255,0.06);
+
   /* Typography */
   --font-heading: 'Space Grotesk', sans-serif;
   --font-body:    'Inter', sans-serif;
@@ -33,4 +37,49 @@
   --z-content: 10;
   --z-nav:     100;
   --z-overlay: 200;
+}
+
+/* ── Light mode overrides (60% White · 30% Navy · 10% Orange) ── */
+[data-theme="light"] {
+  --navy:      #ffffff;
+  --navy-dark: #f0f5fb;
+  --navy-80:   rgba(255, 255, 255, 0.8);
+  --navy-60:   rgba(255, 255, 255, 0.6);
+  --navy-40:   rgba(255, 255, 255, 0.4);
+  --white:     #0B2135;
+  --white-80:  rgba(11, 33, 53, 0.8);
+  --white-60:  rgba(11, 33, 53, 0.6);
+  --white-20:  rgba(11, 33, 53, 0.12);
+  --white-10:  rgba(11, 33, 53, 0.07);
+
+  --nav-scrolled-bg:     rgba(255, 255, 255, 0.96);
+  --nav-scrolled-shadow: 0 1px 0 rgba(11, 33, 53, 0.08);
+}
+
+/* Hero sections always stay dark regardless of theme */
+[data-theme="light"] [data-theme-section="hero"] {
+  --navy:      #0B2135;
+  --navy-dark: #060f1a;
+  --navy-80:   rgba(11, 33, 53, 0.8);
+  --navy-60:   rgba(11, 33, 53, 0.6);
+  --navy-40:   rgba(11, 33, 53, 0.4);
+  --white:     #FFFFFF;
+  --white-80:  rgba(255, 255, 255, 0.8);
+  --white-60:  rgba(255, 255, 255, 0.6);
+  --white-20:  rgba(255, 255, 255, 0.2);
+  --white-10:  rgba(255, 255, 255, 0.1);
+}
+
+/* Re-apply light theme for the contact form body nested inside a hero section */
+[data-theme="light"] [data-theme-reset] {
+  --navy:      #ffffff;
+  --navy-dark: #f0f5fb;
+  --navy-80:   rgba(255, 255, 255, 0.8);
+  --navy-60:   rgba(255, 255, 255, 0.6);
+  --navy-40:   rgba(255, 255, 255, 0.4);
+  --white:     #0B2135;
+  --white-80:  rgba(11, 33, 53, 0.8);
+  --white-60:  rgba(11, 33, 53, 0.6);
+  --white-20:  rgba(11, 33, 53, 0.12);
+  --white-10:  rgba(11, 33, 53, 0.07);
 }

@@ -82,7 +82,7 @@ export function WhyUsSection() {
   const statsInView = useInView(statsRef, { once: true, margin: '-60px' })
 
   return (
-    <section ref={sectionRef} className={styles.section}>
+    <section ref={sectionRef} data-theme-section="hero" className={styles.section}>
       {/* Background image with overlay */}
       <div className={styles.bgImage} />
       <div className={styles.bgOverlay} />

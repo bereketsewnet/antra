@@ -46,7 +46,7 @@ export function TradingHeroSection() {
   }, [])
 
   return (
-    <section ref={sectionRef} className={styles.hero} onMouseMove={handleMouseMove}>
+    <section ref={sectionRef} data-theme-section="hero" className={styles.hero} onMouseMove={handleMouseMove}>
       <div ref={bgRef} className={styles.bgWrap}>
         <div className={styles.bg} />
       </div>

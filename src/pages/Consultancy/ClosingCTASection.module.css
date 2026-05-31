@@ -121,7 +121,7 @@
 
 .btnPrimary {
   background: var(--orange);
-  color: var(--white);
+  color: #ffffff;
   border: 2px solid var(--orange);
 }
 

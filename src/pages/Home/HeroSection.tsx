@@ -62,6 +62,7 @@ export function HeroSection() {
   return (
     <section
       ref={sectionRef}
+      data-theme-section="hero"
       className={styles.hero}
       onMouseMove={handleMouseMove}
     >
