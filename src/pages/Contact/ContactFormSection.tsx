@@ -1,10 +1,7 @@
-import { useRef, useState, useCallback } from 'react'
+import { useRef, useState, useCallback, useEffect } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { Canvas } from '@react-three/fiber'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { useEffect } from 'react'
-import { ParticleField } from '@/components/canvas/ParticleField'
 import styles from './ContactFormSection.module.css'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -53,7 +50,6 @@ export function ContactFormSection() {
   const bgRef = useRef<HTMLDivElement>(null)
   const sectionRef = useRef<HTMLElement>(null)
   const formRef = useRef<HTMLDivElement>(null)
-  const [mouse, setMouse] = useState({ x: 0, y: 0 })
   const isInView = useInView(formRef, { once: true, margin: '-60px' })
 
   const [form, setForm] = useState<FormState>({
@@ -76,12 +72,6 @@ export function ContactFormSection() {
       })
     })
     return () => ctx.revert()
-  }, [])
-
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
-    const { clientX, clientY, currentTarget } = e
-    const { width, height } = currentTarget.getBoundingClientRect()
-    setMouse({ x: (clientX / width - 0.5) * 2, y: (clientY / height - 0.5) * 2 })
   }, [])
 
   const handleChange = useCallback((
@@ -107,21 +97,12 @@ export function ContactFormSection() {
   }
 
   return (
-    <section ref={sectionRef} data-theme-section="hero" className={styles.section} onMouseMove={handleMouseMove}>
+    <section ref={sectionRef} className={styles.section}>
       {/* Hero bg with parallax */}
       <div ref={bgRef} className={styles.bgWrap}>
         <div className={styles.bg} />
       </div>
       <div className={styles.overlay} />
-
-      {/* Particles */}
-      <div className={styles.canvas}>
-        <Canvas camera={{ position: [0, 0, 8], fov: 60 }} gl={{ antialias: true, alpha: true }} dpr={[1, 1.5]}>
-          <ambientLight intensity={0.25} />
-          <pointLight position={[0, 0, 5]} intensity={1.2} color="#D97911" />
-          <ParticleField count={80} mouseX={mouse.x} mouseY={mouse.y} />
-        </Canvas>
-      </div>
 
       {/* Hero text */}
       <div className={styles.hero}>
@@ -151,9 +132,9 @@ export function ContactFormSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.8, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] }}
         >
-          Tell us what you
+          Tell us what you are
           <br />
-          <span className={styles.heroAccent}>are working on.</span>
+          <span className={styles.heroAccent}>working on.</span>
         </motion.h1>
 
         <motion.p

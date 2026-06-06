@@ -121,6 +121,20 @@
   color: var(--orange);
 }
 
+/* Gradient word — white in dark, orange→navy gradient in light */
+.wordGradient {
+  display: inline-block;
+  color: #ffffff;
+}
+
+:global([data-theme="light"]) .wordGradient {
+  background: linear-gradient(100deg, #D97911 0%, #0B2135 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
 .subhead {
   font-family: var(--font-body);
   font-size: clamp(15px, 1.4vw, 19px);
@@ -157,6 +171,44 @@
   background: linear-gradient(90deg, transparent, var(--orange) 30%, var(--orange) 70%, transparent);
   transform-origin: left;
   z-index: 10;
+}
+
+/* ── Light mode ── */
+:global([data-theme="light"]) .overlay {
+  background: linear-gradient(
+    150deg,
+    rgba(255, 255, 255, 0.84) 0%,
+    rgba(240, 245, 251, 0.88) 55%,
+    rgba(240, 245, 251, 0.90) 100%
+  );
+}
+
+:global([data-theme="light"]) .breadcrumb {
+  color: rgba(11, 33, 53, 0.5);
+}
+
+:global([data-theme="light"]) .breadcrumb a {
+  color: rgba(11, 33, 53, 0.5);
+}
+
+:global([data-theme="light"]) .headline {
+  color: #0B2135;
+}
+
+:global([data-theme="light"]) .wordAccent {
+  color: var(--orange);
+}
+
+:global([data-theme="light"]) .subhead {
+  color: rgba(11, 33, 53, 0.62);
+}
+
+:global([data-theme="light"]) .scrollLine {
+  background: rgba(11, 33, 53, 0.15);
+}
+
+:global([data-theme="light"]) .bottomRule {
+  opacity: 0.6;
 }
 
 /* ── Responsive ── */
