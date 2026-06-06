@@ -1,263 +1,541 @@
+/* ── Hero wrapper ── */
 .hero {
-  position: relative;
-  width: 100%;
-  height: 100dvh;
-  min-height: 600px;
+  min-height: 90vh;
   display: flex;
   align-items: center;
-  justify-content: center;
+  padding: clamp(100px, 12vw, 140px) var(--container-pad) clamp(60px, 8vw, 100px);
   overflow: hidden;
-}
-
-/* ── Background image ── */
-.bgWrap {
-  position: absolute;
-  inset: -20% 0 -20% 0;
-  z-index: 0;
-}
-
-.bg {
-  width: 100%;
-  height: 100%;
-  background-image: url('/assets/home%20assets/hero-bg.webp');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-/* ── Gradient overlay ── */
-.overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background:
-    radial-gradient(ellipse 110% 80% at 50% 48%, rgba(6, 15, 26, 0.62) 0%, transparent 100%),
-    linear-gradient(160deg, rgba(6, 15, 26, 0.92) 0%, rgba(11, 33, 53, 0.62) 55%, rgba(11, 33, 53, 0.28) 100%);
-}
-
-/* ── Bottom fade ── */
-.bottomFade {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 28%;
-  background: linear-gradient(to top, rgba(6, 15, 26, 0.72) 0%, transparent 100%);
-  z-index: 1;
-  pointer-events: none;
-}
-
-/* ── R3F canvas ── */
-.canvas {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-}
-
-.canvas > div {
-  width: 100% !important;
-  height: 100% !important;
-}
-
-/* ── Content ── */
-.content {
   position: relative;
-  z-index: var(--z-content);
-  text-align: center;
-  padding-inline: clamp(20px, 4vw, 60px);
-  padding-top: 72px;
-  max-width: 1100px;
+  /* Dark mode: Addis Ababa skyline with deep navy overlay */
+  background:
+    linear-gradient(135deg, rgba(6, 15, 26, 0.90) 0%, rgba(11, 33, 53, 0.78) 60%, rgba(11, 33, 53, 0.60) 100%),
+    url('/assets/home%20assets/hero-bg.webp') center / cover no-repeat;
+}
+
+/* Light mode: strong white wash — city shows as subtle texture, text goes dark */
+:global([data-theme="light"]) .hero {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.82) 0%, rgba(240, 245, 251, 0.88) 100%),
+    url('/assets/home%20assets/hero-bg.webp') center / cover no-repeat;
+}
+
+/* ── Two-column container ── */
+.container {
+  max-width: var(--container-max);
+  margin-inline: auto;
   width: 100%;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 24px;
+  justify-content: space-between;
+  gap: clamp(32px, 5vw, 64px);
+}
+
+/* ── Left: text content ── */
+.content {
+  flex: 1.1;
+  max-width: 620px;
 }
 
 /* Eyebrow */
 .eyebrow {
+  display: inline-block;
   font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.4em;
-  color: var(--orange);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 2.5px;
   text-transform: uppercase;
-  margin: 0;
-  opacity: 0.9;
-}
-
-/* Orange accent line below eyebrow */
-.accentLine {
-  width: 40px;
-  height: 2px;
-  background: var(--orange);
-  border-radius: 2px;
-  opacity: 0.7;
+  color: var(--orange);
+  margin-bottom: 1.25rem;
 }
 
 /* Headline */
 .headline {
-  margin: 0;
   font-family: var(--font-heading);
+  font-size: clamp(2.4rem, 4.5vw, 3.75rem);
   font-weight: 700;
-  font-size: clamp(26px, 7vw, 78px);
-  color: var(--white);
-  line-height: 1.05;
+  line-height: 1.12;
   letter-spacing: -0.03em;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0;
+  color: var(--white);
+  margin: 0 0 1.5rem;
 }
 
-.line {
+/* "Transformation" — white in dark mode */
+.highlight {
+  position: relative;
+  display: inline-block;
+  color: #ffffff;
+}
+
+/* Light mode: orange → dark navy gradient */
+:global([data-theme="light"]) .highlight {
+  background: linear-gradient(100deg, #D97911 0%, #0B2135 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+
+.svgUnderline {
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 14px;
+  pointer-events: none;
+}
+
+/* Draw-in animation on the underline path */
+.svgUnderline path {
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  animation: drawLine 0.75s ease forwards;
+  animation-delay: 0.65s;
+}
+
+@keyframes drawLine {
+  to { stroke-dashoffset: 0; }
+}
+
+/* Subhead */
+.subhead {
+  font-family: var(--font-body);
+  font-size: clamp(0.95rem, 1.3vw, 1.05rem);
+  font-weight: 400;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0 0 2.5rem;
+  max-width: 520px;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.3);
+}
+
+
+/* ── CTA row ── */
+.actions {
   display: flex;
-  gap: 0.25em;
-  overflow: hidden;
-  padding-bottom: 0.05em;
-  flex-wrap: nowrap;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 4rem;
+  flex-wrap: wrap;
+}
+
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  background: var(--orange);
+  color: #ffffff;
+  padding: 0.9rem 2rem;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  box-shadow: 0 10px 25px rgba(217, 121, 17, 0.28);
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
   white-space: nowrap;
 }
 
-.word {
-  display: inline-block;
+.btnPrimary:hover {
+  background: var(--orange-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(217, 121, 17, 0.38);
 }
 
-.orangeWord {
+.btnDemo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--white);
+  background: var(--white-10);
+  border: 1px solid var(--white-20);
+  padding: 0.9rem 1.4rem 0.9rem 1.1rem;
+  border-radius: 8px;
+  backdrop-filter: blur(6px);
+  transition: color 0.2s, background 0.2s, border-color 0.2s;
+  white-space: nowrap;
+}
+
+.btnDemo:hover {
+  color: var(--orange);
+  background: var(--white-20);
+  border-color: var(--orange);
+}
+
+
+.btnDemo:hover .demoIcon {
+  transform: scale(1.06);
+}
+
+.demoIcon {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.2s;
   color: var(--orange);
 }
 
-/* Subheadline */
-.subhead {
-  font-family: var(--font-body);
-  font-size: clamp(15px, 1.55vw, 19px);
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.95);
-  line-height: 1.75;
-  max-width: 760px;
-  margin: 0;
-  text-shadow: 0 1px 20px rgba(6, 15, 26, 0.7);
-}
-
-/* CTAs */
-.ctas {
+/* ── Stats row ── */
+.statsRow {
   display: flex;
-  gap: 12px;
+  gap: 1.1rem;
   flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 8px;
 }
 
-/* ── Scroll indicator ── */
-.scrollIndicator {
-  position: absolute;
-  bottom: 32px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: var(--z-content);
+.statCard {
+  flex: 1;
+  min-width: 105px;
+  padding: 1.1rem 1.3rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+
+.statTop {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  gap: 8px;
+  margin-bottom: 0.3rem;
 }
 
-.scrollLabel {
+.statTop h3 {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1;
+}
+
+.statTop svg {
+  color: rgba(255, 255, 255, 0.55);
+  flex-shrink: 0;
+}
+
+.statCard p {
   font-family: var(--font-body);
-  font-size: 10px;
+  font-size: 0.78rem;
   font-weight: 500;
-  letter-spacing: 0.25em;
-  color: var(--white-60);
-  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0;
 }
 
-.scrollChevron {
-  opacity: 0.6;
+
+/* ── Light mode: bright overlay — dark navy text on light background ── */
+
+:global([data-theme="light"]) .eyebrow {
+  color: var(--orange);
 }
 
-/* ── Tablet (1024px) ── */
-@media (max-width: 1024px) {
-  .content {
-    max-width: 900px;
+:global([data-theme="light"]) .headline {
+  color: #0B2135;
+  text-shadow: none;
+}
+
+:global([data-theme="light"]) .subhead {
+  color: rgba(11, 33, 53, 0.65);
+  text-shadow: none;
+}
+
+:global([data-theme="light"]) .statCard {
+  background: rgba(255, 255, 255, 0.75);
+  border-color: rgba(11, 33, 53, 0.12);
+  box-shadow: 0 2px 16px rgba(11, 33, 53, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+:global([data-theme="light"]) .statTop h3 {
+  color: #0B2135;
+}
+
+:global([data-theme="light"]) .statTop svg {
+  color: rgba(11, 33, 53, 0.35);
+}
+
+:global([data-theme="light"]) .statCard p {
+  color: rgba(11, 33, 53, 0.55);
+}
+
+:global([data-theme="light"]) .btnDemo {
+  color: #0B2135;
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(11, 33, 53, 0.2);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+:global([data-theme="light"]) .btnDemo:hover {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: var(--orange);
+  color: var(--orange);
+}
+
+:global([data-theme="light"]) .btnDemo:hover .demoIcon {
+  transform: scale(1.06);
+}
+
+:global([data-theme="light"]) .pill {
+  border-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 32px rgba(11, 33, 53, 0.14);
+}
+
+:global([data-theme="light"]) .dot {
+  background: rgba(11, 33, 53, 0.2);
+}
+
+/* ── Right: visuals ── */
+.visuals {
+  flex: 0.9;
+  position: relative;
+  height: 580px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Pill image base */
+.pill {
+  border-radius: 500px;
+  overflow: hidden;
+  position: absolute;
+  border: 10px solid var(--navy);
+  transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease, box-shadow 0.4s ease, filter 0.4s ease, z-index 0s;
+}
+
+
+.pill img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Center pill — tallest, foreground */
+.pillCenter {
+  width: 270px;
+  height: 440px;
+  z-index: 3;
+  box-shadow: 0 20px 50px rgba(217, 121, 17, 0.15);
+}
+
+/* Left pill — smaller, shifted up */
+.pillLeft {
+  width: 210px;
+  height: 340px;
+  left: 4%;
+  top: 50%;
+  transform: translateY(-55%);
+  z-index: 2;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+/* Right pill — smaller, shifted down */
+.pillRight {
+  width: 210px;
+  height: 340px;
+  right: 4%;
+  top: 50%;
+  transform: translateY(-35%);
+  z-index: 2;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+/* Hover: subtle lift (non-active state) */
+.pillLeft:not(.pillActive):hover  { transform: translateY(calc(-55% - 5px)) scale(1.01); }
+.pillRight:not(.pillActive):hover { transform: translateY(calc(-35% - 5px)) scale(1.01); }
+.pillCenter:not(.pillActive):hover { transform: translateY(-5px) scale(1.01); }
+
+/* Active: lift up noticeably, come to front */
+.pillLeft.pillActive {
+  transform: translateY(calc(-55% - 22px)) scale(1.05);
+  z-index: 10;
+  box-shadow: 0 30px 60px rgba(217, 121, 17, 0.22), 0 8px 20px rgba(0, 0, 0, 0.14);
+  filter: brightness(1.04) saturate(1.05);
+}
+.pillCenter.pillActive {
+  transform: translateY(-22px) scale(1.05);
+  z-index: 10;
+  box-shadow: 0 30px 60px rgba(217, 121, 17, 0.22), 0 8px 20px rgba(0, 0, 0, 0.14);
+  filter: brightness(1.04) saturate(1.05);
+}
+.pillRight.pillActive {
+  transform: translateY(calc(-35% - 22px)) scale(1.05);
+  z-index: 10;
+  box-shadow: 0 30px 60px rgba(217, 121, 17, 0.22), 0 8px 20px rgba(0, 0, 0, 0.14);
+  filter: brightness(1.04) saturate(1.05);
+}
+
+/* Inactive pills dim slightly when another is active */
+.pill:not(.pillActive) {
+  opacity: 0.82;
+  filter: brightness(0.95);
+}
+
+/* ── Carousel dots ── */
+.carouselDots {
+  position: absolute;
+  bottom: 6px;
+  display: flex;
+  gap: 7px;
+  z-index: 4;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--white-20);
+}
+
+:global([data-theme="light"]) .dot {
+  background: #D1D5DB;
+}
+
+.dotActive {
+  background: var(--orange) !important;
+}
+
+/* ── Large tablet (≤ 1140px): stack content above visuals ── */
+@media (max-width: 1140px) {
+  .container {
+    flex-direction: column;
+    text-align: center;
   }
-}
 
-/* ── Tablet (1024px) ── */
-@media (max-width: 1024px) {
   .content {
-    max-width: 900px;
-  }
-}
-
-/* ── Tablet (768px) ── */
-@media (max-width: 768px) {
-  .content {
-    gap: 18px;
-    padding-top: 80px;
     max-width: 100%;
   }
 
   .subhead {
-    max-width: 100%;
+    max-width: 600px;
+    margin-inline: auto;
   }
 
-  .ctas {
-    gap: 10px;
-  }
-}
-
-/* ── Mobile (540px) ── */
-@media (max-width: 540px) {
-  .content {
-    gap: 16px;
-    padding-top: 76px;
-    padding-bottom: 60px;
-    padding-inline: 20px;
-  }
-
-  .eyebrow {
-    font-size: 10px;
-    letter-spacing: 0.2em;
-  }
-}
-
-/* ── Small mobile (480px) ── */
-@media (max-width: 480px) {
-  .hero {
-    min-height: 580px;
-  }
-
-  .content {
-    gap: 14px;
-    padding-top: 72px;
-  }
-
-  .line {
-    white-space: normal;
-    flex-wrap: wrap;
+  .actions,
+  .statsRow {
     justify-content: center;
   }
 
-  .ctas {
-    flex-direction: column;
-    align-items: stretch;
-    width: 100%;
-    max-width: 280px;
+  .statsRow {
+    flex-wrap: wrap;
   }
 
-  .scrollIndicator {
-    bottom: 20px;
+  .visuals {
+    width: 100%;
+    max-width: 560px;
+    height: 440px;
+    margin-inline: auto;
+  }
+
+  .pillLeft  { left: 0; }
+  .pillRight { right: 0; }
+}
+
+/* ── Tablet (≤ 900px) ── */
+@media (max-width: 900px) {
+  .hero {
+    padding-top: 100px;
+    padding-bottom: 60px;
+  }
+
+  .visuals {
+    max-width: 480px;
+    height: 380px;
+  }
+
+  .pillCenter { width: 220px; height: 360px; }
+  .pillLeft   { width: 170px; height: 280px; }
+  .pillRight  { width: 170px; height: 280px; }
+
+  .statsRow {
+    gap: 0.75rem;
+  }
+
+  .statCard {
+    min-width: 90px;
+    padding: 0.9rem 1rem;
   }
 }
 
-/* ── Very small (360px) ── */
-@media (max-width: 360px) {
-  .content {
-    gap: 12px;
-    padding-inline: 16px;
+/* ── Mobile (≤ 640px) ── */
+@media (max-width: 640px) {
+  .hero {
+    padding-top: 88px;
+    padding-bottom: 48px;
   }
 
   .headline {
-    font-size: clamp(24px, 7vw, 36px);
+    font-size: clamp(2rem, 8vw, 2.8rem);
   }
+
+  .visuals {
+    max-width: 360px;
+    height: 320px;
+  }
+
+  .pillCenter { width: 180px; height: 290px; }
+  .pillLeft   { width: 140px; height: 220px; }
+  .pillRight  { width: 140px; height: 220px; }
+
+  .statsRow {
+    gap: 0.6rem;
+  }
+
+  .statCard {
+    min-width: 80px;
+    padding: 0.8rem 0.85rem;
+  }
+
+  .statTop h3 {
+    font-size: 1.15rem;
+  }
+
+  .statCard p {
+    font-size: 0.7rem;
+  }
+}
+
+/* ── Small mobile (≤ 480px) ── */
+@media (max-width: 480px) {
+  .actions {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.85rem;
+    width: 100%;
+  }
+
+  .btnPrimary,
+  .btnDemo {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .statsRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+  }
+
+  .statCard {
+    min-width: unset;
+  }
+
+  .visuals {
+    max-width: 300px;
+    height: 280px;
+  }
+
+  .pillCenter { width: 150px; height: 240px; }
+  .pillLeft   { width: 115px; height: 180px; }
+  .pillRight  { width: 115px; height: 180px; }
 }

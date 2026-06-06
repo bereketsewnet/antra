@@ -44,9 +44,13 @@ export function Navbar() {
         transition={{ duration: 0.7, delay: 0.2, ease: [0.34, 1.56, 0.64, 1] as [number, number, number, number] }}
       >
         <div className={styles.inner}>
-          {/* Logo */}
+          {/* Logo — switches between light and dark variants */}
           <NavLink to="/" className={styles.logo}>
-            <img src="/logo.png" alt="Antra Business Group" height={36} />
+            <img
+              src={theme === 'dark' ? '/logo_with_background.png' : '/logo.png'}
+              alt="Antra Business Group"
+              height={36}
+            />
           </NavLink>
 
           {/* Desktop links */}

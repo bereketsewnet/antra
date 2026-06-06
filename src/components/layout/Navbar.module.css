@@ -125,7 +125,7 @@
   align-items: center;
   padding: 9px 20px;
   background: var(--orange);
-  color: var(--white);
+  color: #ffffff;
   font-family: var(--font-heading);
   font-size: 13px;
   font-weight: 600;
@@ -294,6 +294,34 @@
   .hamburger {
     display: flex;
   }
+}
+
+/* ── Light mode non-scrolled: bright hero — use dark navy text ── */
+
+:global([data-theme="light"]) .nav:not(.scrolled) .link {
+  color: rgba(11, 33, 53, 0.7);
+}
+
+:global([data-theme="light"]) .nav:not(.scrolled) .link:hover {
+  color: #0B2135;
+}
+
+:global([data-theme="light"]) .nav:not(.scrolled) .active {
+  color: #0B2135;
+}
+
+:global([data-theme="light"]) .nav:not(.scrolled) .themeToggle {
+  border-color: rgba(11, 33, 53, 0.25);
+  color: rgba(11, 33, 53, 0.6);
+}
+
+:global([data-theme="light"]) .nav:not(.scrolled) .hamburger span {
+  background: #0B2135;
+}
+
+/* CTA always white text on orange */
+.ctaBtn {
+  color: #ffffff;
 }
 
 /* Small phone tweaks */

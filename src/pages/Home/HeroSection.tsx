@@ -1,190 +1,201 @@
-import { useRef, useEffect, useState, useCallback } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import { Canvas } from '@react-three/fiber'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { ParticleField } from '@/components/canvas/ParticleField'
-import { Button } from '@/components/ui/Button'
 import styles from './HeroSection.module.css'
 
-gsap.registerPlugin(ScrollTrigger)
+const STATS = [
+  { value: 2006, suffix: '',  label: 'Founded in Addis Ababa' },
+  { value: 18,   suffix: '+', label: 'Years of Experience' },
+  { value: 2,    suffix: '',  label: 'Integrated Practices' },
+  { value: 1,    suffix: '',  label: 'Business Day Response' },
+]
 
-const wordVariants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: 0.4 + i * 0.1,
-      duration: 0.7,
-      ease: [0.34, 1.56, 0.64, 1] as [number, number, number, number],
-    },
-  }),
-}
-
-const headline1 = ['Enabling', 'Growth']
-const headline2 = ['and', 'Transformation']
+const PILLS = [
+  {
+    src: '/assets/home%20assets/carasuol3.webp',
+    alt: 'Global trading and logistics',
+    cls: styles.pillLeft,
+    pos: 'center center',
+  },
+  {
+    src: '/assets/home%20assets/carasuol2.webp',
+    alt: 'Strategy and team collaboration',
+    cls: styles.pillCenter,
+    pos: 'center 30%',
+  },
+  {
+    src: '/assets/home%20assets/carasuol1.webp',
+    alt: 'Leadership and consultancy',
+    cls: styles.pillRight,
+    pos: 'center 15%',
+  },
+]
 
 export function HeroSection() {
-  const bgRef = useRef<HTMLDivElement>(null)
-  const sectionRef = useRef<HTMLElement>(null)
-  const [mouse, setMouse] = useState({ x: 0, y: 0 })
+  const statsRef  = useRef<HTMLDivElement>(null)
+  const countEls  = useRef<(HTMLSpanElement | null)[]>([])
+  const [activeIdx, setActiveIdx] = useState(1)   // center pill starts active
+  const [paused, setPaused]       = useState(false)
 
-  // Parallax scroll on background image
+  // Auto-cycle: center image (idx 1) stays 2x longer than side images
   useEffect(() => {
-    if (!bgRef.current || !sectionRef.current) return
+    if (paused) return
+    const delay = activeIdx === 1 ? 6000 : 3000
+    const id = setTimeout(() => setActiveIdx(i => (i + 1) % 3), delay)
+    return () => clearTimeout(id)
+  }, [paused, activeIdx])
 
-    const ctx = gsap.context(() => {
-      gsap.to(bgRef.current, {
-        yPercent: -18,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true,
-        },
-      })
-    })
+  useEffect(() => {
+    const container = statsRef.current
+    if (!container) return
 
-    return () => ctx.revert()
-  }, [])
-
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
-    const { clientX, clientY, currentTarget } = e
-    const { width, height } = currentTarget.getBoundingClientRect()
-    setMouse({
-      x: (clientX / width - 0.5) * 2,
-      y: (clientY / height - 0.5) * 2,
-    })
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return
+        observer.disconnect()
+        STATS.forEach((stat, i) => {
+          const span = countEls.current[i]
+          if (!span) return
+          const started = performance.now()
+          const tick = (now: number) => {
+            const p      = Math.min((now - started) / 1400, 1)
+            const eased  = 1 - (1 - p) ** 3
+            span.textContent = String(Math.round(eased * stat.value))
+            if (p < 1) requestAnimationFrame(tick)
+          }
+          requestAnimationFrame(tick)
+        })
+      },
+      { threshold: 0.4 }
+    )
+    observer.observe(container)
+    return () => observer.disconnect()
   }, [])
 
   return (
-    <section
-      ref={sectionRef}
-      data-theme-section="hero"
-      className={styles.hero}
-      onMouseMove={handleMouseMove}
-    >
-      {/* Parallax background image */}
-      <div ref={bgRef} className={styles.bgWrap}>
-        <div className={styles.bg} />
-      </div>
+    <section className={styles.hero}>
+      <div className={styles.container}>
 
-      {/* Dark gradient overlay */}
-      <div className={styles.overlay} />
-      <div className={styles.bottomFade} />
+        {/* ── Left: text content ── */}
+        <div className={styles.content}>
 
-      {/* R3F 3D Particle Canvas */}
-      <div className={styles.canvas}>
-        <Canvas
-          camera={{ position: [0, 0, 8], fov: 60 }}
-          gl={{ antialias: true, alpha: true }}
-          dpr={[1, 1.5]}
-        >
-          <ambientLight intensity={0.4} />
-          <pointLight position={[0, 0, 5]} intensity={2} color="#D97911" />
-          <pointLight position={[-5, 3, 2]} intensity={0.5} color="#ffffff" />
-          <ParticleField count={180} mouseX={mouse.x} mouseY={mouse.y} />
-        </Canvas>
-      </div>
+          <motion.span
+            className={styles.eyebrow}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1, duration: 0.55 }}
+          >
+            Addis Ababa · Ethiopia
+          </motion.span>
 
-      {/* Hero content */}
-      <div className={styles.content}>
-        {/* Eyebrow */}
-        <motion.p
-          className={styles.eyebrow}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-        >
-          ADDIS ABABA · ETHIOPIA
-        </motion.p>
-
-        <motion.div
-          className={styles.accentLine}
-          initial={{ scaleX: 0, opacity: 0 }}
-          animate={{ scaleX: 1, opacity: 0.7 }}
-          transition={{ delay: 0.35, duration: 0.6, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] }}
-          style={{ transformOrigin: 'center' }}
-        />
-
-        {/* Headline line 1 */}
-        <h1 className={styles.headline}>
-          <span className={styles.line}>
-            {headline1.map((word, i) => (
-              <motion.span
-                key={word}
-                className={styles.word}
-                custom={i}
-                variants={wordVariants}
-                initial="hidden"
-                animate="visible"
+          <motion.h1
+            className={styles.headline}
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.22, duration: 0.65 }}
+          >
+            Enabling Growth <br />
+            and{' '}
+            <span className={styles.highlight}>
+              Transformation
+              <svg
+                className={styles.svgUnderline}
+                viewBox="0 0 200 15"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
               >
-                {word}
-              </motion.span>
-            ))}
-          </span>
-          <span className={styles.line}>
-            {headline2.map((word, i) => (
-              <motion.span
-                key={word}
-                className={`${styles.word} ${word === 'Transformation' ? styles.orangeWord : ''}`}
-                custom={headline1.length + i}
-                variants={wordVariants}
-                initial="hidden"
-                animate="visible"
-              >
-                {word}
-              </motion.span>
-            ))}
-          </span>
-        </h1>
+                <path
+                  d="M5,10 Q100,0 195,10"
+                  fill="none"
+                  stroke="#D97911"
+                  strokeWidth="4"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </span>
+          </motion.h1>
 
-        {/* Subheadline */}
-        <motion.p
-          className={styles.subhead}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.0, duration: 0.7 }}
-        >
-          A management consultancy and trading company based in Addis Ababa. We help organizations grow — and supply what they need to do it.
-        </motion.p>
+          <motion.p
+            className={styles.subhead}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.6 }}
+          >
+            A management consultancy and trading company based in Addis Ababa.
+            We help organizations grow — and supply what they need to do it.
+          </motion.p>
 
-        {/* CTAs */}
+          <motion.div
+            className={styles.actions}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.55, duration: 0.6 }}
+          >
+            <a href="/contact" className={styles.btnPrimary}>Start a conversation</a>
+            <a href="/consultancy" className={styles.btnDemo}>
+              <span className={styles.demoIcon}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="7" width="20" height="14" rx="2" />
+                  <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
+                </svg>
+              </span>
+              See what we do
+            </a>
+          </motion.div>
+
+          <motion.div
+            ref={statsRef}
+            className={styles.statsRow}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.72, duration: 0.6 }}
+          >
+            {STATS.map((stat, i) => (
+              <div key={stat.label} className={styles.statCard}>
+                <div className={styles.statTop}>
+                  <h3>
+                    <span ref={el => { countEls.current[i] = el }}>{stat.value}</span>
+                    {stat.suffix}
+                  </h3>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                    <polyline points="17 6 23 6 23 12" />
+                  </svg>
+                </div>
+                <p>{stat.label}</p>
+              </div>
+            ))}
+          </motion.div>
+
+        </div>
+
+        {/* ── Right: overlapping pill images ── */}
         <motion.div
-          className={styles.ctas}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.4, duration: 0.7 }}
+          className={styles.visuals}
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.3, duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
         >
-          <Button variant="primary" href="/contact">
-            Start a conversation
-          </Button>
-          <Button variant="ghost" href="/consultancy">
-            See what we do
-          </Button>
+          {PILLS.map((pill, i) => (
+            <div
+              key={pill.alt}
+              className={`${styles.pill} ${pill.cls} ${i === activeIdx ? styles.pillActive : ''}`}
+              onMouseEnter={() => { setPaused(true); setActiveIdx(i) }}
+              onMouseLeave={() => setPaused(false)}
+            >
+              <img src={pill.src} alt={pill.alt} loading="eager" style={{ objectPosition: pill.pos }} />
+            </div>
+          ))}
+          <div className={styles.carouselDots}>
+            {PILLS.map((_, i) => (
+              <span
+                key={i}
+                className={`${styles.dot} ${i === activeIdx ? styles.dotActive : ''}`}
+              />
+            ))}
+          </div>
         </motion.div>
+
       </div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        className={styles.scrollIndicator}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2, duration: 0.8 }}
-      >
-        <span className={styles.scrollLabel}>Scroll</span>
-        <motion.div
-          className={styles.scrollChevron}
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
-        >
-          <svg width="16" height="10" viewBox="0 0 16 10" fill="none">
-            <path d="M1 1L8 8L15 1" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </motion.div>
-      </motion.div>
     </section>
   )
 }
