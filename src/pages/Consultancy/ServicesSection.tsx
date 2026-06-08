@@ -7,49 +7,75 @@ const services = [
     id: 'leadership',
     image: '/assets/consultancy%20assets/leadership-development.webp',
     tag: 'Practice 01',
-    title: 'Leadership Development',
-    short: 'Building the capacity of individual leaders to operate under pressure, make sound decisions, and bring teams with them.',
+    title: 'Leadership Development Programs',
+    short: 'Programs for executives and mid-level managers, designed and delivered in formats that fit how Ethiopian and regional businesses operate. Cohort programs, intensive workshops, and one-to-one development tracks.',
     points: [
+      'Supervisory and management leadership',
+      'Strategic and global leadership programs',
       'Executive effectiveness coaching',
-      'Decision-making under uncertainty',
-      'Stakeholder and board management',
       'High-potential leadership pathways',
+    ],
+  },
+  {
+    id: 'people-mgmt',
+    image: '/assets/consultancy%20assets/coaching-mentorship.webp',
+    tag: 'Practice 02',
+    title: 'Training on People Management',
+    short: 'Experienced in talent review and succession planning, performance management, reward and compensation systems, employee relations, and strategic HR management.',
+    points: [
+      'Talent review and succession planning',
+      'Performance management systems',
+      'Reward and compensation design',
+      'Workforce planning and development',
     ],
   },
   {
     id: 'talent',
     image: '/assets/consultancy%20assets/talent-search.webp',
-    tag: 'Practice 02',
-    title: 'Talent Search & Assessment',
-    short: 'Finding and assessing the right people for senior roles in Ethiopian and regional organisations.',
+    tag: 'Practice 03',
+    title: 'Talent Search & Assessments',
+    short: 'Executive and senior-level search work. We use structured assessments to test candidates against the actual demands of the role, including how they perform under the pressures of operating in Ethiopia.',
     points: [
-      'Executive search and headhunting',
+      'Executive and key-talent search',
+      'Talent mapping and profiling',
       'Competency-based assessment',
-      'Succession candidate identification',
-      'Onboarding support for new leaders',
+      'Onboarding support and career planning',
+    ],
+  },
+  {
+    id: 'advisory',
+    image: '/assets/consultancy%20assets/org-transformation.webp',
+    tag: 'Practice 04',
+    title: 'Advisory & Change',
+    short: 'Our expertise spans organizational transformation, change management, project management, leadership and young-talent development, SME development, sales capability, and technical capability building.',
+    points: [
+      'Change management and project delivery',
+      'SME development and capability building',
+      'Sales capability enhancement',
+      'Technical capability programs',
     ],
   },
   {
     id: 'coaching',
     image: '/assets/consultancy%20assets/coaching-mentorship.webp',
-    tag: 'Practice 03',
+    tag: 'Practice 05',
     title: 'Coaching & Mentorship',
-    short: 'Structured one-on-one programmes that accelerate growth for executives and senior managers.',
+    short: 'One-to-one and team coaching for senior leaders working through transitions, expansion, restructuring, or performance challenges.',
     points: [
-      'Individual coaching engagements',
-      'Group peer-learning cohorts',
-      'Mentorship programme design',
-      'Progress tracking and accountability',
+      'Career consultation and 360 assessment',
+      'Executive coaching engagements',
+      'Leadership development tracks',
+      'Mentorship program design',
     ],
   },
   {
     id: 'org',
     image: '/assets/consultancy%20assets/org-transformation.webp',
-    tag: 'Practice 04',
-    title: 'Organisational Transformation',
-    short: 'Supporting leadership teams through the structural and cultural changes that strategy requires.',
+    tag: 'Practice 06',
+    title: 'Organizational Transformation',
+    short: 'Strategy alignment, structure design, change management, and culture work. We are usually engaged through implementation — the phase where these programs tend to come apart.',
     points: [
-      'Restructuring design and implementation',
+      'Restructuring design and rollout',
       'Change management and communication',
       'Culture diagnosis and reshaping',
       'Post-merger integration support',
@@ -141,7 +167,7 @@ export function ServicesSection() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.1, duration: 0.8, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] }}
         >
-          Four areas.
+          Six areas.
           <br />
           <span className={styles.headingAccent}>One commitment.</span>
         </motion.h2>

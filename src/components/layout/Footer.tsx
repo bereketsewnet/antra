@@ -74,6 +74,7 @@ export function Footer() {
             </li>
             <li>
               <span className={styles.contactLabel}>Address</span>
+              {/* TODO(client): confirm sub-city — Kirkos vs. Bole — and street address per doc note #1 */}
               <span className={styles.address}>
                 Africa Avenue, Rayuma Building,<br />
                 Office 912, Bole Sub-City,<br />

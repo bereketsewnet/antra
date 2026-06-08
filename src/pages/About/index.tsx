@@ -3,6 +3,7 @@ import { SEO } from '@/components/SEO'
 import { AboutHeroSection } from './HeroSection'
 import { OurStorySection } from './OurStorySection'
 import { ValuesSection } from './ValuesSection'
+import { NotableClientsSection } from './NotableClientsSection'
 import { HowPracticesFitSection } from './HowPracticesFitSection'
 
 const pageVariants = {
@@ -28,8 +29,9 @@ export function AboutPage() {
   return (
     <>
       <SEO
-        title="About Us"
-        description="Founded in 2006 in Addis Ababa. Antra Business Group combines management consultancy and strategic trading under one roof — because our clients need both. 18+ years of leadership experience in Ethiopia."
+        title="About Antra Business Group | Consulting & Trading Firm in Addis Ababa"
+        description="Founded in 2006 in Addis Ababa. Antra Business Group combines management consulting and strategic trading. 18+ years of leadership experience across HR, operations, retail, and distribution in Ethiopia."
+        keywords="Antra Business Group, Ethiopian consulting firm, Addis Ababa business consultancy, diversified business group Ethiopia"
         path="/about"
         jsonLd={jsonLd}
       />
@@ -37,6 +39,7 @@ export function AboutPage() {
         <AboutHeroSection />
         <OurStorySection />
         <ValuesSection />
+        <NotableClientsSection />
         <HowPracticesFitSection />
       </motion.main>
     </>

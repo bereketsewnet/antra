@@ -188,6 +188,18 @@
   margin: 0;
 }
 
+.cultureLine {
+  margin: clamp(40px, 5vw, 64px) auto 0;
+  text-align: center;
+  font-family: var(--font-heading);
+  font-size: clamp(16px, 1.4vw, 20px);
+  font-weight: 500;
+  font-style: italic;
+  color: var(--orange);
+  letter-spacing: -0.01em;
+  max-width: 640px;
+}
+
 /* ── Responsive ── */
 @media (max-width: 1024px) {
   .valuesGrid {

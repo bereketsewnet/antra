@@ -28,7 +28,7 @@ export function ConsultancyClosingCTA() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.2, duration: 0.6 }}
         >
-          Start the conversation
+          Book a discovery call
         </motion.p>
 
         <motion.h2
@@ -37,9 +37,9 @@ export function ConsultancyClosingCTA() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.3, duration: 0.8, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] }}
         >
-          Tell us what your
+          If any of this is on your desk —
           <br />
-          <span className={styles.headingAccent}>leadership team is facing.</span>
+          <span className={styles.headingAccent}>let's talk.</span>
         </motion.h2>
 
         <motion.p
@@ -48,7 +48,7 @@ export function ConsultancyClosingCTA() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.45, duration: 0.7 }}
         >
-          We respond within one business day. No lengthy qualification process — just a direct conversation about what you need.
+          We spend the first session understanding the business before we propose anything. No qualification gauntlet — just a direct conversation about what you need.
         </motion.p>
 
         <motion.div
@@ -58,7 +58,7 @@ export function ConsultancyClosingCTA() {
           transition={{ delay: 0.6, duration: 0.6 }}
         >
           <Link to="/contact" className={styles.btnPrimary}>
-            Get in touch
+            Book a discovery call
           </Link>
           <Link to="/about" className={styles.btnGhost}>
             Learn more about us

@@ -2,44 +2,37 @@ import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import styles from './ValuesSection.module.css'
 
-const missions = [
-  {
-    label: 'Management Consultancy',
-    text:
-      'To help leadership teams in Ethiopia and the wider region carry out what they decide — not just advise on it. We sit inside the problem, not outside it.',
-  },
-  {
-    label: 'Trading & Supply',
-    text:
-      'To give Ethiopian buyers reliable access to technically capable suppliers in categories where that access has historically been inconsistent or absent.',
-  },
-]
+const mission = {
+  label: 'Our Mission',
+  text:
+    'To be a trusted partner of choice for organizational transformation, leadership development, strategy and business alignment, training, coaching and mentoring, talent search, and consultancy services in Ethiopia and regional markets — and a preferred supplier of selected products to Ethiopia and the region.',
+}
 
 const values = [
   {
     number: '01',
-    title: 'Directness',
-    body: 'We tell clients what we actually think. Soft-pedalling a diagnosis is not a service — it delays the fix.',
+    title: 'Integrity and Compliance',
+    body: 'We turn down work that requires us to bend.',
   },
   {
     number: '02',
-    title: 'Reliability',
-    body: 'One business day response. No exceptions. If we take on a matter, we are reachable for it.',
+    title: 'Customer Focus and Excellence',
+    body: 'Engagements end when the client has the outcome, not when the contract runs out.',
   },
   {
     number: '03',
-    title: 'Local Expertise',
-    body: 'Eighteen-plus years operating inside Ethiopia means our advice reflects local market reality, not imported frameworks.',
+    title: 'Efficiency and Effectiveness',
+    body: 'We staff lean and bring in extra hands only when the work calls for it.',
   },
   {
     number: '04',
-    title: 'Long-term Thinking',
-    body: 'We measure success by whether the client is still stronger twelve months after the engagement, not twelve days.',
+    title: 'Collaboration and Commitment',
+    body: 'Our consultants train your team to take over what we built.',
   },
   {
     number: '05',
-    title: 'Dual-lens Perspective',
-    body: 'Having a foot in both consultancy and commerce means we understand the operational and financial side of a decision simultaneously.',
+    title: 'Continuous Learning and Agility',
+    body: 'Every consultant is expected to stay current on the sectors they cover.',
   },
 ]
 
@@ -76,25 +69,22 @@ export function ValuesSection() {
           <span className={styles.headingAccent}>don't bend.</span>
         </motion.h2>
 
-        {/* Mission pair */}
+        {/* Single combined mission */}
         <motion.div
           className={styles.missions}
           initial={{ opacity: 0, y: 24 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.25, duration: 0.7 }}
         >
-          {missions.map((m, i) => (
-            <motion.div
-              key={m.label}
-              className={styles.missionCard}
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.3 + i * 0.12, duration: 0.6 }}
-            >
-              <span className={styles.missionTag}>{m.label}</span>
-              <p className={styles.missionText}>{m.text}</p>
-            </motion.div>
-          ))}
+          <motion.div
+            className={styles.missionCard}
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.3, duration: 0.6 }}
+          >
+            <span className={styles.missionTag}>{mission.label}</span>
+            <p className={styles.missionText}>{mission.text}</p>
+          </motion.div>
         </motion.div>
 
         {/* Divider */}
@@ -121,6 +111,16 @@ export function ValuesSection() {
             </motion.div>
           ))}
         </div>
+
+        {/* Closing micro-line */}
+        <motion.p
+          className={styles.cultureLine}
+          initial={{ opacity: 0, y: 16 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 1.2, duration: 0.7 }}
+        >
+          We aim to create a high-performing and rewarding culture.
+        </motion.p>
       </div>
     </section>
   )

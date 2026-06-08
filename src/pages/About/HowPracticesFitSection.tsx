@@ -6,18 +6,28 @@ import styles from './HowPracticesFitSection.module.css'
 const connections = [
   {
     index: '01',
-    title: 'Shared Client Base',
-    body: 'The companies that hire us to restructure operations are often the same companies that need three excavators delivered by end of quarter. One relationship serves both.',
+    title: 'Practical, Strategic, and Business-Driven Expertise',
+    body: 'Real-world operational experience paired with strategic insight — we connect the boardroom view to the shop-floor reality.',
   },
   {
     index: '02',
-    title: 'Operational Credibility',
-    body: 'Running a trading operation means we have procured, shipped, and cleared goods through Ethiopian customs. That experience makes our supply-chain advice credible in a way pure consultancy cannot.',
+    title: 'BHR-led Organizational Transformation',
+    body: 'Business-HR-led change programs that connect people, structure, and strategy — not standalone HR initiatives.',
   },
   {
     index: '03',
-    title: 'Speed of Trust',
-    body: 'A client we already advise does not need a long qualification process before buying equipment from us. And a buyer who knows us through trading is more likely to engage us for leadership work.',
+    title: 'Africa-focused, Market-Relevant Solutions',
+    body: 'Engagements shaped for Ethiopian and regional realities, not imported frameworks lifted from other markets.',
+  },
+  {
+    index: '04',
+    title: 'Partnership-Based Approach',
+    body: 'We build alongside leadership teams rather than handing over a report and leaving. The client owns the outcome.',
+  },
+  {
+    index: '05',
+    title: 'End-to-End Support',
+    body: 'From diagnosis through design into implementation — we stay in the room until the change is embedded.',
   },
 ]
 
@@ -40,8 +50,8 @@ export function HowPracticesFitSection() {
           animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          <span className={styles.labelNumber}>03</span>
-          <span className={styles.labelText}>How the Practices Fit</span>
+          <span className={styles.labelNumber}>04</span>
+          <span className={styles.labelText}>What Makes Us Unique</span>
           <div className={styles.labelLine} />
         </motion.div>
 
@@ -76,9 +86,9 @@ export function HowPracticesFitSection() {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.1, duration: 0.8, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] }}
             >
-              Two practices.
+              What makes
               <br />
-              <span className={styles.headingAccent}>One advantage.</span>
+              <span className={styles.headingAccent}>us unique.</span>
             </motion.h2>
 
             <motion.p
@@ -87,7 +97,7 @@ export function HowPracticesFitSection() {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.25, duration: 0.7 }}
             >
-              Most firms pick one lane. We operate in two because the clients we serve benefit from both. The overlap is not accidental — it is the whole point.
+              Five things clients consistently tell us set Antra apart from other firms in the region — across both consultancy and trading.
             </motion.p>
 
             <div className={styles.connections}>

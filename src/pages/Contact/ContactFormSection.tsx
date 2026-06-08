@@ -14,6 +14,8 @@ const serviceOptions = [
   { value: 'unsure', label: 'Not sure yet' },
 ]
 
+// TODO(client): confirm sub-city — Kirkos vs. Bole — and street address per doc note #1
+// TODO(client): confirm email prefix per doc note #2 (brief shows "@ANTRAGROUP.ET" with no prefix)
 const contactDetails = [
   {
     icon: '📍',
@@ -25,6 +27,7 @@ const contactDetails = [
     icon: '📞',
     label: 'Phone',
     value: '+251 951 77 97 77',
+    valueAlt: '+251 986 11 18 11',
     sub: 'Mon – Fri, 8am – 6pm EAT',
   },
   {
@@ -143,7 +146,7 @@ export function ContactFormSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.7 }}
         >
-          We respond within one business day. No lengthy intake — just a direct conversation.
+          Send us a note. We respond to inquiries within one business day.
         </motion.p>
 
         <motion.div
@@ -291,6 +294,19 @@ export function ContactFormSection() {
                     )}
                   </button>
                 </motion.div>
+
+                {/* Privacy note */}
+                {status === 'idle' && (
+                  <motion.p
+                    className={styles.privacyNote}
+                    custom={7}
+                    variants={fieldVariants}
+                    initial="hidden"
+                    animate={isInView ? 'visible' : 'hidden'}
+                  >
+                    We do not share contact details with third parties.
+                  </motion.p>
+                )}
               </form>
             )}
           </div>
@@ -319,6 +335,9 @@ export function ContactFormSection() {
                 >
                   <div className={styles.detailLabel}>{d.label}</div>
                   <div className={styles.detailValue}>{d.value}</div>
+                  {'valueAlt' in d && d.valueAlt && (
+                    <div className={styles.detailValue}>{d.valueAlt as string}</div>
+                  )}
                   <div className={styles.detailSub}>{d.sub}</div>
                 </motion.div>
               ))}

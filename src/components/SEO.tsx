@@ -8,20 +8,22 @@ interface SEOProps {
   title: string
   description: string
   path: string
+  keywords?: string
   image?: string
   type?: 'website' | 'article'
   jsonLd?: object
 }
 
-export function SEO({ title, description, path, image = DEFAULT_IMAGE, type = 'website', jsonLd }: SEOProps) {
+export function SEO({ title, description, path, keywords, image = DEFAULT_IMAGE, type = 'website', jsonLd }: SEOProps) {
   const canonicalUrl = `${SITE_URL}${path}`
-  const fullTitle = path === '/' ? `${SITE_NAME} — Management Consultancy & Trading` : `${title} | ${SITE_NAME}`
+  const fullTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`
 
   return (
     <Helmet>
       {/* Primary */}
       <title>{fullTitle}</title>
       <meta name="description" content={description} />
+      {keywords && <meta name="keywords" content={keywords} />}
       <link rel="canonical" href={canonicalUrl} />
 
       {/* Open Graph */}

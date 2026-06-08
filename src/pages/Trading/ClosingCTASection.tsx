@@ -6,7 +6,7 @@ import styles from './ClosingCTASection.module.css'
 const categories = [
   { label: 'Electric Vehicles' },
   { label: 'Construction Machinery' },
-  { label: 'Sanitary Fittings' },
+  { label: 'Sanitary Equipment' },
   { label: 'Medical Equipment' },
 ]
 
@@ -53,7 +53,7 @@ export function TradingClosingCTA() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.45, duration: 0.7 }}
         >
-          Whether you need one unit or a full fleet, we respond within one business day with a clear answer on availability, specs, and timeline.
+          Send us the specifications, the quantity, and your timeline. We'll come back with options and a price within one business day.
         </motion.p>
 
         {/* Category tags */}
@@ -75,7 +75,7 @@ export function TradingClosingCTA() {
           transition={{ delay: 0.65, duration: 0.6 }}
         >
           <Link to="/contact" className={styles.btnPrimary}>
-            Get in touch
+            Request a quote
           </Link>
           <Link to="/about" className={styles.btnGhost}>
             About Antra

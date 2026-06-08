@@ -120,8 +120,10 @@ export function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.6 }}
           >
-            A management consultancy and trading company based in Addis Ababa.
-            We help organizations grow — and supply what they need to do it.
+            We are a management consultancy and a trading company based in Addis Ababa.
+            Companies and institutions across Ethiopia work with us when they need to
+            rebuild a leadership bench, sharpen how the business runs, or source
+            equipment that is hard to find locally.
           </motion.p>
 
           <motion.div

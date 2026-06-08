@@ -87,15 +87,15 @@ export function WhatWeDoSection() {
               animate={isInView ? 'visible' : 'hidden'}
             >
               <p>
-                Our consultancy team works with senior leaders on the parts of
-                the business that decide whether growth holds — who is in the
-                top roles, how the organization is structured, and whether the
-                strategy on paper is making it through to execution.
+                Antra runs two practices that often serve the same kind of client.
+                Our consultancy team provides leadership development programs,
+                trainings, talent search and assessments, consultancy, coaching
+                and mentorship, and organizational transformation.
               </p>
               <p>
                 Our trading division supplies the same kinds of organizations
                 with equipment they cannot easily source inside Ethiopia, from
-                electric vehicles to medical machinery, through our operations
+                electric vehicles to medical equipment, through our operations
                 in the Djibouti Freezone.
               </p>
             </motion.div>

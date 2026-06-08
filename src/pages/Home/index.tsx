@@ -37,8 +37,9 @@ export function HomePage() {
   return (
     <>
       <SEO
-        title="Antra Business Group"
-        description="Antra Business Group — Management consultancy and strategic trading company based in Addis Ababa, Ethiopia. 18+ years enabling growth and transformation for leaders and organisations across the region."
+        title="Antra Business Group — Management Consulting & Trading | Addis Ababa"
+        description="18+ years enabling growth and transformation for Ethiopian and regional businesses. Management consulting plus strategic trading and supply — under one roof in Addis Ababa."
+        keywords="management consulting Addis Ababa, business consulting Ethiopia, trading company Ethiopia, Djibouti Freezone supplier, organizational transformation Ethiopia"
         path="/"
         jsonLd={jsonLd}
       />

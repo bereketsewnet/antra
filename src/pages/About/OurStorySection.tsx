@@ -54,22 +54,22 @@ export function OurStorySection() {
               transition={{ delay: 0.25, duration: 0.8, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] }}
             >
               <p>
-                Antra was set up to do two things at once. The first is management
-                consultancy — the kind that goes past diagnosis into the messier work
-                of helping leadership teams actually carry out what they decided.
+                Our story is built on a passion for transforming organizations,
+                developing leaders, and enabling growth. Backed by extensive
+                leadership experience and excellence across multiple industries,
+                markets, and business environments, we have successfully partnered
+                with leading corporations, multinational organizations, SMEs,
+                government institutions, the airline industry, entrepreneurs, and
+                diaspora investors. This diverse experience allows us to combine
+                strategic insight with practical execution — helping clients
+                navigate complexity, unlock opportunities, and achieve sustainable
+                growth and transformation.
               </p>
               <p>
-                The second is trading, focused on product categories where buyers in
-                Ethiopia have trouble finding consistent, technically capable suppliers:
-                electric vehicles, construction machinery, sanitary fittings, and
-                medical equipment.
-              </p>
-              <p>
-                The two practices sit under the same company because the clients they
-                serve overlap. A construction firm we advise on succession planning is
-                often the same business that needs three excavators by end of quarter.
-                A healthcare network we coach through restructuring is the same one
-                buying diagnostic equipment from us.
+                In addition to our management consultancy services, we offer
+                trading solutions that connect clients with quality products,
+                trusted suppliers, and efficient route-to-market strategies across
+                Ethiopia and regional markets.
               </p>
             </motion.div>
 
@@ -109,18 +109,6 @@ export function OurStorySection() {
                 className={styles.image}
                 loading="lazy"
               />
-              {/* Floating orange card */}
-              <motion.div
-                className={styles.floatingCard}
-                initial={{ opacity: 0, y: 20 }}
-                animate={imgInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: 0.7, duration: 0.6 }}
-              >
-                <p className={styles.floatingQuote}>
-                  "It is harder to sell theory to a CEO when you have sat in the same seat."
-                </p>
-                <span className={styles.floatingAuthor}>— Founding Team</span>
-              </motion.div>
 
               {/* Corner decoration */}
               <div className={styles.imageCorner} />

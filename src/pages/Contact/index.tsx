@@ -32,8 +32,9 @@ export function ContactPage() {
   return (
     <>
       <SEO
-        title="Contact"
-        description="Get in touch with Antra Business Group. Tell us what you are working on — management consultancy or trading and supply. We respond within one business day. Based in Addis Ababa, Ethiopia."
+        title="Contact Antra Business Group | Addis Ababa, Ethiopia"
+        description="Get in touch with Antra Business Group in Addis Ababa. Management consulting or trading enquiries answered within one business day. Phone, email, and office address."
+        keywords="contact Antra Business Group, business consulting contact Addis Ababa, trading company Ethiopia contact"
         path="/contact"
         jsonLd={jsonLd}
       />

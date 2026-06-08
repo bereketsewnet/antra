@@ -1,6 +1,6 @@
 .section {
   background: var(--navy);
-  padding-block: var(--section-pad-y);
+  padding-block: clamp(80px, 13vw, 180px);
   position: relative;
   overflow: hidden;
 }
@@ -107,7 +107,7 @@
 .tiles {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 2px;
+  gap: clamp(20px, 2.5vw, 32px);
 }
 
 .tile {
@@ -218,7 +218,7 @@
 @media (max-width: 600px) {
   .tiles {
     grid-template-columns: 1fr;
-    gap: 1px;
+    gap: 16px;
   }
 
   .tileInner {

@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion'
 import { SEO } from '@/components/SEO'
 import { ConsultancyHeroSection } from './HeroSection'
+import { IntroSection } from './IntroSection'
 import { ServicesSection } from './ServicesSection'
+import { ProblemsSection } from './ProblemsSection'
 import { ConsultancyClosingCTA } from './ClosingCTASection'
 
 const pageVariants = {
@@ -13,9 +15,9 @@ const pageVariants = {
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Service',
-  name: 'Management Consultancy',
+  name: 'Management Consulting',
   url: 'http://antra.lula.com.et/consultancy',
-  description: 'Management consultancy services including leadership development, talent search, executive coaching, and organisational transformation for Ethiopian and regional businesses.',
+  description: 'Management consulting services including leadership development, training on people management, talent search, advisory and change, executive coaching, and organizational transformation for Ethiopian and regional businesses.',
   provider: {
     '@type': 'Organization',
     name: 'Antra Business Group',
@@ -26,10 +28,12 @@ const jsonLd = {
     name: 'Ethiopia and East Africa',
   },
   serviceType: [
-    'Leadership Development',
-    'Talent Search & Assessment',
-    'Coaching & Mentorship',
-    'Organisational Transformation',
+    'Leadership Development Programs',
+    'Training on People Management',
+    'Talent Search and Assessments',
+    'Advisory and Change',
+    'Coaching and Mentorship',
+    'Organizational Transformation',
   ],
 }
 
@@ -37,14 +41,17 @@ export function ConsultancyPage() {
   return (
     <>
       <SEO
-        title="Management Consultancy"
-        description="Management consultancy that goes past diagnosis. Antra helps Ethiopian and regional leadership teams carry out what they decide — leadership development, talent search, coaching, and organisational transformation."
+        title="Management Consulting in Addis Ababa | Leadership, Strategy, Talent — Antra"
+        description="Management consulting that goes past diagnosis into implementation. Leadership development, executive coaching, talent search, training on people management, and organizational transformation for Ethiopian and regional businesses."
+        keywords="management consulting firms Addis Ababa, leadership development Ethiopia, executive coaching Ethiopia, talent search Addis Ababa, organizational transformation Ethiopia, HR consulting Ethiopia, executive search Ethiopia"
         path="/consultancy"
         jsonLd={jsonLd}
       />
       <motion.main variants={pageVariants} initial="initial" animate="animate" exit="exit">
         <ConsultancyHeroSection />
+        <IntroSection />
         <ServicesSection />
+        <ProblemsSection />
         <ConsultancyClosingCTA />
       </motion.main>
     </>

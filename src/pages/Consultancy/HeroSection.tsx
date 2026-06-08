@@ -99,7 +99,7 @@ export function ConsultancyHeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.0, duration: 0.7 }}
         >
-          We help leadership teams in Ethiopia and the wider region not just decide what to do — but carry it out. Eighteen-plus years inside the problem.
+          Leadership, strategy, and people solutions built around how Ethiopian and regional organizations actually operate.
         </motion.p>
 
         {/* Scroll indicator */}

@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { SEO } from '@/components/SEO'
 import { TradingHeroSection } from './HeroSection'
+import { IntroSection } from './IntroSection'
 import { ProductLinesSection } from './ProductLinesSection'
 import { TradingClosingCTA } from './ClosingCTASection'
 
@@ -15,7 +16,7 @@ const jsonLd = {
   '@type': 'Service',
   name: 'Trading & Supply',
   url: 'http://antra.lula.com.et/trading',
-  description: 'Strategic trading and supply of electric vehicles, construction machinery, sanitary fittings, and medical equipment for Ethiopian buyers via Djibouti Free Zone.',
+  description: 'Strategic trading and supply of electric vehicles, construction machinery, sanitary equipment, and medical equipment for Ethiopian buyers via Djibouti Free Zone.',
   provider: {
     '@type': 'Organization',
     name: 'Antra Business Group',
@@ -28,7 +29,7 @@ const jsonLd = {
   serviceType: [
     'Electric Vehicle Supply',
     'Construction Machinery',
-    'Sanitary Fittings',
+    'Sanitary Equipment',
     'Medical Equipment',
   ],
   hasOfferCatalog: {
@@ -37,7 +38,7 @@ const jsonLd = {
     itemListElement: [
       { '@type': 'Offer', itemOffered: { '@type': 'Product', name: 'Electric Vehicles' } },
       { '@type': 'Offer', itemOffered: { '@type': 'Product', name: 'Construction Machinery' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Product', name: 'Sanitary Fittings' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Product', name: 'Sanitary Equipment' } },
       { '@type': 'Offer', itemOffered: { '@type': 'Product', name: 'Medical Equipment' } },
     ],
   },
@@ -47,13 +48,15 @@ export function TradingPage() {
   return (
     <>
       <SEO
-        title="Trading & Supply"
-        description="Antra sources electric vehicles, construction machinery, sanitary fittings, and medical equipment for Ethiopian buyers. Consistent, technically capable supply via Djibouti Free Zone. 1 business day response."
+        title="Trading & Supply in Ethiopia | EVs, Construction, Medical, Sanitary — Antra"
+        description="Antra sources electric vehicles, construction machinery, sanitary equipment, and medical equipment for Ethiopian buyers via Djibouti Free Zone. Direct manufacturer relationships, trade finance, and after-sales support."
+        keywords="construction equipment supplier Ethiopia, electric vehicle importer Ethiopia, medical equipment supplier Ethiopia, sanitary equipment Ethiopia, Djibouti Freezone Ethiopia, fleet supplier Addis Ababa"
         path="/trading"
         jsonLd={jsonLd}
       />
       <motion.main variants={pageVariants} initial="initial" animate="animate" exit="exit">
         <TradingHeroSection />
+        <IntroSection />
         <ProductLinesSection />
         <TradingClosingCTA />
       </motion.main>

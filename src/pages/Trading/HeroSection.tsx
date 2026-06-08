@@ -105,7 +105,7 @@ export function TradingHeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.0, duration: 0.7 }}
         >
-          We source electric vehicles, construction machinery, sanitary fittings, and medical equipment for Ethiopian buyers who need a technically capable, consistent supplier.
+          Sourcing and distribution for fleet, construction, healthcare, and infrastructure buyers across Ethiopia and the region.
         </motion.p>
 
         {/* Scroll indicator */}

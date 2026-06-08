@@ -16,19 +16,19 @@ const stats = [
 const reasons = [
   {
     title: 'Senior expertise',
-    body: 'A team with more than eighteen years of leadership experience across HR, operations, retail, and distribution.',
+    body: 'A senior team with more than 18+ years of leadership experience across HR, operations, retail, distribution, and cross-market and industry exposure. We bring deep experience, contextual knowledge, best practices, and global expertise to design and anchor organizational transformation.',
   },
   {
     title: 'Djibouti Freezone access',
-    body: 'Sourcing operations in the Djibouti Freezone, with trade finance arrangements at Ethiopian banks for buyers who need credit terms.',
+    body: 'Sourcing operations in the Djibouti Freezone, with access to trade finance and global sourcing — enabling immediate demand fulfilment from the Free Zone.',
   },
   {
     title: 'Two practices, one team',
-    body: 'Consultancy clients can access sourcing support, and trading clients can pull in advisory help — all from the same partner.',
+    body: 'Two practices that talk to each other, so consultancy clients can access sourcing support and trading clients can pull in advisory help when they need it.',
   },
   {
     title: 'Built for this region',
-    body: 'Engagements designed for the realities of operating in Ethiopia: thin talent pools, regulatory shifts, and supply chain volatility.',
+    body: 'Engagements designed for the realities of operating in Ethiopia and the region, including thin talent pools, regulatory shifts, and supply chain volatility.',
   },
 ]
 

@@ -8,7 +8,7 @@ const products = [
     image: '/assets/trading%20assets/product-ev-fleet.webp',
     tag: 'Category 01',
     title: 'Electric Vehicles',
-    short: 'Fleet-scale EV supply for corporate, government, and logistics operators across Ethiopia.',
+    short: 'Passenger and commercial EVs for fleet buyers, distributors, and businesses preparing for the energy transition in East African markets.',
     specs: [
       'Passenger and commercial EVs',
       'Fleet procurement & management',
@@ -21,7 +21,7 @@ const products = [
     image: '/assets/trading%20assets/product-construction-machinery.webp',
     tag: 'Category 02',
     title: 'Construction Machinery',
-    short: 'Excavators, loaders, cranes, and earth-moving equipment for infrastructure and real-estate projects.',
+    short: 'Excavators, loaders, and supporting equipment for construction firms, contractors, and industrial projects. We source from manufacturers with after-sales support that actually reaches Ethiopia.',
     specs: [
       'Excavators & bulldozers',
       'Cranes & lifting equipment',
@@ -33,8 +33,8 @@ const products = [
     id: 'sanitary',
     image: '/assets/trading%20assets/product-sanitary.webp',
     tag: 'Category 03',
-    title: 'Sanitary Fittings',
-    short: 'Premium-grade fittings and fixtures for hotels, hospitals, residential developments, and commercial builds.',
+    title: 'Sanitary Equipment',
+    short: 'Sanitary ware and fittings for construction projects, real estate developers, and institutional buyers.',
     specs: [
       'Bathroom and kitchen fittings',
       'Commercial-grade fixtures',
@@ -47,7 +47,7 @@ const products = [
     image: '/assets/trading%20assets/product-medical-equipment.webp',
     tag: 'Category 04',
     title: 'Medical Equipment',
-    short: 'Diagnostic, imaging, and ward-level equipment for hospitals and healthcare networks.',
+    short: 'Diagnostic and clinical equipment for hospitals, clinics, and healthcare institutions. We select suppliers with regulatory and clinical standards in mind.',
     specs: [
       'Diagnostic and imaging systems',
       'Patient monitoring equipment',
@@ -209,16 +209,24 @@ export function ProductLinesSection() {
             <div className={styles.freezonePoints}>
               {[
                 {
-                  title: 'Faster clearance',
-                  text: 'Freezone registration means goods move faster through the Djibouti–Addis corridor with fewer bureaucratic delays.',
+                  title: 'Direct manufacturer relationships',
+                  text: 'We work direct with manufacturers rather than through layered distribution chains — better pricing, better technical answers, faster issue resolution.',
                 },
                 {
-                  title: 'Established relationships',
-                  text: 'We have built supplier relationships over 18+ years. We know who delivers on time and who does not.',
+                  title: 'Djibouti Freezone operations',
+                  text: 'Faster and cheaper regional logistics through the Djibouti–Addis corridor, with fewer bureaucratic delays on the way to site.',
                 },
                 {
-                  title: 'Technical capability',
-                  text: 'We do not just procure. We understand what we are sourcing — specs, compliance, and after-sales implications.',
+                  title: 'Trade finance with Ethiopian banks',
+                  text: 'Arrangements in place for buyers who need credit terms — we work with banks our clients already use.',
+                },
+                {
+                  title: 'Technical and after-sales support',
+                  text: 'Spec advice, compliance guidance, and after-sales support are included with the supply contract — not sold separately.',
+                },
+                {
+                  title: 'Single units to full fleets',
+                  text: 'Order sizes scale from a single unit to fleet-grade procurement. Same team, same standard.',
                 },
               ].map((pt, i) => (
                 <motion.div
