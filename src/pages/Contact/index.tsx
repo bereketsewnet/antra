@@ -12,12 +12,12 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'ContactPage',
   name: 'Contact Antra Business Group',
-  url: 'http://antra.lula.com.et/contact',
+  url: 'https://antragroup.et/contact',
   description: 'Get in touch with Antra Business Group. We respond within one business day.',
   publisher: {
     '@type': 'Organization',
     name: 'Antra Business Group',
-    url: 'http://antra.lula.com.et',
+    url: 'https://antragroup.et',
     telephone: '+251-951-77-97-77',
     email: 'info@antragroup.et',
     address: {

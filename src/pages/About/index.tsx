@@ -3,7 +3,6 @@ import { SEO } from '@/components/SEO'
 import { AboutHeroSection } from './HeroSection'
 import { OurStorySection } from './OurStorySection'
 import { ValuesSection } from './ValuesSection'
-import { NotableClientsSection } from './NotableClientsSection'
 import { HowPracticesFitSection } from './HowPracticesFitSection'
 
 const pageVariants = {
@@ -16,12 +15,12 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'AboutPage',
   name: 'About Antra Business Group',
-  url: 'http://antra.lula.com.et/about',
+  url: 'https://antragroup.et/about',
   description: 'Learn about Antra Business Group — founded in 2006 in Addis Ababa, Ethiopia. 18+ years of management consultancy and strategic trading experience.',
   publisher: {
     '@type': 'Organization',
     name: 'Antra Business Group',
-    url: 'http://antra.lula.com.et',
+    url: 'https://antragroup.et',
   },
 }
 
@@ -39,7 +38,6 @@ export function AboutPage() {
         <AboutHeroSection />
         <OurStorySection />
         <ValuesSection />
-        <NotableClientsSection />
         <HowPracticesFitSection />
       </motion.main>
     </>

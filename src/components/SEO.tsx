@@ -1,8 +1,10 @@
 import { Helmet } from 'react-helmet-async'
 
-const SITE_URL = 'http://antra.lula.com.et'
+const SITE_URL = 'https://antragroup.et'
 const SITE_NAME = 'Antra Business Group'
-const DEFAULT_IMAGE = `${SITE_URL}/assets/global/og-default.webp`
+// TODO(client): swap with a dedicated 1200×630 branded OG image when ready.
+// Fallback to hero background so social shares (FB / LinkedIn / WhatsApp) don't 404.
+const DEFAULT_IMAGE = `${SITE_URL}/assets/home%20assets/hero-bg.webp`
 
 interface SEOProps {
   title: string

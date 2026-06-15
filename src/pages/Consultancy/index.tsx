@@ -16,12 +16,12 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Service',
   name: 'Management Consulting',
-  url: 'http://antra.lula.com.et/consultancy',
+  url: 'https://antragroup.et/consultancy',
   description: 'Management consulting services including leadership development, training on people management, talent search, advisory and change, executive coaching, and organizational transformation for Ethiopian and regional businesses.',
   provider: {
     '@type': 'Organization',
     name: 'Antra Business Group',
-    url: 'http://antra.lula.com.et',
+    url: 'https://antragroup.et',
   },
   areaServed: {
     '@type': 'Place',

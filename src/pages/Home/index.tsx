@@ -16,8 +16,8 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'Antra Business Group',
-  url: 'http://antra.lula.com.et',
-  logo: 'http://antra.lula.com.et/logo.png',
+  url: 'https://antragroup.et',
+  logo: 'https://antragroup.et/logo.png',
   description: 'Diversified business group based in Addis Ababa, Ethiopia, operating in management consultancy and strategic trade.',
   foundingDate: '2006',
   address: {

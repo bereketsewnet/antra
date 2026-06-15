@@ -14,14 +14,12 @@ const serviceOptions = [
   { value: 'unsure', label: 'Not sure yet' },
 ]
 
-// TODO(client): confirm sub-city — Kirkos vs. Bole — and street address per doc note #1
-// TODO(client): confirm email prefix per doc note #2 (brief shows "@ANTRAGROUP.ET" with no prefix)
 const contactDetails = [
   {
     icon: '📍',
     label: 'Location',
-    value: 'Addis Ababa, Ethiopia',
-    sub: 'Djibouti Free Zone operations',
+    value: 'Rayuma Building, Office 912',
+    sub: 'Airport Road, Bole Dembel, Kirkos Sub-City — next to Getu Commercial Center',
   },
   {
     icon: '📞',

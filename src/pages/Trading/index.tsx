@@ -15,12 +15,12 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Service',
   name: 'Trading & Supply',
-  url: 'http://antra.lula.com.et/trading',
+  url: 'https://antragroup.et/trading',
   description: 'Strategic trading and supply of electric vehicles, construction machinery, sanitary equipment, and medical equipment for Ethiopian buyers via Djibouti Free Zone.',
   provider: {
     '@type': 'Organization',
     name: 'Antra Business Group',
-    url: 'http://antra.lula.com.et',
+    url: 'https://antragroup.et',
   },
   areaServed: {
     '@type': 'Place',
