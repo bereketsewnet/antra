@@ -26,8 +26,10 @@
 }
 
 .logo {
-  height: 36px;
+  height: 56px;
   width: auto;
+  border-radius: 2px;
+  display: block;
 }
 
 .tagline {

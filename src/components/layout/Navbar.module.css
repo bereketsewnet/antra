@@ -50,8 +50,10 @@
 }
 
 .logo img {
-  height: 32px;
+  height: 26px;
   width: auto;
+  border-radius: 4px;
+  display: block;
 }
 
 /* Desktop links */
@@ -331,7 +333,7 @@
   }
 
   .logo img {
-    height: 28px;
+    height: 24px;
   }
 
   .mobileMenu {

@@ -405,7 +405,7 @@
   background: rgba(255, 111, 60, 0.08);
   border: 1px solid rgba(255, 111, 60, 0.3);
   border-left: 3px solid #FF6F3C;
-  border-radius: 6px;
+  border-radius: 2px;
 }
 
 :global([data-theme="light"]) .errorNote {
