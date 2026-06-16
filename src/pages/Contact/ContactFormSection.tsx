@@ -82,12 +82,30 @@ export function ContactFormSection() {
     setForm(prev => ({ ...prev, [name]: value }))
   }, [])
 
-  const handleSubmit = useCallback((e: React.FormEvent) => {
+  const [errorMessage, setErrorMessage] = useState<string>('')
+
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault()
     setStatus('sending')
-    // Simulate send — replace with real API call
-    setTimeout(() => setStatus('sent'), 1800)
-  }, [])
+    setErrorMessage('')
+    try {
+      const res = await fetch('/mail.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
+      const data = await res.json().catch(() => ({}))
+      if (res.ok && data.ok) {
+        setStatus('sent')
+      } else {
+        setStatus('error')
+        setErrorMessage(data?.error || 'Something went wrong. Please email info@antragroup.et directly.')
+      }
+    } catch {
+      setStatus('error')
+      setErrorMessage('Could not reach the server. Please email info@antragroup.et directly.')
+    }
+  }, [form])
 
   const fieldVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -200,6 +218,16 @@ export function ContactFormSection() {
               </motion.div>
             ) : (
               <form className={styles.form} onSubmit={handleSubmit} noValidate>
+                {/* Honeypot — hidden from humans, bots fill it and we discard */}
+                <input
+                  type="text"
+                  name="website"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, opacity: 0 }}
+                  aria-hidden="true"
+                />
+
                 {/* Row 1: Name + Company */}
                 <div className={styles.row}>
                   <motion.div className={styles.field} custom={0} variants={fieldVariants} initial="hidden" animate={isInView ? 'visible' : 'hidden'}>
@@ -292,6 +320,16 @@ export function ContactFormSection() {
                     )}
                   </button>
                 </motion.div>
+
+                {status === 'error' && (
+                  <motion.p
+                    className={styles.errorNote}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                  >
+                    {errorMessage}
+                  </motion.p>
+                )}
 
                 {/* Privacy note */}
                 {status === 'idle' && (

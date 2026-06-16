@@ -12,6 +12,14 @@ node_modules
 dist-ssr
 *.local
 
+# Secrets — never commit
+antra.email.config.md
+antra.email.config.png
+.env
+.env.local
+mail-config.php
+
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

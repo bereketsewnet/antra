@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom'
+import { useTheme } from '@/contexts/ThemeContext'
 import styles from './Footer.module.css'
 
 const consultancyLinks = [
@@ -17,6 +18,8 @@ const tradingLinks = [
 ]
 
 export function Footer() {
+  const { theme } = useTheme()
+
   return (
     <footer className={styles.footer}>
       <div className={styles.topBorder} />
@@ -25,7 +28,11 @@ export function Footer() {
         {/* Col 1 — Brand */}
         <div className={styles.brand}>
           <NavLink to="/">
-            <img src="/logo.png" alt="Antra Business Group" className={styles.logo} />
+            <img
+              src={theme === 'dark' ? '/logo_with_background.jpeg' : '/logo.png'}
+              alt="Antra Business Group"
+              className={styles.logo}
+            />
           </NavLink>
           <p className={styles.tagline}>
             Enabling Growth<br />and Transformation.

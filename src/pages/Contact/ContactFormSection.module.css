@@ -396,6 +396,24 @@
   color: rgba(11, 33, 53, 0.55);
 }
 
+.errorNote {
+  margin-top: 14px;
+  padding: 12px 14px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: #ff8a6c;
+  background: rgba(255, 111, 60, 0.08);
+  border: 1px solid rgba(255, 111, 60, 0.3);
+  border-left: 3px solid #FF6F3C;
+  border-radius: 6px;
+}
+
+:global([data-theme="light"]) .errorNote {
+  color: #b8421a;
+  background: rgba(255, 111, 60, 0.08);
+  border-color: rgba(255, 111, 60, 0.35);
+}
+
 /* Success state */
 .successBox {
   display: flex;
