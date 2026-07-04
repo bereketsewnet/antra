@@ -1,0 +1,106 @@
+.screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #060F1A;
+  overflow: hidden;
+}
+
+/* Warm depth glow behind the mark */
+.screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 60% 50% at 50% 42%, rgba(217, 121, 17, 0.10) 0%, transparent 70%);
+}
+
+.center {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 26px;
+  padding: 24px;
+}
+
+/* ── Logo + orbital ring ── */
+.logoWrap {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 118px;
+  height: 118px;
+}
+
+.logo {
+  height: 44px;
+  width: auto;
+  display: block;
+  z-index: 1;
+  animation: logoPulse 2.4s ease-in-out infinite;
+}
+
+.ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.06);
+  border-top-color: var(--orange);
+  border-right-color: rgba(217, 121, 17, 0.5);
+  animation: preSpin 1s linear infinite;
+}
+
+@keyframes preSpin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes logoPulse {
+  0%, 100% { opacity: 1;    transform: scale(1);    }
+  50%      { opacity: 0.72; transform: scale(0.97); }
+}
+
+/* ── Progress bar ── */
+.barTrack {
+  width: min(260px, 66vw);
+  height: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.barFill {
+  height: 100%;
+  background: linear-gradient(90deg, rgba(217, 121, 17, 0.4), var(--orange));
+  border-radius: 2px;
+  transition: width 0.25s ease-out;
+}
+
+.pct {
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ── Message ── */
+.msg {
+  max-width: 340px;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo,
+  .ring {
+    animation: none !important;
+  }
+}

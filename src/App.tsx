@@ -4,6 +4,7 @@ import { AnimatePresence } from 'framer-motion'
 import { useLenis } from '@/hooks/useLenis'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
+import { Preloader } from '@/components/Preloader/Preloader'
 import { ThemeProvider } from '@/contexts/ThemeContext'
 import '@/styles/globals.css'
 
@@ -23,6 +24,7 @@ function AppInner() {
 
   return (
     <>
+      <Preloader />
       <Navbar />
       <AnimatePresence mode="wait" initial={false}>
         <Outlet key={location.pathname} />
