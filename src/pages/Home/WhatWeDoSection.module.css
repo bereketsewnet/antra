@@ -11,6 +11,19 @@
   overflow: hidden;
 }
 
+/* Bottom fade — melts this section into the next (ServicePillars, navy-dark).
+   Sits above the background + grid, below the content. */
+.section::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: clamp(120px, 16vh, 200px);
+  pointer-events: none;
+  background: linear-gradient(to bottom, var(--navy-dark-0) 0%, var(--navy-dark) 100%);
+}
+
 /* Subtle grid texture — masked so it's invisible at the very top
    (under the hero fade) and eases in as you scroll down. */
 .section::before {

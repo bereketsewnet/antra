@@ -1,7 +1,9 @@
 :root {
   /* Brand Palette — 60/30/10 */
   --navy:         #0B2135;
+  --navy-0:       rgba(11, 33, 53, 0);  /* transparent twin of --navy for seamless section fades */
   --navy-dark:    #060f1a;
+  --navy-dark-0:  rgba(6, 15, 26, 0);   /* transparent twin of --navy-dark for seamless section fades */
   --navy-80:      rgba(11, 33, 53, 0.8);
   --navy-60:      rgba(11, 33, 53, 0.6);
   --navy-40:      rgba(11, 33, 53, 0.4);
@@ -51,7 +53,9 @@
 /* ── Light mode overrides (60% White · 30% Navy · 10% Orange) ── */
 [data-theme="light"] {
   --navy:      #ffffff;
+  --navy-0:    rgba(255, 255, 255, 0);
   --navy-dark: #f0f5fb;
+  --navy-dark-0: rgba(240, 245, 251, 0);
   --navy-80:   rgba(255, 255, 255, 0.8);
   --navy-60:   rgba(255, 255, 255, 0.6);
   --navy-40:   rgba(255, 255, 255, 0.4);
@@ -90,7 +94,9 @@
 /* Re-apply light theme for the contact form body nested inside a hero section */
 [data-theme="light"] [data-theme-reset] {
   --navy:      #ffffff;
+  --navy-0:    rgba(255, 255, 255, 0);
   --navy-dark: #f0f5fb;
+  --navy-dark-0: rgba(240, 245, 251, 0);
   --navy-80:   rgba(255, 255, 255, 0.8);
   --navy-60:   rgba(255, 255, 255, 0.6);
   --navy-40:   rgba(255, 255, 255, 0.4);

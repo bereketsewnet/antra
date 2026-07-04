@@ -6,12 +6,12 @@ import styles from './LeadersSection.module.css'
    (drop into public/assets/about assets/leaders/) and confirmed full name/title. */
 const leaders = [
   {
-    initials: 'A',
-    name: 'Anteneh',
+    initials: 'AT',
+    name: 'Anteneh Tegegn',
     role: 'Managing Director',
     credential: 'PhD',
     // photo: '/assets/about assets/leaders/leader-1.webp',
-    bio: 'Anteneh leads the management consultancy practice, bringing extensive leadership experience across HR, operations, and organizational transformation for corporations and institutions in Ethiopia and the wider region.',
+    bio: 'Anteneh Tegegn leads the management consultancy practice, bringing extensive leadership experience across HR, operations, and organizational transformation for corporations and institutions in Ethiopia and the wider region.',
   },
 ]
 

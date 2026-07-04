@@ -10,6 +10,20 @@
   overflow: hidden;
 }
 
+/* Bottom fade — melts the hero into the next section (navy). Sits below the
+   orange bottom rule (z-index 10) and above the parallax bg. */
+.hero::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: clamp(110px, 15vh, 190px);
+  z-index: 6;
+  pointer-events: none;
+  background: linear-gradient(to bottom, var(--navy-0) 0%, var(--navy) 100%);
+}
+
 .bgWrap {
   position: absolute;
   inset: -20% 0 -20% 0;

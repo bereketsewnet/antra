@@ -5,6 +5,18 @@
   overflow: hidden;
 }
 
+/* Bottom fade — melts into the next section (NotableClients, navy). */
+.section::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: clamp(120px, 16vh, 200px);
+  pointer-events: none;
+  background: linear-gradient(to bottom, var(--navy-0) 0%, var(--navy) 100%);
+}
+
 .gridOverlay {
   position: absolute;
   inset: 0;

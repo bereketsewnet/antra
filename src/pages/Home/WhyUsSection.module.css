@@ -26,6 +26,28 @@
   );
 }
 
+/* Edge fades — melt this image band into the neighbouring sections.
+   Both meet the neighbours at --navy-dark, so the seams disappear in
+   dark and light mode alike. They sit above the overlay, below content. */
+.topFade,
+.bottomFade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: clamp(120px, 16vh, 200px);
+  pointer-events: none;
+}
+
+.topFade {
+  top: 0;
+  background: linear-gradient(to bottom, var(--navy-dark) 0%, var(--navy-dark-0) 100%);
+}
+
+.bottomFade {
+  bottom: 0;
+  background: linear-gradient(to top, var(--navy-dark) 0%, var(--navy-dark-0) 100%);
+}
+
 .container {
   position: relative;
   z-index: 1;

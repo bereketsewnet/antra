@@ -59,6 +59,10 @@ export function WhyUsSection() {
       <div className={styles.bgImage} />
       <div className={styles.bgOverlay} />
 
+      {/* Edge fades — melt this image section into the sections above and below */}
+      <div className={styles.topFade} aria-hidden="true" />
+      <div className={styles.bottomFade} aria-hidden="true" />
+
       <div className={styles.container}>
 
         {/* Section header */}
