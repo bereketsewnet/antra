@@ -240,6 +240,13 @@ export function WhatWeDoSection() {
             transition={{ duration: 0.6, delay: 0.35, ease }}
           >
             <p>
+              We are a management consultancy and a trading company based in
+              Addis Ababa. Companies and institutions across Ethiopia work with
+              us when they need to rebuild an organization's leadership bench,
+              sharpen how the business runs, or source equipment that is hard to
+              find locally.
+            </p>
+            <p>
               Our areas of expertise include organizational leadership, strategy
               formulation and alignment, change and transformation management,
               leadership development, coaching and mentoring, training, and the

@@ -124,6 +124,20 @@ export function ContactFormSection() {
       </div>
       <div className={styles.overlay} />
 
+      {/* Ambient aurora glow — drifts + breathes behind the headline */}
+      <div className={styles.aurora} aria-hidden="true">
+        <span className={`${styles.auroraBlob} ${styles.auroraA}`} />
+        <span className={`${styles.auroraBlob} ${styles.auroraB}`} />
+      </div>
+
+      {/* Floating light orbs — slow drifting bokeh, echoes the city lights */}
+      <div className={styles.orbs} aria-hidden="true">
+        <span className={`${styles.orb} ${styles.orb1}`} />
+        <span className={`${styles.orb} ${styles.orb2}`} />
+        <span className={`${styles.orb} ${styles.orb3}`} />
+        <span className={`${styles.orb} ${styles.orb4}`} />
+      </div>
+
       {/* Hero text */}
       <div className={styles.hero}>
         <motion.div
@@ -154,7 +168,7 @@ export function ContactFormSection() {
         >
           Tell us what you are
           <br />
-          <span className={styles.heroAccent}>working on.</span>
+          <span className={`${styles.heroAccent} ${styles.heroShimmer}`}>working on.</span>
         </motion.h1>
 
         <motion.p
