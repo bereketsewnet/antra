@@ -1,85 +1,57 @@
-import { useRef, useEffect, useState } from 'react'
+import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import styles from './WhyUsSection.module.css'
 
-gsap.registerPlugin(ScrollTrigger)
-
-const stats = [
-  { value: 18, suffix: '+', label: 'Years of leadership experience' },
-  { value: 2,  suffix: '',  label: 'Integrated practices' },
-  { value: 4,  suffix: '',  label: 'Product categories sourced' },
-  { value: 1,  suffix: '',  label: 'Business day response' },
-]
-
-const reasons = [
+// Two labeled groups of differentiators — Consultancy (primary) + Trading.
+// Consultancy descriptions mirror About's HowPracticesFitSection for consistency.
+const groups = [
   {
-    title: 'Senior expertise',
-    body: 'A senior team with more than 18+ years of leadership experience across HR, operations, retail, distribution, and cross-market and industry exposure. We bring deep experience, contextual knowledge, best practices, and global expertise to design and anchor organizational transformation.',
-  },
-  {
-    title: 'Djibouti Freezone access',
-    body: 'Sourcing operations in the Djibouti Freezone, with access to trade finance and global sourcing — enabling immediate demand fulfilment from the Free Zone.',
-  },
-  {
-    title: 'Two practices, one team',
-    body: 'Two practices that talk to each other, so consultancy clients can access sourcing support and trading clients can pull in advisory help when they need it.',
-  },
-  {
-    title: 'Built for this region',
-    body: 'Engagements designed for the realities of operating in Ethiopia and the region, including thin talent pools, regulatory shifts, and supply chain volatility.',
-  },
-]
-
-function Counter({ value, suffix, label, active }: {
-  value: number
-  suffix: string
-  label: string
-  active: boolean
-}) {
-  const numRef = useRef<HTMLSpanElement>(null)
-  const [counted, setCounted] = useState(false)
-
-  useEffect(() => {
-    if (!active || counted || !numRef.current) return
-    setCounted(true)
-
-    gsap.fromTo(
-      numRef.current,
-      { textContent: 0 },
+    name: 'Management Consultancy',
+    items: [
       {
-        textContent: value,
-        duration: 1.8,
-        ease: 'power2.out',
-        snap: { textContent: 1 },
-        onUpdate() {
-          if (numRef.current) {
-            numRef.current.textContent = Math.round(
-              parseFloat(numRef.current.textContent || '0')
-            ).toString()
-          }
-        },
-      }
-    )
-  }, [active, counted, value])
-
-  return (
-    <div className={styles.stat}>
-      <div className={styles.statValue}>
-        <span ref={numRef}>0</span>
-        <span className={styles.statSuffix}>{suffix}</span>
-      </div>
-      <p className={styles.statLabel}>{label}</p>
-    </div>
-  )
-}
+        title: 'Practical, Strategic & Business-Driven Expertise',
+        body: 'Real-world operational experience paired with strategic insight — we connect the boardroom view to the shop-floor reality.',
+      },
+      {
+        title: 'BHR-led Organizational Transformation',
+        body: 'Business-HR-led change programs that connect people, structure, and strategy — not standalone HR initiatives.',
+      },
+      {
+        title: 'Africa-focused, Market-Relevant Solutions',
+        body: 'Engagements shaped for Ethiopian and regional realities, not imported frameworks lifted from other markets.',
+      },
+      {
+        title: 'Partnership-Based Approach',
+        body: 'We build alongside leadership teams rather than handing over a report and leaving. The client owns the outcome.',
+      },
+      {
+        title: 'End-to-End Support',
+        body: 'From diagnosis through design into implementation — we stay in the room until the change is embedded.',
+      },
+    ],
+  },
+  {
+    name: 'Trading & Supply',
+    items: [
+      {
+        title: 'Distribution & Retail Expertise',
+        body: 'Deep experience moving product through Ethiopian and regional distribution and retail channels.',
+      },
+      {
+        title: 'Brand-Building Capability',
+        body: 'We help product lines build a credible presence in the market, not just land a shipment.',
+      },
+      {
+        title: 'Handling Fleet Customers & Traders',
+        body: 'Set up to serve high-volume fleet buyers and trade partners — from a single order to full procurement.',
+      },
+    ],
+  },
+]
 
 export function WhyUsSection() {
   const sectionRef = useRef<HTMLElement>(null)
-  const statsRef = useRef<HTMLDivElement>(null)
   const isInView = useInView(sectionRef, { once: true, margin: '-80px' })
-  const statsInView = useInView(statsRef, { once: true, margin: '-60px' })
 
   return (
     <section ref={sectionRef} data-theme-section="hero" className={styles.section}>
@@ -97,7 +69,7 @@ export function WhyUsSection() {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
           >
-            WHY WORK WITH US
+            WHAT MAKES US UNIQUE
           </motion.span>
           <motion.h2
             className={styles.title}
@@ -105,44 +77,44 @@ export function WhyUsSection() {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.1, duration: 0.7, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] }}
           >
-            What makes us the
+            What makes
             <br />
-            <span className={styles.titleAccent}>right partner.</span>
+            <span className={styles.titleAccent}>us unique.</span>
           </motion.h2>
         </div>
 
-        {/* Reasons grid */}
-        <div className={styles.grid}>
-          {reasons.map((r, i) => (
+        {/* Differentiator groups */}
+        {groups.map((group, gi) => (
+          <div key={group.name} className={styles.group}>
             <motion.div
-              key={r.title}
-              className={styles.card}
-              initial={{ opacity: 0, y: 40 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.15 + i * 0.12, duration: 0.7, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] }}
+              className={styles.groupLabel}
+              initial={{ opacity: 0, x: -16 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ delay: 0.15 + gi * 0.1, duration: 0.6 }}
             >
-              <div className={styles.cardIcon}>
-                <div className={styles.iconDot} />
-              </div>
-              <h4 className={styles.cardTitle}>{r.title}</h4>
-              <p className={styles.cardBody}>{r.body}</p>
+              <span className={styles.groupDot} />
+              {group.name}
             </motion.div>
-          ))}
-        </div>
 
-        {/* Stats row */}
-        <div ref={statsRef} className={styles.statsRow}>
-          {stats.map((s, i) => (
-            <motion.div
-              key={s.label}
-              initial={{ opacity: 0, y: 24 }}
-              animate={statsInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: i * 0.1, duration: 0.6 }}
-            >
-              <Counter {...s} active={statsInView} />
-            </motion.div>
-          ))}
-        </div>
+            <div className={styles.grid}>
+              {group.items.map((r, i) => (
+                <motion.div
+                  key={r.title}
+                  className={styles.card}
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ delay: 0.2 + gi * 0.1 + i * 0.08, duration: 0.65, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] }}
+                >
+                  <div className={styles.cardIcon}>
+                    <div className={styles.iconDot} />
+                  </div>
+                  <h4 className={styles.cardTitle}>{r.title}</h4>
+                  <p className={styles.cardBody}>{r.body}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        ))}
 
       </div>
     </section>

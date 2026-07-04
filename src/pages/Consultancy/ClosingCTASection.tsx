@@ -64,25 +64,6 @@ export function ConsultancyClosingCTA() {
             Learn more about us
           </Link>
         </motion.div>
-
-        {/* Bottom stat strip */}
-        <motion.div
-          className={styles.stats}
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.8, duration: 0.8 }}
-        >
-          {[
-            { value: '18+', label: 'Years in Ethiopia' },
-            { value: '1', label: 'Business day response' },
-            { value: '2', label: 'Integrated practices' },
-          ].map((s) => (
-            <div key={s.label} className={styles.stat}>
-              <span className={styles.statValue}>{s.value}</span>
-              <span className={styles.statLabel}>{s.label}</span>
-            </div>
-          ))}
-        </motion.div>
       </div>
     </section>
   )

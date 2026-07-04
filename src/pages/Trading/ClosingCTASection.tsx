@@ -81,25 +81,6 @@ export function TradingClosingCTA() {
             About Antra
           </Link>
         </motion.div>
-
-        {/* Stats */}
-        <motion.div
-          className={styles.stats}
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.85, duration: 0.8 }}
-        >
-          {[
-            { value: '4', label: 'Product categories' },
-            { value: '1', label: 'Business day response' },
-            { value: '18+', label: 'Years in Ethiopia' },
-          ].map((s) => (
-            <div key={s.label} className={styles.stat}>
-              <span className={styles.statValue}>{s.value}</span>
-              <span className={styles.statLabel}>{s.label}</span>
-            </div>
-          ))}
-        </motion.div>
       </div>
     </section>
   )

@@ -13,7 +13,6 @@ const products = [
       'Passenger and commercial EVs',
       'Fleet procurement & management',
       'Charging infrastructure sourcing',
-      'After-sales support coordination',
     ],
   },
   {
@@ -21,12 +20,12 @@ const products = [
     image: '/assets/trading%20assets/product-construction-machinery.webp',
     tag: 'Category 02',
     title: 'Construction Machinery',
-    short: 'Excavators, loaders, and supporting equipment for construction firms, contractors, and industrial projects. We source from manufacturers with after-sales support that actually reaches Ethiopia.',
+    short: 'Excavators, loaders, and supporting equipment for construction firms, contractors, and industrial projects. We source from manufacturers and supply across Ethiopia and the region.',
     specs: [
       'Excavators & bulldozers',
       'Cranes & lifting equipment',
       'Compaction and road machinery',
-      'Spare parts & maintenance support',
+      'Spare parts and lubricants',
     ],
   },
   {
@@ -34,7 +33,7 @@ const products = [
     image: '/assets/trading%20assets/product-sanitary.webp',
     tag: 'Category 03',
     title: 'Sanitary Equipment',
-    short: 'Sanitary ware and fittings for construction projects, real estate developers, and institutional buyers.',
+    short: 'Sanitary ware and fittings for construction projects, real estate developers, and institutional buyers and retailers.',
     specs: [
       'Bathroom and kitchen fittings',
       'Commercial-grade fixtures',
@@ -52,7 +51,6 @@ const products = [
       'Diagnostic and imaging systems',
       'Patient monitoring equipment',
       'Surgical and theatre supplies',
-      'Regulatory clearance support',
     ],
   },
 ]
@@ -191,7 +189,7 @@ export function ProductLinesSection() {
               transition={{ duration: 0.6 }}
             >
               <span className={styles.labelNumber}>02</span>
-              <span className={styles.labelText}>Our Trade Advantage</span>
+              <span className={styles.labelText}>Why Buyers Work With Us</span>
               <div className={styles.labelLine} />
             </motion.div>
 
@@ -201,9 +199,9 @@ export function ProductLinesSection() {
               animate={freezoneInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.1, duration: 0.75 }}
             >
-              Operating from
+              Why buyers
               <br />
-              <span className={styles.headingAccent}>Djibouti Free Zone.</span>
+              <span className={styles.headingAccent}>work with us.</span>
             </motion.h3>
 
             <div className={styles.freezonePoints}>
@@ -213,16 +211,8 @@ export function ProductLinesSection() {
                   text: 'We work direct with manufacturers rather than through layered distribution chains — better pricing, better technical answers, faster issue resolution.',
                 },
                 {
-                  title: 'Djibouti Freezone operations',
+                  title: 'Djibouti Free Zone operations',
                   text: 'Faster and cheaper regional logistics through the Djibouti–Addis corridor, with fewer bureaucratic delays on the way to site.',
-                },
-                {
-                  title: 'Trade finance with Ethiopian banks',
-                  text: 'Arrangements in place for buyers who need credit terms — we work with banks our clients already use.',
-                },
-                {
-                  title: 'Technical and after-sales support',
-                  text: 'Spec advice, compliance guidance, and after-sales support are included with the supply contract — not sold separately.',
                 },
                 {
                   title: 'Single units to full fleets',

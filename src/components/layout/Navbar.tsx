@@ -47,7 +47,7 @@ export function Navbar() {
           {/* Logo — switches between light and dark variants */}
           <NavLink to="/" className={styles.logo}>
             <img
-              src={theme === 'dark' ? '/logo_with_background.jpeg' : '/logo.png'}
+              src={theme === 'dark' ? '/assets/global/Antra-Dark.svg' : '/assets/global/Antra-Light.svg'}
               alt="Antra Business Group"
               height={36}
             />

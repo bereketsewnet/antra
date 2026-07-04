@@ -68,27 +68,24 @@ export function TradingHeroSection() {
 
         {/* Headline */}
         <h1 className={styles.headline}>
-          {['The', 'right'].map((word, i) => (
-            <motion.span
-              key={word + i}
-              className={styles.word}
-              custom={i}
-              variants={wordVariants}
-              initial="hidden"
-              animate="visible"
-            >
-              {word}
-            </motion.span>
-          ))}
-          <motion.span className={styles.wordGradient} custom={2} variants={wordVariants} initial="hidden" animate="visible">
-            supplier.
+          <motion.span
+            className={styles.word}
+            custom={0}
+            variants={wordVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            Genuine
+          </motion.span>
+          <motion.span className={styles.wordGradient} custom={1} variants={wordVariants} initial="hidden" animate="visible">
+            products.
           </motion.span>
           <br />
           {['Every', 'time.'].map((word, i) => (
             <motion.span
               key={word + i}
               className={styles.word}
-              custom={i + 3}
+              custom={i + 2}
               variants={wordVariants}
               initial="hidden"
               animate="visible"

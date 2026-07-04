@@ -2,14 +2,6 @@ import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import styles from './NotableClientsSection.module.css'
 
-/* TODO(client): replace text logos with image assets once client confirms permission to display */
-const clients = [
-  { name: 'Coca-Cola Company' },
-  { name: 'MOENCO' },
-  { name: 'Ethiopian Airlines' },
-  { name: 'and more.' },
-]
-
 export function NotableClientsSection() {
   const sectionRef = useRef<HTMLElement>(null)
   const isInView = useInView(sectionRef, { once: true, margin: '-80px' })
@@ -25,8 +17,8 @@ export function NotableClientsSection() {
           animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          <span className={styles.labelNumber}>03</span>
-          <span className={styles.labelText}>Notable Engagements</span>
+          <span className={styles.labelNumber}>04</span>
+          <span className={styles.labelText}>Selected Engagement</span>
           <div className={styles.labelLine} />
         </motion.div>
 
@@ -37,9 +29,9 @@ export function NotableClientsSection() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.1, duration: 0.8, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] }}
         >
-          We've worked with leading
+          Trusted with
           <br />
-          <span className={styles.headingAccent}>institutions across the region.</span>
+          <span className={styles.headingAccent}>transformation that matters.</span>
         </motion.h2>
 
         <motion.p
@@ -48,23 +40,8 @@ export function NotableClientsSection() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.2, duration: 0.7 }}
         >
-          A selection of organizations we've supported across consultancy and trading.
+          We take on work where the outcome is measurable and the stakes are real.
         </motion.p>
-
-        {/* Logo strip (text fallback) */}
-        <div className={styles.logoStrip}>
-          {clients.map((c, i) => (
-            <motion.div
-              key={c.name}
-              className={styles.logoTile}
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.3 + i * 0.1, duration: 0.6, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] }}
-            >
-              <span className={styles.logoText}>{c.name}</span>
-            </motion.div>
-          ))}
-        </div>
 
         {/* Current engagement note */}
         <motion.div
@@ -76,10 +53,11 @@ export function NotableClientsSection() {
           <span className={styles.engagementTag}>Current Engagement</span>
           <p className={styles.engagementBody}>
             {/* TODO(client): swap anonymized phrase with named firm once permission is granted */}
-            We are currently partnering with one of Ethiopia's largest construction firms
-            to support its organizational transformation — strengthening leadership
-            capabilities, enhancing organizational effectiveness, and driving sustainable
-            business performance through tailored consultancy solutions.
+            We are currently partnering with one of Ethiopia's largest and most respected
+            construction companies to support its organizational transformation journey —
+            strengthening leadership capabilities, enhancing organizational effectiveness,
+            and driving sustainable business performance through tailored consultancy
+            solutions.
           </p>
         </motion.div>
 

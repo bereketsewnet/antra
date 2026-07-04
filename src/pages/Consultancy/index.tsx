@@ -50,8 +50,8 @@ export function ConsultancyPage() {
       <motion.main variants={pageVariants} initial="initial" animate="animate" exit="exit">
         <ConsultancyHeroSection />
         <IntroSection />
-        <ServicesSection />
         <ProblemsSection />
+        <ServicesSection />
         <ConsultancyClosingCTA />
       </motion.main>
     </>

@@ -29,7 +29,7 @@ export function Footer() {
         <div className={styles.brand}>
           <NavLink to="/">
             <img
-              src={theme === 'dark' ? '/logo_with_background.jpeg' : '/logo.png'}
+              src={theme === 'dark' ? '/assets/global/Antra-Dark.svg' : '/assets/global/Antra-Light.svg'}
               alt="Antra Business Group"
               className={styles.logo}
             />
@@ -82,9 +82,10 @@ export function Footer() {
             <li>
               <span className={styles.contactLabel}>Address</span>
               <span className={styles.address}>
-                Rayuma Building, Office 912,<br />
+                Rayuma Building, Office No. 912,<br />
                 Airport Road, Bole Dembel,<br />
-                Kirkos Sub-City, Addis Ababa, Ethiopia
+                Kirkos Sub-City, Addis Ababa<br />
+                (next to Getu Commercial Center)
               </span>
             </li>
           </ul>

@@ -68,12 +68,41 @@
   color: var(--orange);
 }
 
-/* ── Reasons grid ── */
+/* ── Differentiator groups ── */
+.group {
+  margin-bottom: clamp(36px, 5vw, 64px);
+}
+.group:last-child {
+  margin-bottom: 0;
+}
+
+.groupLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: clamp(18px, 2.5vw, 28px);
+}
+
+.groupDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--orange);
+  box-shadow: 0 0 8px rgba(217, 121, 17, 0.7);
+  flex-shrink: 0;
+}
+
+/* Cards flow responsively so a 5-item and a 3-item group both look balanced */
 .grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
   gap: clamp(18px, 2vw, 28px);
-  margin-bottom: clamp(40px, 6vw, 80px);
 }
 
 .card {
@@ -145,76 +174,6 @@
   margin: 0;
 }
 
-/* ── Stats row ── */
-.statsRow {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  border-top: 1px solid var(--white-10);
-  padding-top: clamp(28px, 4vw, 56px);
-}
-
-.stat {
-  text-align: center;
-  padding: 16px;
-  border-right: 1px solid var(--white-10);
-}
-
-.stat:last-child {
-  border-right: none;
-}
-
-.statValue {
-  font-family: var(--font-heading);
-  font-size: clamp(36px, 5vw, 72px);
-  font-weight: 700;
-  color: var(--white);
-  letter-spacing: -0.04em;
-  line-height: 1;
-  margin-bottom: 8px;
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
-  gap: 2px;
-}
-
-.statSuffix {
-  font-size: 0.6em;
-  color: var(--orange);
-}
-
-.statLabel {
-  font-size: clamp(11px, 0.9vw, 13px);
-  color: var(--white-60);
-  line-height: 1.4;
-  margin: 0;
-  max-width: 130px;
-  margin-inline: auto;
-}
-
-/* ── Tablet (1024px) ── */
-@media (max-width: 1024px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .statsRow {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .stat:nth-child(2) {
-    border-right: none;
-  }
-
-  .stat:nth-child(3) {
-    border-top: 1px solid var(--white-10);
-  }
-
-  .stat:nth-child(4) {
-    border-top: 1px solid var(--white-10);
-    border-right: none;
-  }
-}
-
 /* ── Mobile (768px) — fix iOS fixed background ── */
 @media (max-width: 768px) {
   .bgImage {
@@ -232,27 +191,7 @@
     grid-template-columns: 1fr;
   }
 
-  .statsRow {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
   .card {
     padding: 24px 20px;
-  }
-
-  .stat {
-    padding: 20px 12px;
-  }
-}
-
-/* ── Very small (400px) ── */
-@media (max-width: 400px) {
-  .statValue {
-    font-size: 32px;
-  }
-
-  .statsRow {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0;
   }
 }

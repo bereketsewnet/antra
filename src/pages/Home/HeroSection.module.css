@@ -72,6 +72,35 @@
   100% { transform: translate( 0%,    0%);  }
 }
 
+/* ── Diagonal light slash — fires once on load, sweeps left→right ──
+   A wide angled slab of near-invisible warm light that shoots across
+   the whole hero in ~1.5 s, then is gone. The kind of flash you see
+   on luxury product reveals and game trailers.                        */
+.scanSlash {
+  position: absolute;
+  top: -60%;
+  left: -80%;
+  width: 55%;
+  height: 220%;
+  z-index: 13;
+  pointer-events: none;
+  background: linear-gradient(
+    108deg,
+    transparent              0%,
+    rgba(255, 210, 140, 0.03) 36%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 210, 140, 0.03) 64%,
+    transparent             100%
+  );
+  animation: scanSlash 1.55s cubic-bezier(0.4, 0, 0.15, 1) 0.4s 1 both;
+  will-change: left;
+}
+
+@keyframes scanSlash {
+  from { left: -80%; }
+  to   { left: 170%; }
+}
+
 /* ── Gradient mesh — corner colour depth blobs ──
    Two dark-tinted radial blobs in opposite corners create
    the sense of infinite atmospheric depth behind the shards. */
@@ -380,9 +409,12 @@
 .headlineAccent {
   background: linear-gradient(
     100deg,
-    #FFE4C4 0%,
-    #FFB472 25%,
-    #E38620 55%,
+    #B85F0B   0%,
+    #E38620  18%,
+    #FFB472  32%,
+    #FFF4E0  50%,   /* bright shimmer highlight point */
+    #FFB472  68%,
+    #E38620  82%,
     #B85F0B 100%
   );
   -webkit-background-clip: text;
@@ -392,6 +424,14 @@
   line-height: 1.05;
   padding-bottom: 0.04em;
   filter: drop-shadow(0 6px 22px rgba(217, 121, 17, 0.28));
+  background-size: 250% 100%;
+  animation: headlineShimmer 8s ease-in-out 2s infinite;
+}
+
+@keyframes headlineShimmer {
+  0%   { background-position: 180% center; }
+  45%  { background-position: 0%   center; }
+  100% { background-position: 180% center; }
 }
 
 .headlinePeriod {
@@ -665,7 +705,7 @@
 /* ══════════════════════════════════════════
    3D ROTATING GLASS CUBE
    6 faces: Consultancy (front), Trading (right),
-   20+ Years (back), Djibouti (left),
+   Purpose (back), Djibouti (left),
    ANTRA brand (top), Addis Ababa (bottom)
 ══════════════════════════════════════════ */
 
@@ -869,11 +909,236 @@
   }
 }
 
+/* ── Cursor spotlight — a large warm amber glow follows the mouse ──
+   Position is updated directly via DOM (no React state) for buttery
+   60 fps performance. Starts invisible; opacity toggled by JS.       */
+.cursorSpot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 700px;
+  height: 700px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 7;
+  opacity: 0;
+  background: radial-gradient(
+    circle,
+    rgba(217, 121, 17, 0.07)  0%,
+    rgba(217, 121, 17, 0.035) 35%,
+    transparent               70%
+  );
+  transition: opacity 0.5s ease;
+  will-change: transform, opacity;
+}
+
+/* ── Sonar pulse rings — concentric circles expand from the shard glow ──
+   Three rings staggered in time create a calm, breathing radar effect.    */
+.pulseRings {
+  position: absolute;
+  top: 46%;
+  left: 31%;
+  transform: translate(-50%, -50%);
+  z-index: 8;
+  pointer-events: none;
+}
+
+.ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 1px solid rgba(217, 121, 17, 0.22);
+  transform: translate(-50%, -50%) scale(1);
+  animation: ringExpand 6s ease-out infinite;
+  will-change: transform, opacity;
+}
+
+.ring2 { animation-delay: 2s; }
+.ring3 { animation-delay: 4s; }
+
+@keyframes ringExpand {
+  0%   { transform: translate(-50%, -50%) scale(0.4);  opacity: 0.7; }
+  60%  { opacity: 0.15; }
+  100% { transform: translate(-50%, -50%) scale(4.8);  opacity: 0; }
+}
+
+/* ── Load bloom — fires once when canvas frames become ready ──
+   A warm radial burst centred on the shard glow that balloons out
+   and fades — signals the hero "going live" after the preload.   */
+.loadBloom {
+  position: absolute;
+  top: 46%;
+  left: 31%;
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 9;
+  background: radial-gradient(
+    circle,
+    rgba(255, 210, 130, 0.42)  0%,
+    rgba(217, 121,  17, 0.22) 30%,
+    rgba(217, 121,  17, 0.06) 60%,
+    transparent               80%
+  );
+  will-change: transform, opacity;
+}
+
+/* ── Floating credential chips — hover near the cube ──
+   Glass pill badges that float with subtle 3D drift animations.
+   They live inside infoPanel so they fade on scroll with the cube. */
+.chip {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 16px;
+  background: rgba(9, 24, 41, 0.52);
+  border: 1px solid rgba(217, 121, 17, 0.30);
+  border-radius: 999px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  pointer-events: none;
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  will-change: transform;
+}
+
+.chipDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--orange);
+  box-shadow: 0 0 9px rgba(217, 121, 17, 1);
+  flex-shrink: 0;
+  animation: pulseDot 2.4s ease-in-out infinite;
+}
+
+.chipLabel {
+  font-family: var(--font-body);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.75);
+  white-space: nowrap;
+}
+
+/* Positions — floating around the cube stage area */
+.chip1 {
+  top: 16%;
+  left: 3%;
+  animation: chipFloat1 5.4s ease-in-out infinite;
+}
+.chip2 {
+  top: 50%;
+  left: 1%;
+  animation: chipFloat2 4.9s ease-in-out infinite;
+  animation-delay: 1.2s;
+}
+.chip3 {
+  top: 72%;
+  left: 5%;
+  animation: chipFloat3 6.1s ease-in-out infinite;
+  animation-delay: 2.4s;
+}
+
+@keyframes chipFloat1 {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  35%      { transform: translateY(-9px) translateX(3px); }
+  70%      { transform: translateY(-4px) translateX(-2px); }
+}
+@keyframes chipFloat2 {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  40%      { transform: translateY(-7px) translateX(4px); }
+  80%      { transform: translateY(5px) translateX(-3px); }
+}
+@keyframes chipFloat3 {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  50%      { transform: translateY(-11px) translateX(2px); }
+}
+
+/* Chips hide on narrow screens where the cube is already gone */
+@media (max-width: 900px) {
+  .chip { display: none; }
+}
+
+/* ── Marquee ticker — infinite horizontal brand/service scroll ──
+   Sits above the seam fade, masked on both edges for clean fade-in/out.
+   Signals premium positioning — same device used by Vercel, Linear, etc. */
+.ticker {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 43vh;
+  z-index: 16;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 7%, black 93%, transparent 100%);
+  mask-image:         linear-gradient(90deg, transparent 0%, black 7%, black 93%, transparent 100%);
+}
+
+.tickerTrack {
+  display: flex;
+  flex-shrink: 0;
+  white-space: nowrap;
+  animation: tickerScroll 34s linear infinite;
+  will-change: transform;
+}
+
+.tickerRun {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.tickerItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 26px;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.40em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.26);
+}
+
+.tickerDot {
+  font-size: 5px;
+  line-height: 1;
+  color: rgba(217, 121, 17, 0.52);
+}
+
+@keyframes tickerScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
 /* ── Motion preference: honor prefers-reduced-motion ── */
 @media (prefers-reduced-motion: reduce) {
   .eyebrowDot,
-  .scrollDot {
+  .scrollDot,
+  .chipDot,
+  .chip1, .chip2, .chip3,
+  .scanSlash,
+  .tickerTrack,
+  .headlineAccent,
+  .ring, .ring2, .ring3 {
     animation: none !important;
+  }
+  .cursorSpot,
+  .loadBloom {
+    display: none;
   }
   .btnPrimary,
   .btnGhost {

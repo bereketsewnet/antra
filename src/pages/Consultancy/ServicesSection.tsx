@@ -8,7 +8,7 @@ const services = [
     image: '/assets/consultancy%20assets/leadership-development.webp',
     tag: 'Practice 01',
     title: 'Leadership Development Programs',
-    short: 'Programs for executives and mid-level managers, designed and delivered in formats that fit how Ethiopian and regional businesses operate. Cohort programs, intensive workshops, and one-to-one development tracks.',
+    short: 'Programs for executives and all-level managers, designed and delivered in formats that fit how Ethiopian and regional businesses operate. Cohort programs, intensive workshops, and one-to-one development tracks.',
     points: [
       'Supervisory and management leadership',
       'Strategic and global leadership programs',
@@ -52,7 +52,7 @@ const services = [
       'Change management and project delivery',
       'SME development and capability building',
       'Sales capability enhancement',
-      'Technical capability programs',
+      'Board and senior-management advisory',
     ],
   },
   {
@@ -75,10 +75,12 @@ const services = [
     title: 'Organizational Transformation',
     short: 'Strategy alignment, structure design, change management, and culture work. We are usually engaged through implementation — the phase where these programs tend to come apart.',
     points: [
-      'Restructuring design and rollout',
-      'Change management and communication',
-      'Culture diagnosis and reshaping',
-      'Post-merger integration support',
+      'Organizational strategy and goal formulation',
+      'Compliance and risk management',
+      'Reward and compensation formulation',
+      'Employee-experience surveys and action plans',
+      'Cultural transformation and policy formulation',
+      'Organizational design and change management',
     ],
   },
 ]

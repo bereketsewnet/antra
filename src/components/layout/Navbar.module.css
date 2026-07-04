@@ -92,14 +92,14 @@
 }
 
 .logo img {
-  height: 30px;
+  height: 40px;
   width: auto;
   border-radius: 5px;
   display: block;
 }
 
 .nav.scrolled .logo img {
-  height: 27px;
+  height: 36px;
 }
 
 /* ── Desktop links — absolutely centered in the capsule ── */
@@ -362,7 +362,7 @@
   }
 
   .logo img {
-    height: 25px;
+    height: 32px;
   }
 
   .themeToggle {

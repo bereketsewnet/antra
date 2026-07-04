@@ -4,6 +4,9 @@ import { AboutHeroSection } from './HeroSection'
 import { OurStorySection } from './OurStorySection'
 import { ValuesSection } from './ValuesSection'
 import { HowPracticesFitSection } from './HowPracticesFitSection'
+import { NotableClientsSection } from './NotableClientsSection'
+import { LeadersSection } from './LeadersSection'
+import { NewsSection } from './NewsSection'
 
 const pageVariants = {
   initial: { opacity: 0, y: 20 },
@@ -16,7 +19,7 @@ const jsonLd = {
   '@type': 'AboutPage',
   name: 'About Antra Business Group',
   url: 'https://antragroup.et/about',
-  description: 'Learn about Antra Business Group — founded in 2006 in Addis Ababa, Ethiopia. 18+ years of management consultancy and strategic trading experience.',
+  description: 'Learn about Antra Business Group — a diversified business group in Addis Ababa, Ethiopia, combining management consultancy and strategic trading led by a senior team with deep leadership experience.',
   publisher: {
     '@type': 'Organization',
     name: 'Antra Business Group',
@@ -29,7 +32,7 @@ export function AboutPage() {
     <>
       <SEO
         title="About Antra Business Group | Consulting & Trading Firm in Addis Ababa"
-        description="Founded in 2006 in Addis Ababa. Antra Business Group combines management consulting and strategic trading. 18+ years of leadership experience across HR, operations, retail, and distribution in Ethiopia."
+        description="Antra Business Group in Addis Ababa combines management consulting and strategic trading, led by a senior team with deep leadership experience across HR, operations, retail, and distribution in Ethiopia."
         keywords="Antra Business Group, Ethiopian consulting firm, Addis Ababa business consultancy, diversified business group Ethiopia"
         path="/about"
         jsonLd={jsonLd}
@@ -39,6 +42,9 @@ export function AboutPage() {
         <OurStorySection />
         <ValuesSection />
         <HowPracticesFitSection />
+        <NotableClientsSection />
+        <LeadersSection />
+        <NewsSection />
       </motion.main>
     </>
   )

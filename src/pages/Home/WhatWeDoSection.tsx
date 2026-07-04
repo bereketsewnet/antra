@@ -167,7 +167,7 @@ export function WhatWeDoSection() {
                 <span className={styles.cardBadge}>Primary Practice</span>
               </div>
               <h3 className={styles.cardTitle}>Management<br />Consultancy</h3>
-              <p className={styles.cardDesc}>Leadership, strategy, and people solutions.</p>
+              <p className={styles.cardDesc}>Leadership, strategy, organizational transformation and people solutions.</p>
               <div className={styles.cardTags}>
                 <span>Leadership Dev</span>
                 <span>Talent Search</span>
@@ -200,7 +200,7 @@ export function WhatWeDoSection() {
                 <span className={styles.cardNumSub}>02</span>
               </div>
               <h3 className={styles.cardTitleSub}>Trading &amp; Supply</h3>
-              <p className={styles.cardDescSub}>Equipment sourcing via Djibouti Freezone.</p>
+              <p className={styles.cardDescSub}>Directly from manufacturers via Djibouti Free Zone.</p>
               <Link to="/trading" className={styles.cardCtaSub}>
                 Explore →
               </Link>
@@ -230,7 +230,7 @@ export function WhatWeDoSection() {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.65, delay: 0.2, ease }}
           >
-            Two practices.<br />One partner.
+            What we do.
           </motion.h2>
 
           <motion.div
@@ -240,16 +240,18 @@ export function WhatWeDoSection() {
             transition={{ duration: 0.6, delay: 0.35, ease }}
           >
             <p>
-              Antra runs two practices that often serve the same kind of client.
-              Our consultancy team provides leadership development programs,
-              trainings, talent search and assessments, consultancy, coaching
-              and mentorship, and organizational transformation.
+              Our areas of expertise include organizational leadership, strategy
+              formulation and alignment, change and transformation management,
+              leadership development, coaching and mentoring, training, and the
+              translation of strategy into execution. We combine professional and
+              academic excellence to ensure that our approach reflects both
+              international best practice and Ethiopian institutional relevance.
             </p>
             <p>
-              Our trading division supplies the same kinds of organizations with
-              equipment they cannot easily source inside Ethiopia, from electric
-              vehicles to medical equipment, through our operations in the
-              Djibouti Freezone.
+              Our trading division supplies equipment that cannot be easily
+              sourced inside Ethiopia — from construction machinery and electric
+              vehicles to medical equipment — through our operations in the
+              Djibouti Free Zone.
             </p>
           </motion.div>
 

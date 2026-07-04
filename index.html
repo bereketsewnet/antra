@@ -29,8 +29,8 @@
     <script>
       (function() {
         var stored = localStorage.getItem('antra-theme');
-        var theme = (stored === 'dark') ? 'dark' : 'light';
-        if (!stored) localStorage.setItem('antra-theme', 'light');
+        var theme = (stored === 'light') ? 'light' : 'dark';
+        if (!stored) localStorage.setItem('antra-theme', 'dark');
         document.documentElement.setAttribute('data-theme', theme);
       })();
     </script>

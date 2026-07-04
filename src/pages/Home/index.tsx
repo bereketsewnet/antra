@@ -17,9 +17,9 @@ const jsonLd = {
   '@type': 'Organization',
   name: 'Antra Business Group',
   url: 'https://antragroup.et',
-  logo: 'https://antragroup.et/logo.png',
+  logo: 'https://antragroup.et/assets/global/Antra-Light.svg',
   description: 'Diversified business group based in Addis Ababa, Ethiopia, operating in management consultancy and strategic trade.',
-  foundingDate: '2006',
+  foundingDate: '2026',
   address: {
     '@type': 'PostalAddress',
     addressLocality: 'Addis Ababa',
@@ -38,7 +38,7 @@ export function HomePage() {
     <>
       <SEO
         title="Antra Business Group — Management Consulting & Trading | Addis Ababa"
-        description="18+ years enabling growth and transformation for Ethiopian and regional businesses. Management consulting plus strategic trading and supply — under one roof in Addis Ababa."
+        description="Enabling growth and transformation for Ethiopian and regional businesses. Management consulting plus strategic trading and supply — under one roof in Addis Ababa."
         keywords="management consulting Addis Ababa, business consulting Ethiopia, trading company Ethiopia, Djibouti Freezone supplier, organizational transformation Ethiopia"
         path="/"
         jsonLd={jsonLd}

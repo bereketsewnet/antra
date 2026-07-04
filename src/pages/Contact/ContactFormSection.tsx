@@ -18,8 +18,8 @@ const contactDetails = [
   {
     icon: '📍',
     label: 'Location',
-    value: 'Rayuma Building, Office 912',
-    sub: 'Airport Road, Bole Dembel, Kirkos Sub-City — next to Getu Commercial Center',
+    value: 'Rayuma Building, Office No. 912',
+    sub: 'Airport Road, Bole Dembel, Kirkos Sub-City, Addis Ababa — next to Getu Commercial Center',
   },
   {
     icon: '📞',
@@ -31,8 +31,9 @@ const contactDetails = [
   {
     icon: '✉️',
     label: 'Email',
+    // TODO(client): confirm email prefix (info@antragroup.et)
     value: 'info@antragroup.et',
-    sub: 'Response within 1 business day',
+    sub: 'Response within one business day',
   },
 ]
 
@@ -386,9 +387,9 @@ export function ContactFormSection() {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.6, duration: 0.6 }}
             >
-              <span className={styles.guaranteeValue}>1</span>
+              <span className={styles.guaranteeValue}>✓</span>
               <div>
-                <div className={styles.guaranteeTitle}>Business day response</div>
+                <div className={styles.guaranteeTitle}>We respond within one business day</div>
                 <div className={styles.guaranteeSub}>We do not leave messages unanswered</div>
               </div>
             </motion.div>

@@ -26,6 +26,7 @@ export function HeroSection() {
   const stickyRef         = useRef<HTMLDivElement>(null)
   const canvasRef         = useRef<HTMLCanvasElement>(null)
   const particleCanvasRef = useRef<HTMLCanvasElement>(null)
+  const spotRef           = useRef<HTMLDivElement>(null)
   const framesRef         = useRef<HTMLImageElement[]>([])
   const currentIdx        = useRef(0)
   const particlesRef      = useRef<Particle[]>([])
@@ -328,7 +329,7 @@ export function HeroSection() {
     }
   }, [])
 
-  // ── Track cursor for particle magnet ──
+  // ── Track cursor — drives particle magnet + cursor spotlight ──
   useEffect(() => {
     const onMove = (e: MouseEvent) => {
       const canvas = particleCanvasRef.current
@@ -336,13 +337,19 @@ export function HeroSection() {
       const rect = canvas.getBoundingClientRect()
       const x = e.clientX - rect.left
       const y = e.clientY - rect.top
-      if (x >= 0 && y >= 0 && x <= canvas.clientWidth && y <= canvas.clientHeight) {
-        mouseRef.current = { x, y, active: true }
-      } else {
-        mouseRef.current.active = false
+      const inside = x >= 0 && y >= 0 && x <= canvas.clientWidth && y <= canvas.clientHeight
+      mouseRef.current = inside ? { x, y, active: true } : { ...mouseRef.current, active: false }
+
+      // Move the spotlight glow directly (no React re-render — pure DOM)
+      if (spotRef.current) {
+        spotRef.current.style.transform = `translate(${e.clientX - 350}px, ${e.clientY - 350}px)`
+        spotRef.current.style.opacity   = inside ? '1' : '0'
       }
     }
-    const onLeave = () => { mouseRef.current.active = false }
+    const onLeave = () => {
+      mouseRef.current.active = false
+      if (spotRef.current) spotRef.current.style.opacity = '0'
+    }
     window.addEventListener('mousemove', onMove, { passive: true })
     window.addEventListener('mouseleave', onLeave)
     return () => {
@@ -354,6 +361,9 @@ export function HeroSection() {
   return (
     <section ref={sectionRef} className={styles.hero} data-theme-reset>
       <div ref={stickyRef} className={styles.sticky}>
+
+        {/* One-shot diagonal light slash — cinematic entry sweep */}
+        <div className={styles.scanSlash} aria-hidden="true" />
 
         {!ready && (
           <img
@@ -380,6 +390,50 @@ export function HeroSection() {
         <div className={styles.overlay} />
         <canvas ref={particleCanvasRef} className={styles.particles} aria-hidden="true" />
         <div className={styles.vignette} />
+
+        {/* Cursor spotlight — warm amber radial that follows the mouse */}
+        <div ref={spotRef} className={styles.cursorSpot} aria-hidden="true" />
+
+        {/* Sonar pulse rings — expand from the shard glow centre */}
+        <div className={styles.pulseRings} aria-hidden="true">
+          <div className={`${styles.ring} ${styles.ring1}`} />
+          <div className={`${styles.ring} ${styles.ring2}`} />
+          <div className={`${styles.ring} ${styles.ring3}`} />
+        </div>
+
+        {/* Load bloom — radial burst fires the moment the canvas goes live */}
+        {ready && (
+          <motion.div
+            className={styles.loadBloom}
+            initial={{ scale: 0.2, opacity: 0.65 }}
+            animate={{ scale: 3.2, opacity: 0 }}
+            transition={{ duration: 1.8, ease: [0.2, 0, 0.3, 1] }}
+            aria-hidden="true"
+          />
+        )}
+
+        {/* Marquee ticker — continuous brand + service words */}
+        <div className={styles.ticker} aria-hidden="true">
+          <div className={styles.tickerTrack}>
+            {[0, 1].map(n => (
+              <span key={n} className={styles.tickerRun}>
+                {[
+                  'ENABLING GROWTH',
+                  'ORGANIZATIONAL TRANSFORMATION',
+                  'TRADING & SUPPLY',
+                  'DJIBOUTI FREE ZONE',
+                  'STRATEGIC TRADE',
+                  'ADDIS ABABA · ETHIOPIA',
+                  'MANAGEMENT CONSULTANCY',
+                ].map(t => (
+                  <span key={t} className={styles.tickerItem}>
+                    <span className={styles.tickerDot}>◆</span>{t}
+                  </span>
+                ))}
+              </span>
+            ))}
+          </div>
+        </div>
 
         {/* Bottom seam fade — melts the hero into the next section's navy */}
         <div className={styles.seamFade} aria-hidden="true" />
@@ -435,10 +489,10 @@ export function HeroSection() {
                 <span className={styles.faceTitle}>Trading<br />&amp; Supply</span>
               </div>
 
-              {/* BACK — years */}
+              {/* BACK — purpose */}
               <div className={`${styles.face} ${styles.faceBack}`}>
-                <span className={styles.faceStat}>20<span className={styles.faceSup}>+</span></span>
-                <span className={styles.faceStatLabel}>Years of Leadership</span>
+                <span className={styles.faceTag}>Our Purpose</span>
+                <span className={styles.faceTitle}>Growth&nbsp;&amp;<br />Transformation</span>
               </div>
 
               {/* LEFT — sourcing */}
@@ -464,6 +518,37 @@ export function HeroSection() {
             </motion.div>
           </motion.div>
           </div>
+
+          {/* Floating credential chips — unique info not shown on cube faces */}
+          <motion.div
+            className={`${styles.chip} ${styles.chip1}`}
+            initial={{ opacity: 0, y: 18, scale: 0.88 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ delay: 1.5, duration: 0.9, ease: DROP_EASE }}
+          >
+            <span className={styles.chipDot} />
+            <span className={styles.chipLabel}>Practical &amp; Strategic</span>
+          </motion.div>
+
+          <motion.div
+            className={`${styles.chip} ${styles.chip2}`}
+            initial={{ opacity: 0, y: 18, scale: 0.88 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ delay: 1.85, duration: 0.9, ease: DROP_EASE }}
+          >
+            <span className={styles.chipDot} />
+            <span className={styles.chipLabel}>Africa-Focused</span>
+          </motion.div>
+
+          <motion.div
+            className={`${styles.chip} ${styles.chip3}`}
+            initial={{ opacity: 0, y: 18, scale: 0.88 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ delay: 2.2, duration: 0.9, ease: DROP_EASE }}
+          >
+            <span className={styles.chipDot} />
+            <span className={styles.chipLabel}>Partnership-Based</span>
+          </motion.div>
 
         </motion.div>
 

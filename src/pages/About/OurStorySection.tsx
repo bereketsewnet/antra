@@ -2,13 +2,6 @@ import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import styles from './OurStorySection.module.css'
 
-const milestones = [
-  { year: '2006', label: 'Founded in Addis Ababa' },
-  { year: '18+', label: 'Years of leadership experience' },
-  { year: '2', label: 'Integrated practices' },
-  { year: '1', label: 'Business day response guarantee' },
-]
-
 export function OurStorySection() {
   const sectionRef = useRef<HTMLElement>(null)
   const imageRef = useRef<HTMLDivElement>(null)
@@ -71,27 +64,6 @@ export function OurStorySection() {
                 trusted suppliers, and efficient route-to-market strategies across
                 Ethiopia and regional markets.
               </p>
-            </motion.div>
-
-            {/* Milestones strip */}
-            <motion.div
-              className={styles.milestones}
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.45, duration: 0.7 }}
-            >
-              {milestones.map((m, i) => (
-                <motion.div
-                  key={m.year}
-                  className={styles.milestone}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ delay: 0.5 + i * 0.08, duration: 0.5 }}
-                >
-                  <span className={styles.milestoneValue}>{m.year}</span>
-                  <span className={styles.milestoneLabel}>{m.label}</span>
-                </motion.div>
-              ))}
             </motion.div>
           </div>
 
