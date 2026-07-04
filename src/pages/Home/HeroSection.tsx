@@ -1,202 +1,574 @@
-import { useRef, useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
+import { useRef, useEffect, useState, useCallback } from 'react'
+import { motion, useMotionValue, useTransform, useMotionTemplate } from 'framer-motion'
+import { Link } from 'react-router-dom'
 import styles from './HeroSection.module.css'
 
-const STATS = [
-  { value: 2006, suffix: '',  label: 'Founded in Addis Ababa' },
-  { value: 18,   suffix: '+', label: 'Years of Experience' },
-  { value: 2,    suffix: '',  label: 'Integrated Practices' },
-  { value: 1,    suffix: '',  label: 'Business Day Response' },
-]
+const TOTAL_FRAMES = 120
+const FRAME_URL = (n: number) =>
+  `/assets/hero%203d%20images/ezgif-frame-${String(n).padStart(3, '0')}.webp`
 
-const PILLS = [
-  {
-    src: '/assets/home%20assets/carasuol3.webp',
-    alt: 'Global trading and logistics',
-    cls: styles.pillLeft,
-    pos: 'center center',
-  },
-  {
-    src: '/assets/home%20assets/carasuol2.webp',
-    alt: 'Strategy and team collaboration',
-    cls: styles.pillCenter,
-    pos: 'center 30%',
-  },
-  {
-    src: '/assets/home%20assets/carasuol1.webp',
-    alt: 'Leadership and consultancy',
-    cls: styles.pillRight,
-    pos: 'center 15%',
-  },
-]
+const DROP_EASE = [0.22, 1, 0.36, 1] as [number, number, number, number]
+
+interface Particle {
+  x: number
+  y: number
+  vx: number
+  vy: number
+  size: number
+  life: number
+  maxLife: number
+  angle: number       // personal drift angle — slowly wanders for natural motion
+  angleSpeed: number  // how fast this particle's angle rotates
+}
 
 export function HeroSection() {
-  const statsRef  = useRef<HTMLDivElement>(null)
-  const countEls  = useRef<(HTMLSpanElement | null)[]>([])
-  const [activeIdx, setActiveIdx] = useState(1)   // center pill starts active
-  const [paused, setPaused]       = useState(false)
+  const sectionRef        = useRef<HTMLElement>(null)
+  const stickyRef         = useRef<HTMLDivElement>(null)
+  const canvasRef         = useRef<HTMLCanvasElement>(null)
+  const particleCanvasRef = useRef<HTMLCanvasElement>(null)
+  const framesRef         = useRef<HTMLImageElement[]>([])
+  const currentIdx        = useRef(0)
+  const particlesRef      = useRef<Particle[]>([])
+  const mouseRef          = useRef<{ x: number; y: number; active: boolean }>({ x: -9999, y: -9999, active: false })
+  const [ready, setReady]       = useState(false)
+  const [progress, setProgress] = useState(0)
 
-  // Auto-cycle: center image (idx 1) stays 2x longer than side images
+  // ── Single scroll-progress motion value — shared by frames and text ──
+  const progressMV = useMotionValue(0)
+
+  // Group 1 (eyebrow + headline) — recedes as the shards start forming
+  const heroOpacity = useTransform(progressMV, [0, 0.05, 0.28], [1, 1, 0])
+  const heroY       = useTransform(progressMV, [0, 0.28], [0, -90])
+  const heroScale   = useTransform(progressMV, [0, 0.28], [1, 0.7])
+  const heroBlurN   = useTransform(progressMV, [0, 0.28], [0, 12])
+  const heroFilter  = useMotionTemplate`blur(${heroBlurN}px)`
+
+  // Group 2 (subhead + CTAs) — drops in at ~50% of hero fade
+  const subOpacity  = useTransform(progressMV, [0.16, 0.42], [0, 1])
+  const subY        = useTransform(progressMV, [0.16, 0.42], [-80, 0])
+  const subScale    = useTransform(progressMV, [0.16, 0.42], [0.9, 1])
+
+  // Scroll cue fades out quickly
+  const cueOpacity  = useTransform(progressMV, [0, 0.06], [1, 0])
+
+  // Left info cards — visible on load, disappear as scroll begins
+  const infoOpacity = useTransform(progressMV, [0, 0.14], [1, 0])
+  const infoY       = useTransform(progressMV, [0, 0.14], [0, -55])
+
+  // ── Draggable 3D cube — cursor grabs and spins it, no auto-flip ──
+  const cubeRX = useMotionValue(-16)   // tilt (up/down)
+  const cubeRY = useMotionValue(-24)   // spin (left/right)
+  const cubeTransform = useMotionTemplate`rotateX(${cubeRX}deg) rotateY(${cubeRY}deg)`
+  const dragRef = useRef<{ active: boolean; px: number; py: number; rx: number; ry: number }>(
+    { active: false, px: 0, py: 0, rx: 0, ry: 0 }
+  )
+  const [grabbing, setGrabbing] = useState(false)
+
+  const onCubePointerDown = useCallback((e: React.PointerEvent) => {
+    e.preventDefault()
+    ;(e.currentTarget as HTMLElement).setPointerCapture(e.pointerId)
+    dragRef.current = { active: true, px: e.clientX, py: e.clientY, rx: cubeRX.get(), ry: cubeRY.get() }
+    setGrabbing(true)
+  }, [cubeRX, cubeRY])
+
+  const onCubePointerMove = useCallback((e: React.PointerEvent) => {
+    const d = dragRef.current
+    if (!d.active) return
+    const dx = e.clientX - d.px
+    const dy = e.clientY - d.py
+    cubeRY.set(d.ry + dx * 0.5)
+    // clamp vertical tilt so it never flips fully over
+    cubeRX.set(Math.max(-75, Math.min(75, d.rx - dy * 0.5)))
+  }, [cubeRX, cubeRY])
+
+  const onCubePointerUp = useCallback((e: React.PointerEvent) => {
+    dragRef.current.active = false
+    setGrabbing(false)
+    try { (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId) } catch { /* noop */ }
+  }, [])
+
+  // Auto-rotate loop — spins continuously when idle, pauses while you drag,
+  // and eases the tilt back to rest after you let go.
   useEffect(() => {
-    if (paused) return
-    const delay = activeIdx === 1 ? 6000 : 3000
-    const id = setTimeout(() => setActiveIdx(i => (i + 1) % 3), delay)
-    return () => clearTimeout(id)
-  }, [paused, activeIdx])
+    let raf = 0
+    const tick = () => {
+      if (!dragRef.current.active) {
+        cubeRY.set(cubeRY.get() + 0.2)                 // continuous spin
+        const rx = cubeRX.get()
+        cubeRX.set(rx + (-16 - rx) * 0.03)             // drift tilt back to rest
+      }
+      raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [cubeRX, cubeRY])
 
+  // ── Fit + draw a single canvas frame with cover-fit ──
+  const drawFrame = useCallback((idx: number) => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d', { alpha: false })
+    if (!ctx) return
+    const img = framesRef.current[idx]
+    if (!img || !img.complete || img.naturalWidth === 0) return
+
+    const dpr = Math.min(window.devicePixelRatio || 1, 2)
+    const w = canvas.clientWidth
+    const h = canvas.clientHeight
+    if (canvas.width !== w * dpr || canvas.height !== h * dpr) {
+      canvas.width  = w * dpr
+      canvas.height = h * dpr
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+    }
+
+    const imgAR    = img.naturalWidth / img.naturalHeight
+    const canvasAR = w / h
+    let sw, sh, sx, sy
+    if (imgAR > canvasAR) {
+      sh = img.naturalHeight
+      sw = sh * canvasAR
+      sx = (img.naturalWidth - sw) / 2
+      sy = 0
+    } else {
+      sw = img.naturalWidth
+      sh = sw / canvasAR
+      sx = 0
+      sy = (img.naturalHeight - sh) / 2
+    }
+    ctx.drawImage(img, sx, sy, sw, sh, 0, 0, w, h)
+  }, [])
+
+  // ── Preload frames in parallel ──
   useEffect(() => {
-    const container = statsRef.current
-    if (!container) return
+    const images: HTMLImageElement[] = []
+    let loaded = 0
+    let critical = 0
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return
-        observer.disconnect()
-        STATS.forEach((stat, i) => {
-          const span = countEls.current[i]
-          if (!span) return
-          const started = performance.now()
-          const tick = (now: number) => {
-            const p      = Math.min((now - started) / 1400, 1)
-            const eased  = 1 - (1 - p) ** 3
-            span.textContent = String(Math.round(eased * stat.value))
-            if (p < 1) requestAnimationFrame(tick)
+    for (let i = 1; i <= TOTAL_FRAMES; i++) {
+      const img = new Image()
+      img.decoding = 'async'
+      img.onload = () => {
+        loaded++
+        setProgress(Math.round((loaded / TOTAL_FRAMES) * 100))
+        if (i <= 8) critical++
+        if (critical === 8) {
+          setReady(true)
+          drawFrame(0)
+        }
+      }
+      img.src = FRAME_URL(i)
+      images.push(img)
+    }
+    framesRef.current = images
+  }, [drawFrame])
+
+  // ── Scroll → frame index ──
+  useEffect(() => {
+    const section = sectionRef.current
+    const sticky  = stickyRef.current
+    if (!section || !sticky) return
+
+    let raf: number | null = null
+    let pending = false
+
+    const onScroll = () => {
+      if (pending) return
+      pending = true
+      raf = requestAnimationFrame(() => {
+        const rect        = section.getBoundingClientRect()
+        const totalScroll = section.offsetHeight - sticky.offsetHeight
+        const distance    = Math.max(0, -rect.top)
+        const p           = totalScroll > 0 ? Math.min(1, distance / totalScroll) : 0
+
+        progressMV.set(p)
+
+        if (window.scrollY > 8) {
+          const target = Math.min(TOTAL_FRAMES - 1, Math.floor(p * (TOTAL_FRAMES - 1)))
+          if (target !== currentIdx.current) {
+            currentIdx.current = target
+            drawFrame(target)
           }
-          requestAnimationFrame(tick)
-        })
-      },
-      { threshold: 0.4 }
+        }
+        pending = false
+      })
+    }
+
+    const onResize = () => drawFrame(currentIdx.current)
+
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onResize)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onResize)
+      if (raf) cancelAnimationFrame(raf)
+    }
+  }, [drawFrame, progressMV])
+
+  // ── Autonomous floating dust — tiny particles drift smoothly across the hero ──
+  useEffect(() => {
+    const canvas = particleCanvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+
+    const PARTICLE_COUNT = 90
+    const dpr = Math.min(window.devicePixelRatio || 1, 2)
+
+    const resize = () => {
+      const w = canvas.clientWidth
+      const h = canvas.clientHeight
+      canvas.width  = w * dpr
+      canvas.height = h * dpr
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+    }
+    resize()
+
+    const spawn = (w: number, h: number, fromBottom = false): Particle => {
+      // Spawn either scattered across canvas (initial) or along bottom edge (respawn)
+      const x = Math.random() * w
+      const y = fromBottom ? h + 10 : Math.random() * h
+      // Drift angle: generally upward (π/2 range) with some horizontal spread
+      const angle = -Math.PI / 2 + (Math.random() - 0.5) * Math.PI * 0.9
+      const speed = 0.18 + Math.random() * 0.28
+      return {
+        x,
+        y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        size: 0.6 + Math.random() * 1.6,     // tiny — fine dust
+        life: fromBottom ? 0 : Math.random() * 6000,  // stagger initial ages
+        maxLife: 8000 + Math.random() * 7000,
+        angle,
+        angleSpeed: (Math.random() - 0.5) * 0.0008,   // very slow personal wander
+      }
+    }
+
+    particlesRef.current = Array.from(
+      { length: PARTICLE_COUNT },
+      () => spawn(canvas.clientWidth, canvas.clientHeight, false),
     )
-    observer.observe(container)
-    return () => observer.disconnect()
+
+    let raf: number | null = null
+    let last = performance.now()
+
+    const tick = (now: number) => {
+      const dt = Math.min(now - last, 50)
+      last = now
+      const w = canvas.clientWidth
+      const h = canvas.clientHeight
+
+      ctx.clearRect(0, 0, w, h)
+
+      for (const p of particlesRef.current) {
+        // Slowly rotate personal drift angle — creates natural wandering path
+        p.angle += p.angleSpeed * (dt / 16.67)
+
+        // Apply flow force in the personal direction (very gentle autonomous drift)
+        p.vx += Math.cos(p.angle) * 0.004 * (dt / 16.67)
+        p.vy += Math.sin(p.angle) * 0.004 * (dt / 16.67)
+
+        // Magnet cursor attraction — pulls nearby dust toward cursor like a magnet
+        if (mouseRef.current.active) {
+          const dx     = mouseRef.current.x - p.x
+          const dy     = mouseRef.current.y - p.y
+          const distSq = dx * dx + dy * dy
+          const R      = 280
+          if (distSq < R * R) {
+            const dist  = Math.sqrt(distSq) || 0.001
+            const force = (1 - dist / R) * 0.18
+            p.vx += (dx / dist) * force
+            p.vy += (dy / dist) * force
+          }
+        }
+
+        // Cap speed — slightly higher cap when cursor is active so magnet feels snappy
+        const maxSpeed = mouseRef.current.active ? 1.8 : 0.45
+        const speed    = Math.sqrt(p.vx * p.vx + p.vy * p.vy)
+        if (speed > maxSpeed) {
+          p.vx = (p.vx / speed) * maxSpeed
+          p.vy = (p.vy / speed) * maxSpeed
+        }
+
+        p.x   += p.vx * (dt / 16.67)
+        p.y   += p.vy * (dt / 16.67)
+        p.life += dt
+
+        // Respawn from bottom when a particle leaves or expires
+        if (p.x < -20 || p.x > w + 20 || p.y < -20 || p.y > h + 20 || p.life > p.maxLife) {
+          Object.assign(p, spawn(w, h, true))
+        }
+
+        // Smooth fade in / fade out
+        const fadeIn  = Math.min(1, p.life / 1200)
+        const fadeOut = Math.min(1, (p.maxLife - p.life) / 2000)
+        const alpha   = Math.min(fadeIn, fadeOut) * 0.58
+
+        // Tiny radial gradient — fine dust glow
+        const r = p.size * 3.5
+        const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r)
+        g.addColorStop(0,    `rgba(255, 210, 120, ${alpha})`)
+        g.addColorStop(0.4,  `rgba(217, 121, 17,  ${alpha * 0.5})`)
+        g.addColorStop(1,    `rgba(217, 121, 17,  0)`)
+        ctx.fillStyle = g
+        ctx.beginPath()
+        ctx.arc(p.x, p.y, r, 0, Math.PI * 2)
+        ctx.fill()
+      }
+
+      raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+
+    const onResize = () => resize()
+    window.addEventListener('resize', onResize)
+    return () => {
+      if (raf) cancelAnimationFrame(raf)
+      window.removeEventListener('resize', onResize)
+    }
+  }, [])
+
+  // ── Track cursor for particle magnet ──
+  useEffect(() => {
+    const onMove = (e: MouseEvent) => {
+      const canvas = particleCanvasRef.current
+      if (!canvas) return
+      const rect = canvas.getBoundingClientRect()
+      const x = e.clientX - rect.left
+      const y = e.clientY - rect.top
+      if (x >= 0 && y >= 0 && x <= canvas.clientWidth && y <= canvas.clientHeight) {
+        mouseRef.current = { x, y, active: true }
+      } else {
+        mouseRef.current.active = false
+      }
+    }
+    const onLeave = () => { mouseRef.current.active = false }
+    window.addEventListener('mousemove', onMove, { passive: true })
+    window.addEventListener('mouseleave', onLeave)
+    return () => {
+      window.removeEventListener('mousemove', onMove)
+      window.removeEventListener('mouseleave', onLeave)
+    }
   }, [])
 
   return (
-    <section className={styles.hero}>
-      <div className={styles.container}>
+    <section ref={sectionRef} className={styles.hero} data-theme-reset>
+      <div ref={stickyRef} className={styles.sticky}>
 
-        {/* ── Left: text content ── */}
-        <div className={styles.content}>
+        {!ready && (
+          <img
+            src={FRAME_URL(1)}
+            alt=""
+            aria-hidden="true"
+            className={styles.fallback}
+          />
+        )}
 
-          <motion.span
-            className={styles.eyebrow}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1, duration: 0.55 }}
-          >
-            Addis Ababa · Ethiopia
-          </motion.span>
+        <canvas ref={canvasRef} className={styles.canvas} aria-hidden="true" />
 
-          <motion.h1
-            className={styles.headline}
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.22, duration: 0.65 }}
-          >
-            Enabling Growth <br />
-            and{' '}
-            <span className={styles.highlight}>
-              Transformation
-              <svg
-                className={styles.svgUnderline}
-                viewBox="0 0 200 15"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-              >
-                <path
-                  d="M5,10 Q100,0 195,10"
-                  fill="none"
-                  stroke="#D97911"
-                  strokeWidth="4"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </span>
-          </motion.h1>
+        {/* Gradient mesh — corner colour depth */}
+        <div className={styles.mesh} aria-hidden="true" />
 
-          <motion.p
-            className={styles.subhead}
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-          >
-            We are a management consultancy and a trading company based in Addis Ababa.
-            Companies and institutions across Ethiopia work with us when they need to
-            rebuild a leadership bench, sharpen how the business runs, or source
-            equipment that is hard to find locally.
-          </motion.p>
+        {/* God rays — light beams from the shard glow source */}
+        <div className={styles.rays} aria-hidden="true">
+          <div className={styles.ray1} />
+          <div className={styles.ray2} />
+          <div className={styles.ray3} />
+          <div className={styles.ray4} />
+        </div>
 
+        <div className={styles.overlay} />
+        <canvas ref={particleCanvasRef} className={styles.particles} aria-hidden="true" />
+        <div className={styles.vignette} />
+
+        {/* Bottom seam fade — melts the hero into the next section's navy */}
+        <div className={styles.seamFade} aria-hidden="true" />
+
+        {!ready && (
+          <div className={styles.loader} aria-label="Loading animation">
+            <div className={styles.loaderTrack}>
+              <div className={styles.loaderBar} style={{ width: `${progress}%` }} />
+            </div>
+          </div>
+        )}
+
+        {/* ══ Left floating info cards — fade away on first scroll ══ */}
+        <motion.div
+          className={styles.infoPanel}
+          style={{ opacity: infoOpacity, y: infoY }}
+        >
+
+          {/* ══ 3D draggable glass cube ══
+              Outer div owns centering; inner div is the perspective + fade layer;
+              the cube itself is rotated by cursor drag (no auto-flip). */}
+          <div className={styles.cubeStage}>
           <motion.div
-            className={styles.actions}
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.55, duration: 0.6 }}
+            className={styles.cubeScene}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.9, duration: 1.2, ease: DROP_EASE }}
           >
-            <a href="/contact" className={styles.btnPrimary}>Start a conversation</a>
-            <a href="/consultancy" className={styles.btnDemo}>
-              <span className={styles.demoIcon}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="2" y="7" width="20" height="14" rx="2" />
-                  <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
-                </svg>
-              </span>
-              See what we do
-            </a>
-          </motion.div>
+            {/* Floor reflection glow */}
+            <div className={styles.cubeGlow} />
 
-          <motion.div
-            ref={statsRef}
-            className={styles.statsRow}
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.72, duration: 0.6 }}
-          >
-            {STATS.map((stat, i) => (
-              <div key={stat.label} className={styles.statCard}>
-                <div className={styles.statTop}>
-                  <h3>
-                    <span ref={el => { countEls.current[i] = el }}>{stat.value}</span>
-                    {stat.suffix}
-                  </h3>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
-                    <polyline points="17 6 23 6 23 12" />
-                  </svg>
-                </div>
-                <p>{stat.label}</p>
+            {/* Drag surface — captures pointer, spins the cube */}
+            <div
+              className={`${styles.cubeGrab} ${grabbing ? styles.cubeGrabbing : ''}`}
+              onPointerDown={onCubePointerDown}
+              onPointerMove={onCubePointerMove}
+              onPointerUp={onCubePointerUp}
+              onPointerCancel={onCubePointerUp}
+            />
+
+            {/* The cube — rotation driven by cursor drag */}
+            <motion.div className={styles.cube} style={{ transform: cubeTransform }}>
+              {/* FRONT — primary practice */}
+              <div className={`${styles.face} ${styles.faceFront} ${styles.facePrimary}`}>
+                <span className={styles.faceTag}>Primary Practice</span>
+                <span className={styles.faceTitle}>Management<br />Consultancy</span>
+                <span className={styles.faceDot} />
               </div>
-            ))}
+
+              {/* RIGHT — trading */}
+              <div className={`${styles.face} ${styles.faceRight}`}>
+                <span className={styles.faceTag}>Second Practice</span>
+                <span className={styles.faceTitle}>Trading<br />&amp; Supply</span>
+              </div>
+
+              {/* BACK — years */}
+              <div className={`${styles.face} ${styles.faceBack}`}>
+                <span className={styles.faceStat}>20<span className={styles.faceSup}>+</span></span>
+                <span className={styles.faceStatLabel}>Years of Leadership</span>
+              </div>
+
+              {/* LEFT — sourcing */}
+              <div className={`${styles.face} ${styles.faceLeft}`}>
+                <span className={styles.faceTag}>Sourcing Hub</span>
+                <span className={styles.faceTitle}>Djibouti<br />Freezone</span>
+              </div>
+
+              {/* TOP — brand */}
+              <div className={`${styles.face} ${styles.faceTop}`}>
+                <span className={styles.faceBrand}>ANTRA</span>
+                <span className={styles.faceBrandSub}>Business Group</span>
+              </div>
+
+              {/* BOTTOM — location */}
+              <div className={`${styles.face} ${styles.faceBottom}`}>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                <span className={styles.faceLoc}>Addis Ababa · Ethiopia</span>
+              </div>
+            </motion.div>
+          </motion.div>
+          </div>
+
+        </motion.div>
+
+        <div className={styles.content}>
+          <div className={styles.textCol}>
+
+            <div className={styles.textStack}>
+
+              {/* ── GROUP 1 — eyebrow + headline (visible initially, recedes on scroll) ── */}
+              <motion.div
+                className={styles.groupHero}
+                style={{
+                  opacity: heroOpacity,
+                  y:       heroY,
+                  scale:   heroScale,
+                  filter:  heroFilter,
+                }}
+              >
+                <motion.div
+                  className={styles.eyebrowRow}
+                  initial={{ opacity: 0, y: -24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.35, duration: 1.05, ease: DROP_EASE }}
+                >
+                  <span className={styles.eyebrowDot} />
+                  <span className={styles.eyebrow}>Addis Ababa · Ethiopia</span>
+                </motion.div>
+
+                <h1 className={styles.headline}>
+                  <motion.span
+                    className={styles.headlineLine}
+                    initial={{ opacity: 0, y: -34 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.55, duration: 1.05, ease: DROP_EASE }}
+                  >
+                    Enabling
+                  </motion.span>
+                  <motion.span
+                    className={styles.headlineLine}
+                    initial={{ opacity: 0, y: -34 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.7, duration: 1.05, ease: DROP_EASE }}
+                  >
+                    Growth&nbsp;&amp;
+                  </motion.span>
+                  <motion.span
+                    className={`${styles.headlineLine} ${styles.headlineAccent}`}
+                    initial={{ opacity: 0, y: -34 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.85, duration: 1.15, ease: DROP_EASE }}
+                  >
+                    Transformation<span className={styles.headlinePeriod}>.</span>
+                  </motion.span>
+                </h1>
+              </motion.div>
+
+              {/* ── GROUP 2 — subhead + CTAs (hidden initially, drops in on scroll) ── */}
+              <motion.div
+                className={styles.groupSub}
+                style={{
+                  opacity: subOpacity,
+                  y:       subY,
+                  scale:   subScale,
+                }}
+              >
+                <p className={styles.subhead}>
+                  We bring proven practices, deep cross-industry knowledge, and global
+                  expertise to support and drive organizational transformation —
+                  backed by more than <strong>20 years</strong> of corporate experience
+                  and a proven track record of excellence.
+                </p>
+
+                <div className={styles.actions}>
+                  <Link to="/contact" className={styles.btnPrimary}>
+                    <span>Start a conversation</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <line x1="5" y1="12" x2="19" y2="12" />
+                      <polyline points="12 5 19 12 12 19" />
+                    </svg>
+                  </Link>
+                  <Link to="/consultancy" className={styles.btnGhost}>
+                    <span>See what we do</span>
+                  </Link>
+                </div>
+              </motion.div>
+
+            </div>
+          </div>
+
+          {/* Scroll cue */}
+          <motion.div
+            className={styles.scrollCue}
+            style={{ opacity: cueOpacity }}
+          >
+            <span className={styles.scrollLabel}>Scroll to align</span>
+            <div className={styles.scrollTrack}>
+              <motion.div
+                className={styles.scrollDot}
+                animate={{ y: [0, 26, 0] }}
+                transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+              />
+            </div>
           </motion.div>
 
         </div>
-
-        {/* ── Right: overlapping pill images ── */}
-        <motion.div
-          className={styles.visuals}
-          initial={{ opacity: 0, x: 40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.3, duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
-        >
-          {PILLS.map((pill, i) => (
-            <div
-              key={pill.alt}
-              className={`${styles.pill} ${pill.cls} ${i === activeIdx ? styles.pillActive : ''}`}
-              onMouseEnter={() => { setPaused(true); setActiveIdx(i) }}
-              onMouseLeave={() => setPaused(false)}
-            >
-              <img src={pill.src} alt={pill.alt} loading="eager" style={{ objectPosition: pill.pos }} />
-            </div>
-          ))}
-          <div className={styles.carouselDots}>
-            {PILLS.map((_, i) => (
-              <span
-                key={i}
-                className={`${styles.dot} ${i === activeIdx ? styles.dotActive : ''}`}
-              />
-            ))}
-          </div>
-        </motion.div>
-
       </div>
     </section>
   )

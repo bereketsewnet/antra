@@ -1,595 +1,882 @@
-/* ── Hero wrapper ── */
+/* ================================================================
+   ANTRA HERO — Scroll-Scrub 3D Animation
+   Scroll distance = 220vh (scrub through 120 frames).
+   Inner viewport is pinned via position: sticky.
+   Text overlay sits on the right; monolith occupies the left third.
+================================================================ */
+
 .hero {
-  min-height: 90vh;
-  display: flex;
-  align-items: center;
-  padding: clamp(100px, 12vw, 140px) var(--container-pad) clamp(60px, 8vw, 100px);
-  overflow: hidden;
   position: relative;
-  /* Dark mode: Addis Ababa skyline with deep navy overlay */
-  background:
-    linear-gradient(135deg, rgba(6, 15, 26, 0.90) 0%, rgba(11, 33, 53, 0.78) 60%, rgba(11, 33, 53, 0.60) 100%),
-    url('/assets/home%20assets/hero-bg.webp') center / cover no-repeat;
-}
-
-/* Light mode: strong white wash — city shows as subtle texture, text goes dark */
-:global([data-theme="light"]) .hero {
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.82) 0%, rgba(240, 245, 251, 0.88) 100%),
-    url('/assets/home%20assets/hero-bg.webp') center / cover no-repeat;
-}
-
-/* ── Two-column container ── */
-.container {
-  max-width: var(--container-max);
-  margin-inline: auto;
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: clamp(32px, 5vw, 64px);
+  height: 220vh;                     /* total scroll length for the scrub */
+  background: #060F1A;               /* fallback while frames load */
 }
 
-/* ── Left: text content ── */
+/* ── Pinned viewport ── */
+.sticky {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #060F1A;
+  isolation: isolate;
+}
+
+/* ── Base layers ── */
+.fallback,
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 1;
+  object-fit: cover;
+  object-position: center;
+  background: #060F1A;
+}
+
+.fallback {
+  z-index: 0;
+  filter: saturate(1.05);
+}
+
+/* ── Film grain — cinematic noise texture over the whole hero ──
+   Shifts position every frame to simulate real film grain.
+   Opacity is intentionally tiny so you feel it, not see it.    */
+.sticky::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 15;
+  pointer-events: none;
+  opacity: 0.032;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  animation: grainShift 7s steps(1) infinite;
+  will-change: transform;
+}
+
+@keyframes grainShift {
+  0%   { transform: translate(0%,    0%);   }
+  10%  { transform: translate(-6%,  -9%);   }
+  20%  { transform: translate(-14%,  5%);   }
+  30%  { transform: translate( 8%,  -24%);  }
+  40%  { transform: translate(-5%,   22%);  }
+  50%  { transform: translate(-12%,  10%);  }
+  60%  { transform: translate( 14%,   0%);  }
+  70%  { transform: translate( 0%,   14%);  }
+  80%  { transform: translate( 4%,   32%);  }
+  90%  { transform: translate(-9%,   9%);   }
+  100% { transform: translate( 0%,    0%);  }
+}
+
+/* ── Gradient mesh — corner colour depth blobs ──
+   Two dark-tinted radial blobs in opposite corners create
+   the sense of infinite atmospheric depth behind the shards. */
+.mesh {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 65% 65% at -5%  -5%,  rgba(5,  35, 100, 0.55) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 60% at 108% 108%, rgba(50,  5,  90, 0.45) 0%, transparent 65%),
+    radial-gradient(ellipse 45% 45% at 108%   0%, rgba(0,  20,  60, 0.25) 0%, transparent 60%);
+  animation: meshBreath 22s ease-in-out infinite alternate;
+  will-change: opacity;
+}
+
+@keyframes meshBreath {
+  0%   { opacity: 0.7; }
+  50%  { opacity: 1.0; }
+  100% { opacity: 0.75; }
+}
+
+/* ── God rays — light beams radiating from the shard glow centre ──
+   The source point is ~(38%, 45%) in the hero where the glass shards
+   glow warmest. Each ray is a tall strip rotated to fan outward.      */
+.rays {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Shared ray base */
+.ray1, .ray2, .ray3, .ray4 {
+  position: absolute;
+  width: 180px;
+  height: 220%;
+  top: -60%;
+  background: linear-gradient(
+    to bottom,
+    transparent               0%,
+    rgba(255, 195, 120, 0.05) 18%,
+    rgba(255, 175,  90, 0.08) 42%,
+    rgba(255, 195, 120, 0.05) 68%,
+    transparent               100%
+  );
+  transform-origin: top center;
+}
+
+.ray1 {
+  left: 32%;
+  transform: rotate(-155deg);
+  animation: rayPulse1 9s  ease-in-out infinite;
+}
+.ray2 {
+  left: 40%;
+  width: 120px;
+  transform: rotate(-170deg);
+  animation: rayPulse2 13s ease-in-out infinite;
+  animation-delay: 2.5s;
+  opacity: 0.75;
+}
+.ray3 {
+  left: 24%;
+  width: 90px;
+  transform: rotate(-142deg);
+  animation: rayPulse3 17s ease-in-out infinite;
+  animation-delay: 5s;
+  opacity: 0.55;
+}
+.ray4 {
+  left: 44%;
+  width: 70px;
+  transform: rotate(-178deg);
+  animation: rayPulse1 11s ease-in-out infinite;
+  animation-delay: 7s;
+  opacity: 0.45;
+}
+
+@keyframes rayPulse1 {
+  0%, 100% { opacity: 0.45; transform: rotate(-155deg) scaleX(0.9);  }
+  50%       { opacity: 1.0;  transform: rotate(-152deg) scaleX(1.25); }
+}
+@keyframes rayPulse2 {
+  0%, 100% { opacity: 0.55; transform: rotate(-170deg) scaleX(1.1);  }
+  50%       { opacity: 1.0;  transform: rotate(-173deg) scaleX(0.75); }
+}
+@keyframes rayPulse3 {
+  0%, 100% { opacity: 0.35; transform: rotate(-142deg) scaleX(1.3);  }
+  50%       { opacity: 0.85; transform: rotate(-146deg) scaleX(0.85); }
+}
+
+/* ── Editorial gradient overlays — deepen the right side for text ── */
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(6, 15, 26, 0)      0%,
+      rgba(6, 15, 26, 0)      35%,
+      rgba(6, 15, 26, 0.35)  55%,
+      rgba(6, 15, 26, 0.85)  100%
+    );
+}
+
+.vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      120% 90% at 50% 50%,
+      transparent 55%,
+      rgba(6, 15, 26, 0.55) 100%
+    );
+}
+
+/* ── Bottom seam fade — a smooth "taper fade" that melts the hero
+   into the next section's navy so there is no hard shard line.
+   Sits above the frame/particles/grain but below the cube & text. ── */
+.seamFade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 38vh;
+  z-index: 16;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(11, 33, 53, 0)    0%,
+    rgba(11, 33, 53, 0.28) 42%,
+    rgba(11, 33, 53, 0.72) 74%,
+    rgba(11, 33, 53, 0.94) 90%,
+    #0B2135               100%
+  );
+}
+
+/* Light theme — the next section is white, so fade to white instead */
+:global([data-theme="light"]) .seamFade {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0)    0%,
+    rgba(255, 255, 255, 0.3)  45%,
+    rgba(255, 255, 255, 0.8)  80%,
+    #ffffff                  100%
+  );
+}
+
+/* Interactive orange dust — floats freely, drifts toward cursor */
+.particles {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  mix-blend-mode: screen;    /* warm additive glow over dark background */
+  opacity: 1;
+}
+
+/* ── Loader (only visible during initial preload) ── */
+.loader {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 25;
+  width: min(320px, 60vw);
+}
+
+.loaderTrack {
+  height: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.loaderBar {
+  height: 100%;
+  background: linear-gradient(90deg, transparent, var(--orange), transparent);
+  transition: width 0.15s ease-out;
+}
+
+/* ── Content layer — text and CTAs ── */
 .content {
-  flex: 1.1;
-  max-width: 620px;
+  position: relative;
+  z-index: 20;
+  width: 100%;
+  height: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  /* Extra top padding so the sub-group (which appears where headline was) never sits under the sticky navbar */
+  /* top | right | bottom | left — tighter right edge pushes text closer to right side */
+  padding: clamp(150px, 16vw, 200px) clamp(16px, 2vw, 40px) clamp(60px, 8vw, 100px) clamp(24px, 5vw, 80px);
+  box-sizing: border-box;
+
+  display: grid;
+  grid-template-columns: 1.6fr minmax(0, 500px); /* wider left gap = text pushed to the right */
+  grid-template-rows: 1fr auto;
+  gap: 40px;
+  align-items: start;
+
+  /* Let pointer events fall through the empty left column to the cube below.
+     Interactive children (.textCol) re-enable pointer events. */
+  pointer-events: none;
 }
 
-/* Eyebrow */
+/* Force the text column to the right */
+.textCol {
+  grid-column: 2;
+  grid-row: 1;
+  color: #ffffff;
+  max-width: 500px;
+  width: 100%;
+  pointer-events: auto;
+}
+
+/* Two groups stacked in the same visual space */
+.textStack {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+}
+
+.groupHero,
+.groupSub {
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
+  align-self: start;
+  will-change: transform, opacity, filter;
+}
+
+.groupSub {
+  display: flex;
+  flex-direction: column;
+  /* Push down to sit where the middle of the headline used to be — a natural replacement */
+  padding-top: clamp(50px, 6vw, 90px);
+  max-width: 560px;
+}
+
+/* ── Eyebrow ── */
+.eyebrowRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: clamp(20px, 2.5vw, 32px);
+  padding: 6px 14px 6px 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.eyebrowDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--orange);
+  box-shadow: 0 0 10px rgba(217, 121, 17, 0.8);
+  animation: pulseDot 2.4s ease-in-out infinite;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.55; transform: scale(0.85); }
+}
+
 .eyebrow {
-  display: inline-block;
   font-family: var(--font-body);
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 2.5px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.32em;
   text-transform: uppercase;
-  color: var(--orange);
-  margin-bottom: 1.25rem;
+  color: rgba(255, 255, 255, 0.7);
 }
 
-/* Headline */
+/* ── Headline ── */
 .headline {
   font-family: var(--font-heading);
-  font-size: clamp(2.4rem, 4.5vw, 3.75rem);
+  /* Tuned so "Transformation" (14 chars) fits within the 620px column at max size. */
+  font-size: clamp(40px, 5vw, 72px);
   font-weight: 700;
-  line-height: 1.12;
-  letter-spacing: -0.03em;
-  color: var(--white);
-  margin: 0 0 1.5rem;
-}
-
-/* "Transformation" — white in dark mode */
-.highlight {
-  position: relative;
-  display: inline-block;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  margin: 0 0 clamp(24px, 2.6vw, 34px);
   color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 0.01em;
 }
 
-/* Light mode: orange → dark navy gradient */
-:global([data-theme="light"]) .highlight {
-  background: linear-gradient(100deg, #D97911 0%, #0B2135 100%);
+.headlineLine {
+  display: block;
+  overflow: visible;
+  white-space: nowrap;
+}
+
+.headlineAccent {
+  background: linear-gradient(
+    100deg,
+    #FFE4C4 0%,
+    #FFB472 25%,
+    #E38620 55%,
+    #B85F0B 100%
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   color: transparent;
+  line-height: 1.05;
+  padding-bottom: 0.04em;
+  filter: drop-shadow(0 6px 22px rgba(217, 121, 17, 0.28));
 }
 
-
-.svgUnderline {
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 100%;
-  height: 14px;
-  pointer-events: none;
+.headlinePeriod {
+  color: var(--orange);
+  -webkit-text-fill-color: var(--orange);
+  margin-left: 0.02em;
 }
 
-/* Draw-in animation on the underline path */
-.svgUnderline path {
-  stroke-dasharray: 200;
-  stroke-dashoffset: 200;
-  animation: drawLine 0.75s ease forwards;
-  animation-delay: 0.65s;
-}
-
-@keyframes drawLine {
-  to { stroke-dashoffset: 0; }
-}
-
-/* Subhead */
+/* ── Subhead ── */
 .subhead {
   font-family: var(--font-body);
-  font-size: clamp(0.95rem, 1.3vw, 1.05rem);
-  font-weight: 400;
+  font-size: clamp(15px, 1.4vw, 19px);
+  font-weight: 300;
   line-height: 1.7;
-  color: rgba(255, 255, 255, 0.75);
-  margin: 0 0 2.5rem;
-  max-width: 520px;
-  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.3);
+  color: rgba(255, 255, 255, 0.78);
+  margin: 0 0 clamp(36px, 4vw, 52px);
+  max-width: 540px;
 }
 
+.subhead strong {
+  color: #ffffff;
+  font-weight: 600;
+}
 
-/* ── CTA row ── */
+/* ── Actions ── */
 .actions {
   display: flex;
-  align-items: center;
-  gap: 2rem;
-  margin-bottom: 4rem;
   flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+.btnPrimary,
+.btnGhost {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 30px;
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border-radius: 999px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+              background 0.3s ease,
+              box-shadow 0.35s ease,
+              color 0.3s ease,
+              border-color 0.3s ease;
+  will-change: transform;
 }
 
 .btnPrimary {
-  display: inline-flex;
-  align-items: center;
   background: var(--orange);
   color: #ffffff;
-  padding: 0.9rem 2rem;
-  border-radius: 8px;
-  font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 0.95rem;
-  text-decoration: none;
-  box-shadow: 0 10px 25px rgba(217, 121, 17, 0.28);
-  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
-  white-space: nowrap;
+  border: 1px solid var(--orange);
+  box-shadow:
+    0 12px 32px rgba(217, 121, 17, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.btnPrimary svg {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .btnPrimary:hover {
   background: var(--orange-hover);
   transform: translateY(-2px);
-  box-shadow: 0 14px 30px rgba(217, 121, 17, 0.38);
+  box-shadow:
+    0 18px 40px rgba(217, 121, 17, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
-.btnDemo {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  text-decoration: none;
-  font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 0.95rem;
-  color: var(--white);
-  background: var(--white-10);
-  border: 1px solid var(--white-20);
-  padding: 0.9rem 1.4rem 0.9rem 1.1rem;
-  border-radius: 8px;
+.btnPrimary:hover svg {
+  transform: translateX(4px);
+}
+
+.btnGhost {
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.22);
   backdrop-filter: blur(6px);
-  transition: color 0.2s, background 0.2s, border-color 0.2s;
-  white-space: nowrap;
+  -webkit-backdrop-filter: blur(6px);
 }
 
-.btnDemo:hover {
-  color: var(--orange);
-  background: var(--white-20);
-  border-color: var(--orange);
+.btnGhost:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
 }
 
-
-.btnDemo:hover .demoIcon {
-  transform: scale(1.06);
-}
-
-.demoIcon {
-  width: 18px;
-  height: 18px;
+/* ── Scroll cue ── */
+.scrollCue {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  align-self: end;
+  justify-self: center;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: transform 0.2s;
-  color: var(--orange);
+  gap: 12px;
+  pointer-events: none;
 }
 
-/* ── Stats row ── */
-.statsRow {
-  display: flex;
-  gap: 1.1rem;
-  flex-wrap: wrap;
-}
-
-.statCard {
-  flex: 1;
-  min-width: 105px;
-  padding: 1.1rem 1.3rem;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.07);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-}
-
-
-.statTop {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.3rem;
-}
-
-.statTop h3 {
-  font-family: var(--font-heading);
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: var(--white);
-  line-height: 1;
-}
-
-.statTop svg {
-  color: rgba(255, 255, 255, 0.55);
-  flex-shrink: 0;
-}
-
-.statCard p {
+.scrollLabel {
   font-family: var(--font-body);
-  font-size: 0.78rem;
+  font-size: 10px;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.65);
-  margin: 0;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
 }
 
-
-/* ── Light mode: bright overlay — dark navy text on light background ── */
-
-:global([data-theme="light"]) .eyebrow {
-  color: var(--orange);
-}
-
-:global([data-theme="light"]) .headline {
-  color: #0B2135;
-  text-shadow: none;
-}
-
-:global([data-theme="light"]) .subhead {
-  color: rgba(11, 33, 53, 0.65);
-  text-shadow: none;
-}
-
-:global([data-theme="light"]) .statCard {
-  background: rgba(255, 255, 255, 0.75);
-  border-color: rgba(11, 33, 53, 0.12);
-  box-shadow: 0 2px 16px rgba(11, 33, 53, 0.08);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-:global([data-theme="light"]) .statTop h3 {
-  color: #0B2135;
-}
-
-:global([data-theme="light"]) .statTop svg {
-  color: rgba(11, 33, 53, 0.35);
-}
-
-:global([data-theme="light"]) .statCard p {
-  color: rgba(11, 33, 53, 0.55);
-}
-
-:global([data-theme="light"]) .btnDemo {
-  color: #0B2135;
-  background: rgba(255, 255, 255, 0.8);
-  border-color: rgba(11, 33, 53, 0.2);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-:global([data-theme="light"]) .btnDemo:hover {
-  background: rgba(255, 255, 255, 0.95);
-  border-color: var(--orange);
-  color: var(--orange);
-}
-
-:global([data-theme="light"]) .btnDemo:hover .demoIcon {
-  transform: scale(1.06);
-}
-
-:global([data-theme="light"]) .pill {
-  border-color: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 8px 32px rgba(11, 33, 53, 0.14);
-}
-
-:global([data-theme="light"]) .dot {
-  background: rgba(11, 33, 53, 0.2);
-}
-
-/* ── Right: visuals ── */
-.visuals {
-  flex: 0.9;
+.scrollTrack {
+  width: 1px;
+  height: 56px;
+  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.4), transparent);
   position: relative;
-  height: 580px;
+  overflow: hidden;
+}
+
+.scrollDot {
+  position: absolute;
+  top: 0;
+  width: 1px;
+  height: 16px;
+  background: var(--orange);
+  box-shadow: 0 0 6px rgba(217, 121, 17, 0.8);
+}
+
+/* ================================================================
+   RESPONSIVE
+================================================================ */
+
+/* Tablet / smaller desktop */
+@media (max-width: 1100px) {
+  .content {
+    grid-template-columns: 1fr;
+    padding-top: clamp(120px, 15vw, 160px);
+  }
+  .textCol {
+    grid-column: 1;
+    max-width: 620px;
+    margin-left: auto;
+    padding-right: clamp(0px, 2vw, 20px);
+  }
+  .headline {
+    font-size: clamp(38px, 6.2vw, 66px);
+  }
+  .overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(6, 15, 26, 0.15)   0%,
+      rgba(6, 15, 26, 0.35)  55%,
+      rgba(6, 15, 26, 0.85) 100%
+    );
+  }
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+  .hero {
+    height: 180vh;                   /* shorter scroll on mobile */
+  }
+  .content {
+    grid-template-columns: 1fr;
+    padding: clamp(120px, 22vw, 170px) 20px 40px;
+    justify-content: end;
+    align-items: end;
+  }
+  .textCol {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: end;
+    text-align: left;
+    margin: 0;
+    max-width: 100%;
+    padding-bottom: clamp(60px, 10vh, 100px);
+  }
+  .eyebrowRow {
+    margin-bottom: 18px;
+    padding: 5px 12px 5px 8px;
+  }
+  .eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.28em;
+  }
+  .headline {
+    /* "Transformation" (14 chars) needs to fit ~340-400px viewport minus padding */
+    font-size: clamp(32px, 9vw, 48px);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+  }
+  .headlineLine {
+    white-space: normal;             /* allow wrap on tiny screens if it must */
+  }
+  .subhead {
+    font-size: 14px;
+    line-height: 1.65;
+    max-width: 100%;
+    margin-bottom: 24px;
+  }
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 12px;
+  }
+  .btnPrimary,
+  .btnGhost {
+    justify-content: center;
+    padding: 14px 22px;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 14px;
+  }
+  .overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(6, 15, 26, 0.05)  0%,
+      rgba(6, 15, 26, 0.55)  55%,
+      rgba(6, 15, 26, 0.92) 100%
+    );
+  }
+  .scrollCue {
+    display: none;                   /* the scroll cue is redundant on mobile */
+  }
+}
+
+/* Tiny phones (≤400px) — extra safety */
+@media (max-width: 400px) {
+  .headline {
+    font-size: clamp(28px, 9.5vw, 40px);
+  }
+  .subhead {
+    font-size: 13.5px;
+  }
+}
+
+/* ── Light-mode adjustments — hero stays dark for cinematic feel ── */
+:global([data-theme="light"]) .hero {
+  background: #060F1A;
+}
+:global([data-theme="light"]) .sticky {
+  background: #060F1A;
+}
+:global([data-theme="light"]) .textCol {
+  color: #ffffff;
+}
+:global([data-theme="light"]) .subhead {
+  color: rgba(255, 255, 255, 0.78);
+}
+:global([data-theme="light"]) .eyebrow {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ================================================================
+   LEFT INFO CARDS — floating stats, fade on scroll
+================================================================ */
+
+.infoPanel {
+  position: absolute;
+  inset: 0;
+  z-index: 18;
+  pointer-events: none;
+}
+
+/* ══════════════════════════════════════════
+   3D ROTATING GLASS CUBE
+   6 faces: Consultancy (front), Trading (right),
+   20+ Years (back), Djibouti (left),
+   ANTRA brand (top), Addis Ababa (bottom)
+══════════════════════════════════════════ */
+
+.cubeStage {
+  position: absolute;
+  top: 47%;
+  left: 15%;
+  transform: translate(-50%, -50%);
+  width: 320px;
+  height: 320px;
+  pointer-events: none;
+}
+
+/* Perspective lives on the direct parent of .cube.
+   Framer Motion animates opacity/y here — that's fine,
+   the `perspective` property is independent of `transform`. */
+.cubeScene {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  perspective: 1150px;
+}
+
+/* Soft elliptical glow beneath the cube for grounding/depth */
+.cubeGlow {
+  position: absolute;
+  bottom: 14%;
+  left: 50%;
+  width: 240px;
+  height: 70px;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at center, rgba(217, 121, 17, 0.32) 0%, transparent 70%);
+  filter: blur(14px);
+  animation: cubeGlowPulse 5s ease-in-out infinite;
+}
+
+@keyframes cubeGlowPulse {
+  0%, 100% { opacity: 0.6; transform: translateX(-50%) scaleX(1);    }
+  50%      { opacity: 1;   transform: translateX(-50%) scaleX(1.12); }
+}
+
+/* The cube — 190px per side. Rotation set inline via cursor drag. */
+.cube {
+  position: relative;
+  width: 190px;
+  height: 190px;
+  transform-style: preserve-3d;
+  transform: rotateX(-16deg) rotateY(-24deg);
+  will-change: transform;
+}
+
+/* Invisible drag surface over the cube — captures the pointer */
+.cubeGrab {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 230px;
+  height: 230px;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  pointer-events: auto;
+  cursor: grab;
+  touch-action: none;
+}
+.cubeGrabbing {
+  cursor: grabbing;
+}
+
+/* ── Cube face ── */
+.face {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 190px;
+  height: 190px;
+  box-sizing: border-box;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
+  gap: 8px;
+  text-align: center;
+  padding: 18px;
+
+  background: #0A1B38;
+  border: 1.5px solid rgba(217, 121, 17, 0.45);
+  border-radius: 12px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  box-shadow:
+    inset 0 0 46px rgba(217, 121, 17, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 0 30px rgba(0, 0, 0, 0.45);
 }
 
-/* Pill image base */
-.pill {
-  border-radius: 500px;
-  overflow: hidden;
-  position: absolute;
-  border: 10px solid var(--navy);
-  transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease, box-shadow 0.4s ease, filter 0.4s ease, z-index 0s;
+/* Face placements — half of 190 = 95 */
+.faceFront  { transform: rotateY(0deg)    translateZ(95px); }
+.faceBack   { transform: rotateY(180deg)  translateZ(95px); }
+.faceRight  { transform: rotateY(90deg)   translateZ(95px); }
+.faceLeft   { transform: rotateY(-90deg)  translateZ(95px); }
+.faceTop    { transform: rotateX(90deg)   translateZ(95px); }
+.faceBottom { transform: rotateX(-90deg)  translateZ(95px); }
+
+/* Primary face — deeper blue, brighter orange border */
+.facePrimary {
+  background: #0C2148;
+  border-color: rgba(217, 121, 17, 0.7);
+  box-shadow:
+    inset 0 0 50px rgba(217, 121, 17, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 0 34px rgba(217, 121, 17, 0.18);
 }
 
-
-.pill img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+/* ── Face content — all orange ── */
+.faceTag {
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #D97911;
 }
 
-/* Center pill — tallest, foreground */
-.pillCenter {
-  width: 270px;
-  height: 440px;
-  z-index: 3;
-  box-shadow: 0 20px 50px rgba(217, 121, 17, 0.15);
+.faceTitle {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+  color: #F0A63C;
 }
 
-/* Left pill — smaller, shifted up */
-.pillLeft {
-  width: 210px;
-  height: 340px;
-  left: 4%;
-  top: 50%;
-  transform: translateY(-55%);
-  z-index: 2;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
-}
-
-/* Right pill — smaller, shifted down */
-.pillRight {
-  width: 210px;
-  height: 340px;
-  right: 4%;
-  top: 50%;
-  transform: translateY(-35%);
-  z-index: 2;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
-}
-
-/* Hover: subtle lift (non-active state) */
-.pillLeft:not(.pillActive):hover  { transform: translateY(calc(-55% - 5px)) scale(1.01); }
-.pillRight:not(.pillActive):hover { transform: translateY(calc(-35% - 5px)) scale(1.01); }
-.pillCenter:not(.pillActive):hover { transform: translateY(-5px) scale(1.01); }
-
-/* Active: lift up noticeably, come to front */
-.pillLeft.pillActive {
-  transform: translateY(calc(-55% - 22px)) scale(1.05);
-  z-index: 10;
-  box-shadow: 0 30px 60px rgba(217, 121, 17, 0.22), 0 8px 20px rgba(0, 0, 0, 0.14);
-  filter: brightness(1.04) saturate(1.05);
-}
-.pillCenter.pillActive {
-  transform: translateY(-22px) scale(1.05);
-  z-index: 10;
-  box-shadow: 0 30px 60px rgba(217, 121, 17, 0.22), 0 8px 20px rgba(0, 0, 0, 0.14);
-  filter: brightness(1.04) saturate(1.05);
-}
-.pillRight.pillActive {
-  transform: translateY(calc(-35% - 22px)) scale(1.05);
-  z-index: 10;
-  box-shadow: 0 30px 60px rgba(217, 121, 17, 0.22), 0 8px 20px rgba(0, 0, 0, 0.14);
-  filter: brightness(1.04) saturate(1.05);
-}
-
-/* Inactive pills dim slightly when another is active */
-.pill:not(.pillActive) {
-  opacity: 0.82;
-  filter: brightness(0.95);
-}
-
-/* ── Carousel dots ── */
-.carouselDots {
-  position: absolute;
-  bottom: 6px;
-  display: flex;
-  gap: 7px;
-  z-index: 4;
-}
-
-.dot {
-  width: 8px;
-  height: 8px;
+.faceDot {
+  width: 6px;
+  height: 6px;
+  background: #D97911;
   border-radius: 50%;
-  background: var(--white-20);
+  box-shadow: 0 0 8px rgba(217, 121, 17, 0.9);
 }
 
-:global([data-theme="light"]) .dot {
-  background: #D1D5DB;
+.faceStat {
+  font-family: var(--font-heading);
+  font-size: 58px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: #F0A63C;
+}
+.faceSup {
+  font-size: 0.5em;
+  vertical-align: super;
+  color: rgba(217, 121, 17, 0.85);
+}
+.faceStatLabel {
+  font-family: var(--font-body);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #D97911;
 }
 
-.dotActive {
-  background: var(--orange) !important;
+.faceBrand {
+  font-family: var(--font-heading);
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: #F0A63C;
+}
+.faceBrandSub {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #D97911;
 }
 
-/* ── Large tablet (≤ 1140px): stack content above visuals ── */
-@media (max-width: 1140px) {
-  .container {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .content {
-    max-width: 100%;
-    padding-bottom: 180px;
-  }
-
-  .subhead {
-    max-width: 600px;
-    margin-inline: auto;
-  }
-
-  .actions,
-  .statsRow {
-    justify-content: center;
-  }
-
-  .statsRow {
-    flex-wrap: wrap;
-  }
-
-  .visuals {
-    width: 100%;
-    max-width: 560px;
-    height: 440px;
-    margin-inline: auto;
-  }
-
-  .pillLeft  { left: 0; }
-  .pillRight { right: 0; }
+.faceBottom svg { color: #D97911; }
+.faceLoc {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: #F0A63C;
 }
 
-/* ── Tablet (≤ 900px) ── */
+/* Responsive scale */
+@media (max-width: 1200px) {
+  .cubeStage {
+    left: 16%;
+    transform: translate(-50%, -50%) scale(0.86);
+  }
+}
+
+/* Hide below 900px — not enough left space */
 @media (max-width: 900px) {
-  .hero {
-    padding-top: 100px;
-    padding-bottom: 60px;
-  }
-
-  .visuals {
-    max-width: 480px;
-    height: 380px;
-  }
-
-  .pillCenter { width: 220px; height: 360px; }
-  .pillLeft   { width: 170px; height: 280px; }
-  .pillRight  { width: 170px; height: 280px; }
-
-  .statsRow {
-    gap: 0.75rem;
-  }
-
-  .statCard {
-    min-width: 90px;
-    padding: 0.9rem 1rem;
+  .cubeStage {
+    display: none;
   }
 }
 
-/* ── Mobile (≤ 640px) ── */
-@media (max-width: 640px) {
-  .hero {
-    padding-top: 88px;
-    padding-bottom: 48px;
+/* ── Motion preference: honor prefers-reduced-motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .eyebrowDot,
+  .scrollDot {
+    animation: none !important;
   }
-
-  .headline {
-    font-size: clamp(2rem, 8vw, 2.8rem);
-  }
-
-  .visuals {
-    max-width: 360px;
-    height: 320px;
-  }
-
-  .pillCenter { width: 180px; height: 290px; }
-  .pillLeft   { width: 140px; height: 220px; }
-  .pillRight  { width: 140px; height: 220px; }
-
-  .statsRow {
-    gap: 0.6rem;
-  }
-
-  .statCard {
-    min-width: 80px;
-    padding: 0.8rem 0.85rem;
-  }
-
-  .statTop h3 {
-    font-size: 1.15rem;
-  }
-
-  .statCard p {
-    font-size: 0.7rem;
-  }
-}
-
-/* ── Small mobile (≤ 480px) ── */
-@media (max-width: 480px) {
-  /* Hero — full viewport, full phone width */
-  .hero {
-    min-height: 100vh;
-    min-height: 100dvh;
-    padding: 88px 1rem 32px;
-  }
-
-  /* Container — column flow, content top, carousel sits via margin */
-  .container {
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 0;
-    text-align: center;
-  }
-
-  /* Text block — tighter rhythm */
-  .eyebrow { margin-bottom: 0.6rem; }
-
-  .headline {
-    font-size: clamp(1.9rem, 8.5vw, 2.6rem);
-    margin: 0 0 0.85rem;
-  }
-
-  .subhead {
-    font-size: 0.88rem;
-    line-height: 1.6;
-    margin: 0 auto 1.4rem;
-    max-width: 100%;
-  }
-
-  /* Buttons — side by side, equal width, compact */
-  .actions {
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: center;
-    gap: 0.6rem;
-    width: 100%;
-    margin-bottom: 1.5rem;
-  }
-
   .btnPrimary,
-  .btnDemo {
-    flex: 1;
-    width: auto;
-    justify-content: center;
-    padding: 0.72rem 0.5rem;
-    font-size: 0.8rem;
-    white-space: nowrap;
+  .btnGhost {
+    transition: none;
   }
-
-  .btnDemo {
-    gap: 6px;
-    padding-inline: 0.55rem;
-  }
-
-  /* Stats — 2×2 grid */
-  .statsRow {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.55rem;
-    width: 100%;
-  }
-
-  .statCard {
-    flex: none;
-    min-width: 0;
-    padding: 0.7rem 0.8rem;
-  }
-
-  .statTop h3 { font-size: 1.05rem; }
-  .statCard p { font-size: 0.65rem; }
-
-  /* ── Visuals: original 3-pill fan layout, sized for phone ── */
-  .visuals {
-    max-width: 300px;
-    height: 280px;
-    margin: 0 auto;
-    align-self: center;
-  }
-
-  .pillCenter { width: 150px; height: 240px; }
-  .pillLeft   { width: 115px; height: 180px; }
-  .pillRight  { width: 115px; height: 180px; }
 }

@@ -19,6 +19,14 @@
   --nav-scrolled-shadow: 0 1px 0 rgba(255,255,255,0.06);
   --nav-scrolled-border: rgba(255, 255, 255, 0.35);
 
+  /* Floating glass capsule nav */
+  --nav-glass-bg:        rgba(9, 24, 41, 0.42);
+  --nav-glass-bg-strong: rgba(9, 24, 41, 0.82);
+  --nav-glass-border:    rgba(255, 255, 255, 0.12);
+  --nav-glass-shadow:    0 12px 40px rgba(0, 0, 0, 0.32);
+  --nav-pill-bg:         rgba(217, 121, 17, 0.16);
+  --nav-pill-border:     rgba(217, 121, 17, 0.42);
+
   /* Typography */
   --font-heading: 'Space Grotesk', sans-serif;
   --font-body:    'Inter', sans-serif;
@@ -56,6 +64,13 @@
   --nav-scrolled-bg:     rgba(255, 255, 255, 0.80);
   --nav-scrolled-shadow: 0 1px 0 rgba(11, 33, 53, 0.06);
   --nav-scrolled-border: rgba(11, 33, 53, 0.30);
+
+  --nav-glass-bg:        rgba(255, 255, 255, 0.58);
+  --nav-glass-bg-strong: rgba(255, 255, 255, 0.9);
+  --nav-glass-border:    rgba(11, 33, 53, 0.1);
+  --nav-glass-shadow:    0 12px 40px rgba(11, 33, 53, 0.14);
+  --nav-pill-bg:         rgba(217, 121, 17, 0.14);
+  --nav-pill-border:     rgba(217, 121, 17, 0.4);
 }
 
 /* Hero sections always stay dark regardless of theme */
