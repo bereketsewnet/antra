@@ -362,6 +362,9 @@ export function HeroSection() {
     <section ref={sectionRef} className={styles.hero} data-theme-reset>
       <div ref={stickyRef} className={styles.sticky}>
 
+        {/* Top fade — blends animation seamlessly into the solid navbar */}
+        <div className={styles.topNavFade} aria-hidden="true" />
+
         {/* One-shot diagonal light slash — cinematic entry sweep */}
         <div className={styles.scanSlash} aria-hidden="true" />
 

@@ -42,6 +42,22 @@
   filter: saturate(1.05);
 }
 
+/* ── Top fade — real DOM div, blends animation into the solid navbar ── */
+.topNavFade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 260px;
+  z-index: 17;
+  pointer-events: none;
+  background: linear-gradient(to bottom, var(--navy) 0%, transparent 100%);
+}
+
+:global([data-theme="light"]) .topNavFade {
+  background: linear-gradient(to bottom, #ffffff 0%, transparent 100%);
+}
+
 /* ── Film grain — cinematic noise texture over the whole hero ──
    Shifts position every frame to simulate real film grain.
    Opacity is intentionally tiny so you feel it, not see it.    */

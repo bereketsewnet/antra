@@ -68,31 +68,21 @@ export function TradingHeroSection() {
 
         {/* Headline */}
         <h1 className={styles.headline}>
-          <motion.span
-            className={styles.word}
-            custom={0}
-            variants={wordVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            Genuine
-          </motion.span>
-          <motion.span className={styles.wordGradient} custom={1} variants={wordVariants} initial="hidden" animate="visible">
-            products.
-          </motion.span>
-          <br />
-          {['Every', 'time.'].map((word, i) => (
-            <motion.span
-              key={word + i}
-              className={styles.word}
-              custom={i + 2}
-              variants={wordVariants}
-              initial="hidden"
-              animate="visible"
-            >
-              {word}
+          <span className={styles.headlineLine}>
+            <motion.span className={styles.word} custom={0} variants={wordVariants} initial="hidden" animate="visible">
+              Genuine
             </motion.span>
-          ))}
+            <motion.span className={styles.wordGradient} custom={1} variants={wordVariants} initial="hidden" animate="visible">
+              products.
+            </motion.span>
+          </span>
+          <span className={styles.headlineLine}>
+            {['Every', 'time.'].map((word, i) => (
+              <motion.span key={word + i} className={styles.word} custom={i + 2} variants={wordVariants} initial="hidden" animate="visible">
+                {word}
+              </motion.span>
+            ))}
+          </span>
         </h1>
 
         {/* Subhead */}
