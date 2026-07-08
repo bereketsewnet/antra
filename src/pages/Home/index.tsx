@@ -3,7 +3,9 @@ import { SEO } from '@/components/SEO'
 import { HeroSection } from './HeroSection'
 import { WhatWeDoSection } from './WhatWeDoSection'
 import { ServicePillarsSection } from './ServicePillarsSection'
+import { LatestNewsSection } from './LatestNewsSection'
 import { WhyUsSection } from './WhyUsSection'
+import { LeaderSection } from './LeaderSection'
 import { ClosingCTASection } from './ClosingCTASection'
 
 const pageVariants = {
@@ -47,7 +49,9 @@ export function HomePage() {
         <HeroSection />
         <WhatWeDoSection />
         <ServicePillarsSection />
+        <LatestNewsSection />
         <WhyUsSection />
+        <LeaderSection />
         <ClosingCTASection />
       </motion.main>
     </>

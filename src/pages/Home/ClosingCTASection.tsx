@@ -40,10 +40,10 @@ export function ClosingCTASection() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.25, duration: 0.7 }}
         >
-          If you face complex organizational, people, and leadership challenges that
-          directly impact performance, growth, and sustainability — or a sourcing
-          requirement, or a project that touches both — send us a note. One of our
-          partners will respond within a business day.
+          Whether you're facing complex organizational, people, or leadership
+          challenges that impact performance, growth, and sustainability, or you
+          need a trusted partner for strategic sourcing and trade solutions,
+          we're here to help.
         </motion.p>
 
         <motion.div

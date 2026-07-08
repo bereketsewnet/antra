@@ -150,14 +150,12 @@ export function WhatWeDoSection() {
           </svg>
 
           {/* ── Consultancy card — MAIN / PROMINENT ── */}
-          {/* Positioned at left=34.2% top=5% matching SVG endpoint (178,108) = card center-left */}
           <motion.div
             className={`${styles.card} ${styles.cardMain}`}
             initial={{ opacity: 0, x: 24, y: -8 }}
             animate={isInView ? { opacity: 1, x: 0, y: 0 } : {}}
             transition={{ duration: 0.65, delay: 1.0, ease }}
           >
-            {/* Floating bob animation wrapper */}
             <motion.div
               animate={{ y: [0, -6, 0] }}
               transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
@@ -168,14 +166,16 @@ export function WhatWeDoSection() {
               </div>
               <h3 className={styles.cardTitle}>Management<br />Consultancy</h3>
               <p className={styles.cardDesc}>Leadership, strategy, organizational transformation and people solutions.</p>
-              <div className={styles.cardTags}>
-                <span>Leadership Dev</span>
-                <span>Talent Search</span>
-                <span>Coaching</span>
-                <span>Org. Transformation</span>
-              </div>
+              <p className={styles.cardBody}>
+                We work with executive teams on leadership development,
+                organizational transformation, strategy, talent search, and
+                coaching that helps senior people deliver on what they committed
+                to. Most of our engagements run past the design phase into
+                implementation, because that is where transformation work breaks
+                down.
+              </p>
               <Link to="/consultancy" className={styles.cardCta}>
-                Explore
+                Explore consultancy
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <line x1="5" y1="12" x2="19" y2="12" />
                   <polyline points="12 5 19 12 12 19" />
@@ -185,7 +185,6 @@ export function WhatWeDoSection() {
           </motion.div>
 
           {/* ── Trading card — SECONDARY ── */}
-          {/* Positioned at left=31.2% top=59% matching SVG endpoint (162,308) = card center-left */}
           <motion.div
             className={`${styles.card} ${styles.cardSub}`}
             initial={{ opacity: 0, x: 24, y: 8 }}
@@ -201,8 +200,19 @@ export function WhatWeDoSection() {
               </div>
               <h3 className={styles.cardTitleSub}>Trading &amp; Supply</h3>
               <p className={styles.cardDescSub}>Directly from manufacturers via Djibouti Free Zone.</p>
+              <p className={styles.cardBodySub}>
+                Our trading division sources and distributes electric vehicles,
+                construction machinery, sanitary equipment, and medical equipment.
+                Most shipments come through the Djibouti Free Zone. Our buyers
+                include fleet operators, contractors, hospitals, and government
+                institutions across Ethiopia and the region.
+              </p>
               <Link to="/trading" className={styles.cardCtaSub}>
-                Explore →
+                See our product lines
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ display: 'inline', marginLeft: '5px', verticalAlign: 'middle' }}>
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
               </Link>
             </motion.div>
           </motion.div>
@@ -240,13 +250,6 @@ export function WhatWeDoSection() {
             transition={{ duration: 0.6, delay: 0.35, ease }}
           >
             <p>
-              We are a management consultancy and a trading company based in
-              Addis Ababa. Companies and institutions across Ethiopia work with
-              us when they need to rebuild an organization's leadership bench,
-              sharpen how the business runs, or source equipment that is hard to
-              find locally.
-            </p>
-            <p>
               Our areas of expertise include organizational leadership, strategy
               formulation and alignment, change and transformation management,
               leadership development, coaching and mentoring, training, and the
@@ -256,8 +259,8 @@ export function WhatWeDoSection() {
             </p>
             <p>
               Our trading division supplies equipment that cannot be easily
-              sourced inside Ethiopia — from construction machinery and electric
-              vehicles to medical equipment — through our operations in the
+              sourced inside Ethiopia, from construction machinery, electric
+              vehicles to medical equipment, through our operations in the
               Djibouti Free Zone.
             </p>
           </motion.div>
