@@ -52,7 +52,7 @@ export function ValuesSection() {
           animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          <span className={styles.labelNumber}>02</span>
+          <span className={styles.labelNumber}>04</span>
           <span className={styles.labelText}>What We Stand For</span>
           <div className={styles.labelLine} />
         </motion.div>

@@ -1,12 +1,15 @@
 import { motion } from 'framer-motion'
 import { SEO } from '@/components/SEO'
 import { AboutHeroSection } from './HeroSection'
+import { WhoWeAreSection } from './WhoWeAreSection'
+import { MissionSection } from './MissionSection'
 import { OurStorySection } from './OurStorySection'
 import { ValuesSection } from './ValuesSection'
 import { HowPracticesFitSection } from './HowPracticesFitSection'
 import { NotableClientsSection } from './NotableClientsSection'
 import { LeadersSection } from './LeadersSection'
 import { NewsSection } from './NewsSection'
+import { AboutMapSection } from './MapSection'
 
 const pageVariants = {
   initial: { opacity: 0, y: 20 },
@@ -39,12 +42,15 @@ export function AboutPage() {
       />
       <motion.main variants={pageVariants} initial="initial" animate="animate" exit="exit">
         <AboutHeroSection />
+        <WhoWeAreSection />
+        <MissionSection />
         <OurStorySection />
         <ValuesSection />
         <HowPracticesFitSection />
         <NotableClientsSection />
         <LeadersSection />
         <NewsSection />
+        <AboutMapSection />
       </motion.main>
     </>
   )

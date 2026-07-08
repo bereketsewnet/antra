@@ -30,7 +30,7 @@ export function LeadersSection() {
           animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          <span className={styles.labelNumber}>05</span>
+          <span className={styles.labelNumber}>07</span>
           <span className={styles.labelText}>Meet Our Leaders</span>
           <div className={styles.labelLine} />
         </motion.div>

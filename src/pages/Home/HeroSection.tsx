@@ -459,6 +459,8 @@ export function HeroSection() {
               Outer div owns centering; inner div is the perspective + fade layer;
               the cube itself is rotated by cursor drag (no auto-flip). */}
           <div className={styles.cubeStage}>
+
+
           <motion.div
             className={styles.cubeScene}
             initial={{ opacity: 0 }}
@@ -479,50 +481,46 @@ export function HeroSection() {
 
             {/* The cube — rotation driven by cursor drag */}
             <motion.div className={styles.cube} style={{ transform: cubeTransform }}>
-              {/* FRONT — primary practice */}
+              {/* FRONT */}
               <div className={`${styles.face} ${styles.faceFront} ${styles.facePrimary}`}>
-                <span className={styles.faceTag}>Primary Practice</span>
-                <span className={styles.faceTitle}>Management<br />Consultancy</span>
+                <span className={styles.faceTag}>01</span>
+                <span className={styles.faceTitle}>Organizational restructuring that needs to land without breaking the business.</span>
                 <span className={styles.faceDot} />
               </div>
 
-              {/* RIGHT — trading */}
+              {/* RIGHT */}
               <div className={`${styles.face} ${styles.faceRight}`}>
-                <span className={styles.faceTag}>Second Practice</span>
-                <span className={styles.faceTitle}>Trading<br />&amp; Supply</span>
+                <span className={styles.faceTag}>02</span>
+                <span className={styles.faceTitle}>A leadership pipeline that is thinner than it should be.</span>
               </div>
 
-              {/* BACK — purpose */}
+              {/* BACK */}
               <div className={`${styles.face} ${styles.faceBack}`}>
-                <span className={styles.faceTag}>Our Purpose</span>
-                <span className={styles.faceTitle}>Growth&nbsp;&amp;<br />Transformation</span>
+                <span className={styles.faceTag}>03</span>
+                <span className={styles.faceTitle}>Difficulty attracting, retaining, or developing the right talent.</span>
               </div>
 
-              {/* LEFT — sourcing */}
+              {/* LEFT */}
               <div className={`${styles.face} ${styles.faceLeft}`}>
-                <span className={styles.faceTag}>Sourcing Hub</span>
-                <span className={styles.faceTitle}>Djibouti<br />Freezone</span>
+                <span className={styles.faceTag}>04</span>
+                <span className={styles.faceTitle}>Inconsistent culture or low engagement across teams.</span>
               </div>
 
-              {/* TOP — brand */}
+              {/* TOP */}
               <div className={`${styles.face} ${styles.faceTop}`}>
-                <span className={styles.faceBrand}>ANTRA</span>
-                <span className={styles.faceBrandSub}>Business Group</span>
+                <span className={styles.faceTag}>05</span>
+                <span className={styles.faceTitle}>Compliance, governance, or risk gaps surfacing as the business scales.</span>
               </div>
 
-              {/* BOTTOM — location */}
+              {/* BOTTOM */}
               <div className={`${styles.face} ${styles.faceBottom}`}>
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                  <circle cx="12" cy="10" r="3" />
-                </svg>
-                <span className={styles.faceLoc}>Addis Ababa · Ethiopia</span>
+                <span className={styles.faceTag}>06</span>
+                <span className={styles.faceTitle}>Rapid growth outrunning the systems and structure that were supposed to support it.</span>
               </div>
             </motion.div>
           </motion.div>
-          </div>
 
-          {/* Floating credential chips — unique info not shown on cube faces */}
+          {/* Floating credential chips — orbit the cube */}
           <motion.div
             className={`${styles.chip} ${styles.chip1}`}
             initial={{ opacity: 0, y: 18, scale: 0.88 }}
@@ -530,7 +528,7 @@ export function HeroSection() {
             transition={{ delay: 1.5, duration: 0.9, ease: DROP_EASE }}
           >
             <span className={styles.chipDot} />
-            <span className={styles.chipLabel}>Practical &amp; Strategic</span>
+            <span className={styles.chipLabel}>What</span>
           </motion.div>
 
           <motion.div
@@ -540,7 +538,7 @@ export function HeroSection() {
             transition={{ delay: 1.85, duration: 0.9, ease: DROP_EASE }}
           >
             <span className={styles.chipDot} />
-            <span className={styles.chipLabel}>Africa-Focused</span>
+            <span className={styles.chipLabel}>Clients</span>
           </motion.div>
 
           <motion.div
@@ -550,8 +548,9 @@ export function HeroSection() {
             transition={{ delay: 2.2, duration: 0.9, ease: DROP_EASE }}
           >
             <span className={styles.chipDot} />
-            <span className={styles.chipLabel}>Partnership-Based</span>
+            <span className={styles.chipLabel}>Bring Us</span>
           </motion.div>
+          </div>
 
         </motion.div>
 

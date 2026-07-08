@@ -19,7 +19,7 @@ export function OurStorySection() {
           animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          <span className={styles.labelNumber}>01</span>
+          <span className={styles.labelNumber}>03</span>
           <span className={styles.labelText}>Our Story</span>
           <div className={styles.labelLine} />
         </motion.div>

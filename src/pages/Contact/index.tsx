@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { SEO } from '@/components/SEO'
 import { ContactFormSection } from './ContactFormSection'
+import { ContactMapSection } from './MapSection'
 
 const pageVariants = {
   initial: { opacity: 0, y: 20 },
@@ -40,6 +41,7 @@ export function ContactPage() {
       />
       <motion.main variants={pageVariants} initial="initial" animate="animate" exit="exit">
         <ContactFormSection />
+        <ContactMapSection />
       </motion.main>
     </>
   )

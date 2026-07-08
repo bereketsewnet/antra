@@ -728,11 +728,49 @@
 .cubeStage {
   position: absolute;
   top: 47%;
-  left: 15%;
+  left: 20%;
   transform: translate(-50%, -50%);
-  width: 320px;
-  height: 320px;
+  width: 380px;
+  height: 460px;
   pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  overflow: visible;
+}
+
+/* ── Nova-style staggered label above the cube ── */
+.cubeLabel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  width: 100%;
+}
+
+.cubeLabelWord {
+  font-family: var(--font-heading);
+  font-size: clamp(22px, 2.8vw, 34px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: #ffffff;
+  display: block;
+}
+
+.cubeLabelWord:nth-child(2) {
+  color: var(--orange);
+}
+
+.cubeLabelSub {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.35);
+  margin: 10px 0 0;
+  text-transform: uppercase;
 }
 
 /* Perspective lives on the direct parent of .cube.
@@ -751,8 +789,8 @@
   position: absolute;
   bottom: 14%;
   left: 50%;
-  width: 240px;
-  height: 70px;
+  width: 280px;
+  height: 80px;
   transform: translateX(-50%);
   background: radial-gradient(ellipse at center, rgba(217, 121, 17, 0.32) 0%, transparent 70%);
   filter: blur(14px);
@@ -764,11 +802,11 @@
   50%      { opacity: 1;   transform: translateX(-50%) scaleX(1.12); }
 }
 
-/* The cube — 190px per side. Rotation set inline via cursor drag. */
+/* The cube — 220px per side. Rotation set inline via cursor drag. */
 .cube {
   position: relative;
-  width: 190px;
-  height: 190px;
+  width: 220px;
+  height: 220px;
   transform-style: preserve-3d;
   transform: rotateX(-16deg) rotateY(-24deg);
   will-change: transform;
@@ -779,8 +817,8 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 230px;
-  height: 230px;
+  width: 265px;
+  height: 265px;
   transform: translate(-50%, -50%);
   z-index: 5;
   pointer-events: auto;
@@ -796,8 +834,8 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 190px;
-  height: 190px;
+  width: 220px;
+  height: 220px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -818,13 +856,13 @@
     0 0 30px rgba(0, 0, 0, 0.45);
 }
 
-/* Face placements — half of 190 = 95 */
-.faceFront  { transform: rotateY(0deg)    translateZ(95px); }
-.faceBack   { transform: rotateY(180deg)  translateZ(95px); }
-.faceRight  { transform: rotateY(90deg)   translateZ(95px); }
-.faceLeft   { transform: rotateY(-90deg)  translateZ(95px); }
-.faceTop    { transform: rotateX(90deg)   translateZ(95px); }
-.faceBottom { transform: rotateX(-90deg)  translateZ(95px); }
+/* Face placements — half of 220 = 110 */
+.faceFront  { transform: rotateY(0deg)    translateZ(110px); }
+.faceBack   { transform: rotateY(180deg)  translateZ(110px); }
+.faceRight  { transform: rotateY(90deg)   translateZ(110px); }
+.faceLeft   { transform: rotateY(-90deg)  translateZ(110px); }
+.faceTop    { transform: rotateX(90deg)   translateZ(110px); }
+.faceBottom { transform: rotateX(-90deg)  translateZ(110px); }
 
 /* Primary face — deeper blue, brighter orange border */
 .facePrimary {
@@ -847,12 +885,12 @@
 }
 
 .faceTitle {
-  font-family: var(--font-heading);
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 1.18;
-  letter-spacing: -0.02em;
-  color: #F0A63C;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0em;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .faceDot {
@@ -913,7 +951,7 @@
 /* Responsive scale */
 @media (max-width: 1200px) {
   .cubeStage {
-    left: 16%;
+    left: 20%;
     transform: translate(-50%, -50%) scale(0.86);
   }
 }
@@ -1011,55 +1049,58 @@
   position: absolute;
   display: inline-flex;
   align-items: center;
-  gap: 9px;
-  padding: 8px 16px;
-  background: rgba(9, 24, 41, 0.52);
-  border: 1px solid rgba(217, 121, 17, 0.30);
+  gap: 10px;
+  padding: 11px 22px;
+  background: rgba(9, 24, 41, 0.6);
+  border: 1px solid rgba(217, 121, 17, 0.35);
   border-radius: 999px;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   pointer-events: none;
   box-shadow:
-    0 4px 20px rgba(0, 0, 0, 0.28),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    0 6px 28px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
   will-change: transform;
 }
 
 .chipDot {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: var(--orange);
-  box-shadow: 0 0 9px rgba(217, 121, 17, 1);
+  box-shadow: 0 0 10px rgba(217, 121, 17, 1);
   flex-shrink: 0;
   animation: pulseDot 2.4s ease-in-out infinite;
 }
 
 .chipLabel {
   font-family: var(--font-body);
-  font-size: 10.5px;
+  font-size: 13px;
   font-weight: 700;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.82);
   white-space: nowrap;
 }
 
-/* Positions — floating around the cube stage area */
+/* Positions — triangular orbit around the cube */
 .chip1 {
-  top: 16%;
-  left: 3%;
+  /* "What" — upper-left, above the cube's top-left corner */
+  top: 72px;
+  left: -40px;
   animation: chipFloat1 5.4s ease-in-out infinite;
 }
 .chip2 {
-  top: 50%;
-  left: 1%;
+  /* "Clients" — right side, upper portion of cube */
+  top: 155px;
+  right: -40px;
   animation: chipFloat2 4.9s ease-in-out infinite;
   animation-delay: 1.2s;
 }
 .chip3 {
-  top: 72%;
-  left: 5%;
+  /* "Bring Us" — lower-left, below the cube */
+  top: 380px;
+  left: 20px;
   animation: chipFloat3 6.1s ease-in-out infinite;
   animation-delay: 2.4s;
 }
