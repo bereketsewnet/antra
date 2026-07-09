@@ -1,0 +1,126 @@
+.section {
+  background: var(--navy-dark);
+  padding-block: clamp(80px, 10vw, 130px);
+  position: relative;
+  overflow: hidden;
+}
+
+.section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(ellipse at 0% 0%, rgba(217, 121, 17, 0.06) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-pad);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(48px, 7vw, 96px);
+  align-items: center;
+}
+
+/* ── Text ── */
+.textCol {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.labelRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.labelDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--orange);
+  box-shadow: 0 0 8px rgba(217, 121, 17, 0.7);
+  flex-shrink: 0;
+}
+
+.labelText {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+
+.heading {
+  font-family: var(--font-heading);
+  font-size: clamp(26px, 3.2vw, 46px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+  margin: 0;
+}
+
+.headingAccent {
+  color: var(--orange);
+}
+
+.body {
+  font-size: clamp(14px, 1.1vw, 16px);
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0;
+  max-width: 520px;
+}
+
+/* ── Image ── */
+.imageWrap {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow:
+    0 24px 64px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+.imageCorner {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 30%;
+  background: linear-gradient(to bottom, transparent, rgba(6, 15, 26, 0.3));
+  pointer-events: none;
+}
+
+/* ── Responsive ── */
+@media (max-width: 860px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .imageWrap {
+    order: -1;
+  }
+}
+
+:global([data-theme="light"]) .section {
+  background: var(--navy-dark);
+}

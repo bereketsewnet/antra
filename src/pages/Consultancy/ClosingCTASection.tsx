@@ -37,9 +37,8 @@ export function ConsultancyClosingCTA() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.3, duration: 0.8, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] }}
         >
-          If any of this is on your desk —
-          <br />
-          <span className={styles.headingAccent}>let's talk.</span>
+          Book
+          <span className={styles.headingAccent}> a call.</span>
         </motion.h2>
 
         <motion.p
@@ -48,7 +47,7 @@ export function ConsultancyClosingCTA() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.45, duration: 0.7 }}
         >
-          We spend the first session understanding the business before we propose anything. No qualification gauntlet — just a direct conversation about what you need.
+          If any of this matches a problem on your desk, book a call. We spend the first session understanding the business before we propose anything.
         </motion.p>
 
         <motion.div

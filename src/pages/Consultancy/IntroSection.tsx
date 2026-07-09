@@ -55,13 +55,13 @@ export function IntroSection() {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.32, duration: 0.7 }}
             >
-              Our Management Consultancy division partners closely with clients to
+              Our Management Consultancy services partner closely with clients to
               deliver practical, customer-focused solutions that address real business
               challenges and create sustainable value. Rather than providing theoretical
               recommendations, we work alongside leaders and teams to transform
-              under-performing or dysfunctional organizations — combining strategic
-              insight, real-world operational experience, and hands-on implementation
-              support to achieve measurable business outcomes.
+              underperforming or dysfunctional, growing organizations through the journey
+              of combining strategic insight, real-world operational experience, and
+              hands-on implementation support to achieve measurable business outcomes.
             </motion.p>
 
             <motion.div

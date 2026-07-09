@@ -3,9 +3,16 @@ import { motion, useInView } from 'framer-motion'
 import styles from './MissionSection.module.css'
 
 const pillars = [
-  { num: '01', title: 'Enable Growth', text: 'We exist to help organisations grow — in capability, in performance, and in market reach.' },
-  { num: '02', title: 'Drive Transformation', text: 'Change that sticks requires the right leadership, the right structure, and the right support across every level.' },
-  { num: '03', title: 'Connect Ethiopia', text: 'Bridging Ethiopian businesses to global products, standards, and best practices — reliably and at scale.' },
+  {
+    num: '01',
+    title: 'Management Consultancy',
+    text: 'To be a trusted partner of choice for organisational transformation, leadership development, strategy & business alignment, training, coaching and mentoring, talent search and consultancy services in Ethiopia & regional markets.',
+  },
+  {
+    num: '02',
+    title: 'Trading & Supply',
+    text: 'To be a preferred supplier for selected products for Ethiopia and regional markets.',
+  },
 ]
 
 export function MissionSection() {
@@ -34,9 +41,9 @@ export function MissionSection() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.1, duration: 0.8, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] }}
         >
-          To enable sustainable growth
+          Our mission is to
           <br />
-          <span className={styles.headingAccent}>and organisational excellence.</span>
+          <span className={styles.headingAccent}>empower organisations.</span>
         </motion.h2>
 
         <motion.p
@@ -45,8 +52,8 @@ export function MissionSection() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.25, duration: 0.7 }}
         >
-          Across Ethiopia and the wider region — by combining world-class management consultancy
-          with reliable strategic trade, backed by professional and academic excellence.
+          Our mission is to empower organizations by delivering exceptional management consulting
+          and reliable sourcing solutions that drive performance, efficiency, and sustainable growth.
         </motion.p>
 
         <div className={styles.pillars}>

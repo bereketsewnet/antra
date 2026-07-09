@@ -69,7 +69,7 @@ export function ConsultancyHeroSection() {
         {/* Headline */}
         <h1 className={styles.headline}>
           <span className={styles.headlinePrefix}>
-            {['Built', 'to', 'go'].map((word, i) => (
+            {['Enabling', 'growth'].map((word, i) => (
               <motion.span
                 key={word + i}
                 className={styles.word}
@@ -83,11 +83,11 @@ export function ConsultancyHeroSection() {
             ))}
           </span>
           <span className={styles.headlineAccentRow}>
-            <motion.span className={styles.word} custom={3} variants={wordVariants} initial="hidden" animate="visible">
-              Past
+            <motion.span className={styles.word} custom={2} variants={wordVariants} initial="hidden" animate="visible">
+              and
             </motion.span>
-            <motion.span className={styles.wordGradient} custom={4} variants={wordVariants} initial="hidden" animate="visible">
-              Diagnosis.
+            <motion.span className={styles.wordGradient} custom={3} variants={wordVariants} initial="hidden" animate="visible">
+              transformation.
             </motion.span>
           </span>
         </h1>
@@ -99,7 +99,7 @@ export function ConsultancyHeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.0, duration: 0.7 }}
         >
-          Leadership, strategy, and people solutions built around how Ethiopian and regional organizations actually operate.
+          Leadership, strategy, organizational transformation and people solutions built around how Ethiopian and regional organizations actually operate.
         </motion.p>
 
         {/* Scroll indicator */}

@@ -4,6 +4,8 @@ import { ConsultancyHeroSection } from './HeroSection'
 import { IntroSection } from './IntroSection'
 import { ServicesSection } from './ServicesSection'
 import { ProblemsSection } from './ProblemsSection'
+import { StrategySection } from './StrategySection'
+import { KeyPartnersSection } from './KeyPartnersSection'
 import { ConsultancyClosingCTA } from './ClosingCTASection'
 
 const pageVariants = {
@@ -49,9 +51,11 @@ export function ConsultancyPage() {
       />
       <motion.main variants={pageVariants} initial="initial" animate="animate" exit="exit">
         <ConsultancyHeroSection />
-        <IntroSection />
         <ProblemsSection />
+        <IntroSection />
         <ServicesSection />
+        <StrategySection />
+        <KeyPartnersSection />
         <ConsultancyClosingCTA />
       </motion.main>
     </>
