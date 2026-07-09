@@ -7,19 +7,19 @@ import styles from './ContactFormSection.module.css'
 gsap.registerPlugin(ScrollTrigger)
 
 const serviceOptions = [
-  { value: '', label: 'What can we help with?' },
-  { value: 'consultancy', label: 'Management Consultancy' },
-  { value: 'trading', label: 'Trading & Supply' },
-  { value: 'both', label: 'Both practices' },
-  { value: 'unsure', label: 'Not sure yet' },
+  { value: '', label: 'I am interested in…' },
+  { value: 'consultancy', label: 'Consultancy' },
+  { value: 'trading', label: 'Trading' },
+  { value: 'both', label: 'Both' },
+  { value: 'other', label: 'Other' },
 ]
 
 const contactDetails = [
   {
     icon: '📍',
     label: 'Location',
-    value: 'Rayuma Building, Office No. 912',
-    sub: 'Airport Road, Bole Dembel, Kirkos Sub-City, Addis Ababa — next to Getu Commercial Center',
+    value: 'Africa Avenue, Rayuma Building, Office 912',
+    sub: 'Bole Dembel, Kirkos Sub-City, Addis Ababa, Ethiopia',
   },
   {
     icon: '📞',
@@ -293,7 +293,7 @@ export function ContactFormSection() {
 
                 {/* Service dropdown */}
                 <motion.div className={styles.field} custom={4} variants={fieldVariants} initial="hidden" animate={isInView ? 'visible' : 'hidden'}>
-                  <label className={styles.label} htmlFor="service">Area of Interest</label>
+                  <label className={styles.label} htmlFor="service">I am interested in</label>
                   <div className={styles.selectWrap}>
                     <select
                       id="service" name="service"
