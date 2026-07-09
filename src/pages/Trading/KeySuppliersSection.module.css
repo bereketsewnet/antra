@@ -1,0 +1,76 @@
+.section {
+  background: var(--navy);
+  padding-block: clamp(64px, 8vw, 100px);
+  position: relative;
+  overflow: hidden;
+}
+
+.section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 100%, rgba(217, 121, 17, 0.05) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-pad);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(32px, 4vw, 52px);
+}
+
+.labelRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.labelNumber {
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--orange);
+}
+
+.labelText {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.labelLine {
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.imageWrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: clamp(28px, 4vw, 48px);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  max-width: 680px;
+}
+
+.image {
+  width: 100%;
+  max-width: 580px;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+:global([data-theme="light"]) .section {
+  background: var(--navy);
+}

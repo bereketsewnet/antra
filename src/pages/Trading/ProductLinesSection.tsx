@@ -20,7 +20,7 @@ const products = [
     image: '/assets/trading%20assets/product-construction-machinery.webp',
     tag: 'Category 02',
     title: 'Construction Machinery',
-    short: 'Excavators, loaders, and supporting equipment for construction firms, contractors, and industrial projects. We source from manufacturers and supply across Ethiopia and the region.',
+    short: 'Excavators, loaders, and supporting equipment for construction firms, contractors, and industrial projects. We source from manufacturers and supply in Ethiopia and the region.',
     specs: [
       'Excavators & bulldozers',
       'Cranes & lifting equipment',
@@ -207,16 +207,16 @@ export function ProductLinesSection() {
             <div className={styles.freezonePoints}>
               {[
                 {
-                  title: 'Direct manufacturer relationships',
-                  text: 'We work direct with manufacturers rather than through layered distribution chains — better pricing, better technical answers, faster issue resolution.',
+                  title: 'Direct relationships with manufacturers',
+                  text: 'Rather than working through layered distribution chains — better pricing, better technical answers, faster issue resolution.',
                 },
                 {
-                  title: 'Djibouti Free Zone operations',
-                  text: 'Faster and cheaper regional logistics through the Djibouti–Addis corridor, with fewer bureaucratic delays on the way to site.',
+                  title: 'Djibouti free zone operations',
+                  text: 'For faster and cheaper regional logistics.',
                 },
                 {
-                  title: 'Single units to full fleets',
-                  text: 'Order sizes scale from a single unit to fleet-grade procurement. Same team, same standard.',
+                  title: 'Order sizes from single units to large fleet purchases',
+                  text: 'Same team, same standard regardless of order size.',
                 },
               ].map((pt, i) => (
                 <motion.div

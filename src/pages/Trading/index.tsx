@@ -3,6 +3,7 @@ import { SEO } from '@/components/SEO'
 import { TradingHeroSection } from './HeroSection'
 import { IntroSection } from './IntroSection'
 import { ProductLinesSection } from './ProductLinesSection'
+import { KeySuppliersSection } from './KeySuppliersSection'
 import { TradingClosingCTA } from './ClosingCTASection'
 
 const pageVariants = {
@@ -58,6 +59,7 @@ export function TradingPage() {
         <TradingHeroSection />
         <IntroSection />
         <ProductLinesSection />
+        <KeySuppliersSection />
         <TradingClosingCTA />
       </motion.main>
     </>

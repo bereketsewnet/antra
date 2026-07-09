@@ -42,9 +42,8 @@ export function TradingClosingCTA() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.3, duration: 0.8, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] }}
         >
-          Tell us what you need.
-          <br />
-          <span className={styles.headingAccent}>We'll source it right.</span>
+          Request
+          <span className={styles.headingAccent}> a quote.</span>
         </motion.h2>
 
         <motion.p
@@ -53,7 +52,7 @@ export function TradingClosingCTA() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.45, duration: 0.7 }}
         >
-          Send us the specifications, the quantity, and your timeline. We'll come back with options and a price within one business day.
+          Send us the specifications, the quantity, and your timeline, and we will come back with options and a price.
         </motion.p>
 
         {/* Category tags */}
