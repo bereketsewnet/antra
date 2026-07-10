@@ -44,6 +44,86 @@
   background: var(--white-10);
 }
 
+/* ── CTA block ── */
+.ctaInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+  margin-bottom: clamp(48px, 6vw, 80px);
+}
+
+.ctaText {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
+  min-width: 280px;
+}
+
+.ctaHeading {
+  font-family: var(--font-heading);
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.ctaSub {
+  font-size: clamp(14px, 1.1vw, 16px);
+  color: var(--white-60);
+  line-height: 1.7;
+  margin: 0;
+  max-width: 480px;
+}
+
+.ctaActions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+
+.ctaBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 28px;
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border-radius: 4px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.25s var(--ease-out), color 0.25s var(--ease-out), border-color 0.25s var(--ease-out);
+}
+
+.ctaBtnPrimary {
+  background: var(--orange);
+  color: #ffffff;
+  border: 2px solid var(--orange);
+}
+
+.ctaBtnPrimary:hover {
+  background: var(--orange-hover);
+  border-color: var(--orange-hover);
+}
+
+.ctaBtnGhost {
+  background: transparent;
+  color: var(--white);
+  border: 2px solid var(--white-60);
+}
+
+.ctaBtnGhost:hover {
+  background: var(--white-10);
+  border-color: var(--white);
+}
+
 .heading {
   font-family: var(--font-heading);
   font-size: clamp(28px, 3.5vw, 48px);
@@ -152,18 +232,6 @@
   background: #f4f7fb;
 }
 
-:global([data-theme="light"]) .heading {
-  color: var(--navy-dark);
-}
-
-:global([data-theme="light"]) .detailText {
-  color: var(--navy);
-}
-
-:global([data-theme="light"]) .detailNote {
-  color: var(--navy-60);
-}
-
 /* Responsive */
 @media (max-width: 900px) {
   .layout {
@@ -172,5 +240,24 @@
 
   .mapWrap {
     height: clamp(280px, 55vw, 420px);
+  }
+}
+
+@media (max-width: 768px) {
+  .ctaInner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .ctaActions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .ctaActions > * {
+    width: 100%;
+    justify-content: center;
   }
 }

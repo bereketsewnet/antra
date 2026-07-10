@@ -2,12 +2,6 @@ import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import styles from './ValuesSection.module.css'
 
-const mission = {
-  label: 'Our Mission',
-  text:
-    'To be a trusted partner of choice for organizational transformation, leadership development, strategy and business alignment, training, coaching and mentoring, talent search, and consultancy services in Ethiopia and regional markets — and a preferred supplier of selected products to Ethiopia and the region.',
-}
-
 const values = [
   {
     number: '01',
@@ -42,8 +36,6 @@ export function ValuesSection() {
 
   return (
     <section ref={sectionRef} data-theme-section="hero" className={styles.section}>
-      <div className={styles.bgOverlay} />
-
       <div className={styles.container}>
         {/* Section label */}
         <motion.div
@@ -52,8 +44,8 @@ export function ValuesSection() {
           animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          <span className={styles.labelNumber}>04</span>
-          <span className={styles.labelText}>What We Stand For</span>
+          <span className={styles.labelNumber}>03</span>
+          <span className={styles.labelText}>Core Values</span>
           <div className={styles.labelLine} />
         </motion.div>
 
@@ -68,32 +60,6 @@ export function ValuesSection() {
           <br />
           <span className={styles.headingAccent}>don't bend.</span>
         </motion.h2>
-
-        {/* Single combined mission */}
-        <motion.div
-          className={styles.missions}
-          initial={{ opacity: 0, y: 24 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.25, duration: 0.7 }}
-        >
-          <motion.div
-            className={styles.missionCard}
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.3, duration: 0.6 }}
-          >
-            <span className={styles.missionTag}>{mission.label}</span>
-            <p className={styles.missionText}>{mission.text}</p>
-          </motion.div>
-        </motion.div>
-
-        {/* Divider */}
-        <motion.div
-          className={styles.divider}
-          initial={{ scaleX: 0 }}
-          animate={isInView ? { scaleX: 1 } : {}}
-          transition={{ delay: 0.55, duration: 0.9, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] }}
-        />
 
         {/* Values grid */}
         <div className={styles.valuesGrid}>

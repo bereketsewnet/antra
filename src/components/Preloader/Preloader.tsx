@@ -2,18 +2,17 @@ import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import styles from './Preloader.module.css'
 
-/* The hero scroll-scrub animation is driven by 120 sequential webp frames.
-   This intro screen preloads them up front so the hero is buttery on first
-   scroll — but it NEVER blocks the site: a hard timeout reveals the page no
-   matter how slow the connection is, and the frames keep loading in the
-   background (and stay cached for the hero). */
-const TOTAL_FRAMES = 120
+/* Fast 3D intro screen.
+   Gates ONLY on the first few hero frames (~150KB) — never the full set —
+   and a hard timeout opens the site regardless of connection speed.
+   The remaining frames keep streaming in behind the page. */
+const TOTAL_FRAMES = 60
+const CRITICAL_FRAMES = 6    // reveal as soon as these tiny frames are ready
 const FRAME_URL = (n: number) =>
-  `/assets/hero%203d%20images/ezgif-frame-${String(n).padStart(3, '0')}.webp`
+  `/assets/hero-frames/frame-${String(n).padStart(3, '0')}.webp`
 
-const MAX_WAIT_MS = 6000     // hard cap — open the site regardless of progress
-const SLOW_MS = 3500         // after this, surface the "taking longer" note
-const MIN_DISPLAY_MS = 700   // avoid an ugly flash when frames are already cached
+const MAX_WAIT_MS = 2500     // hard cap — open the site no matter what
+const MIN_DISPLAY_MS = 1100  // let the cube animation be seen (still quick)
 
 export function Preloader() {
   // Only run the intro on the first load of a browsing session.
@@ -23,7 +22,6 @@ export function Preloader() {
 
   const [done, setDone] = useState(alreadyShown)
   const [progress, setProgress] = useState(0)
-  const [slow, setSlow] = useState(false)
   const startedRef = useRef(false)
 
   useEffect(() => {
@@ -32,36 +30,38 @@ export function Preloader() {
     try { sessionStorage.setItem('antra-intro-shown', '1') } catch { /* private mode */ }
 
     const startedAt = performance.now()
-    let loaded = 0
+    let criticalLoaded = 0
     let finished = false
 
     const finish = () => {
       if (finished) return
       finished = true
+      setProgress(100)
       const wait = Math.max(0, MIN_DISPLAY_MS - (performance.now() - startedAt))
       window.setTimeout(() => setDone(true), wait)
     }
 
     const maxTimer = window.setTimeout(finish, MAX_WAIT_MS)   // fallback reveal
-    const slowTimer = window.setTimeout(() => setSlow(true), SLOW_MS)
 
+    // Fire all frame requests to warm the cache, but only *gate the reveal*
+    // on the first CRITICAL_FRAMES — that's all the hero needs to paint.
     for (let i = 1; i <= TOTAL_FRAMES; i++) {
       const img = new Image()
       img.decoding = 'async'
+      if (i <= CRITICAL_FRAMES) img.setAttribute('fetchpriority', 'high')
       const tick = () => {
-        loaded++
-        setProgress(Math.round((loaded / TOTAL_FRAMES) * 100))
-        if (loaded >= TOTAL_FRAMES) finish()
+        if (i <= CRITICAL_FRAMES && !finished) {
+          criticalLoaded++
+          setProgress(Math.round((criticalLoaded / CRITICAL_FRAMES) * 100))
+          if (criticalLoaded >= CRITICAL_FRAMES) finish()
+        }
       }
       img.onload = tick
       img.onerror = tick      // count failures too, so one bad frame can't hang it
       img.src = FRAME_URL(i)
     }
 
-    return () => {
-      window.clearTimeout(maxTimer)
-      window.clearTimeout(slowTimer)
-    }
+    return () => window.clearTimeout(maxTimer)
   }, [alreadyShown])
 
   // Lock page scroll while the intro is visible.
@@ -77,38 +77,33 @@ export function Preloader() {
         <motion.div
           className={styles.screen}
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+          exit={{ opacity: 0, scale: 1.04 }}
+          transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}
         >
           <div className={styles.center}>
-            <div className={styles.logoWrap}>
-              <img
-                src="/assets/global/Antra-Dark.svg"
-                alt="Antra Business Group"
-                className={styles.logo}
-              />
-              <span className={styles.ring} />
+
+            {/* ── 3D spinning cube — echoes the hero cube ── */}
+            <div className={styles.stage}>
+              <div className={styles.cubeGlow} />
+              <div className={styles.cube}>
+                <div className={`${styles.face} ${styles.faceFront}`}>A</div>
+                <div className={`${styles.face} ${styles.faceBack}`} />
+                <div className={`${styles.face} ${styles.faceRight}`} />
+                <div className={`${styles.face} ${styles.faceLeft}`} />
+                <div className={`${styles.face} ${styles.faceTop}`} />
+                <div className={`${styles.face} ${styles.faceBottom}`} />
+              </div>
             </div>
+
+            <img
+              src="/assets/global/Antra-Dark.svg"
+              alt="Antra Business Group"
+              className={styles.logo}
+            />
 
             <div className={styles.barTrack}>
               <div className={styles.barFill} style={{ width: `${progress}%` }} />
             </div>
-            <div className={styles.pct}>{progress}%</div>
-
-            <AnimatePresence mode="wait">
-              <motion.p
-                key={slow ? 'slow' : 'normal'}
-                className={styles.msg}
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -6 }}
-                transition={{ duration: 0.4 }}
-              >
-                {slow
-                  ? 'This is taking a little longer than usual — it works best on a stable connection. Hang tight, or reload the page if it stalls.'
-                  : 'Preparing your experience…'}
-              </motion.p>
-            </AnimatePresence>
           </div>
         </motion.div>
       )}

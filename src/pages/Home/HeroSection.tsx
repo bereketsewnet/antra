@@ -1,11 +1,15 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
 import { motion, useMotionValue, useTransform, useMotionTemplate } from 'framer-motion'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import styles from './HeroSection.module.css'
 
-const TOTAL_FRAMES = 120
+// Optimized hero frames — 60 evenly-sampled frames, 1280x720, ~1.1MB total.
+// (Downscaled/recompressed from the original 120x1920x1080 set via
+//  scripts/optimize-hero-frames.mjs)
+const TOTAL_FRAMES = 60
+const CRITICAL_FRAMES = 6   // paint the hero as soon as these decode
 const FRAME_URL = (n: number) =>
-  `/assets/hero%203d%20images/ezgif-frame-${String(n).padStart(3, '0')}.webp`
+  `/assets/hero-frames/frame-${String(n).padStart(3, '0')}.webp`
 
 const DROP_EASE = [0.22, 1, 0.36, 1] as [number, number, number, number]
 
@@ -22,17 +26,17 @@ interface Particle {
 }
 
 export function HeroSection() {
+  const navigate = useNavigate()
   const sectionRef        = useRef<HTMLElement>(null)
   const stickyRef         = useRef<HTMLDivElement>(null)
   const canvasRef         = useRef<HTMLCanvasElement>(null)
   const particleCanvasRef = useRef<HTMLCanvasElement>(null)
   const spotRef           = useRef<HTMLDivElement>(null)
   const framesRef         = useRef<HTMLImageElement[]>([])
-  const currentIdx        = useRef(0)
+  const currentIdx        = useRef(-1)
   const particlesRef      = useRef<Particle[]>([])
   const mouseRef          = useRef<{ x: number; y: number; active: boolean }>({ x: -9999, y: -9999, active: false })
-  const [ready, setReady]       = useState(false)
-  const [progress, setProgress] = useState(0)
+  const [ready, setReady] = useState(false)
 
   // ── Single scroll-progress motion value — shared by frames and text ──
   const progressMV = useMotionValue(0)
@@ -60,15 +64,21 @@ export function HeroSection() {
   const cubeRX = useMotionValue(-16)   // tilt (up/down)
   const cubeRY = useMotionValue(-24)   // spin (left/right)
   const cubeTransform = useMotionTemplate`rotateX(${cubeRX}deg) rotateY(${cubeRY}deg)`
-  const dragRef = useRef<{ active: boolean; px: number; py: number; rx: number; ry: number }>(
-    { active: false, px: 0, py: 0, rx: 0, ry: 0 }
+  const dragRef = useRef<{ active: boolean; px: number; py: number; rx: number; ry: number; moved: number }>(
+    { active: false, px: 0, py: 0, rx: 0, ry: 0, moved: 0 }
   )
   const [grabbing, setGrabbing] = useState(false)
+  const [cubeHover, setCubeHover] = useState(false)
+
+  // A tap: the cube is a link to the Consultancy page's "What Clients Bring
+  // Us" section (its 6 faces are the same 6 problems listed there). Dragging
+  // still spins it — we only navigate if the pointer barely moved.
+  const CLICK_DRAG_THRESHOLD = 6
 
   const onCubePointerDown = useCallback((e: React.PointerEvent) => {
     e.preventDefault()
     ;(e.currentTarget as HTMLElement).setPointerCapture(e.pointerId)
-    dragRef.current = { active: true, px: e.clientX, py: e.clientY, rx: cubeRX.get(), ry: cubeRY.get() }
+    dragRef.current = { active: true, px: e.clientX, py: e.clientY, rx: cubeRX.get(), ry: cubeRY.get(), moved: 0 }
     setGrabbing(true)
   }, [cubeRX, cubeRY])
 
@@ -77,16 +87,19 @@ export function HeroSection() {
     if (!d.active) return
     const dx = e.clientX - d.px
     const dy = e.clientY - d.py
+    d.moved = Math.max(d.moved, Math.hypot(dx, dy))
     cubeRY.set(d.ry + dx * 0.5)
     // clamp vertical tilt so it never flips fully over
     cubeRX.set(Math.max(-75, Math.min(75, d.rx - dy * 0.5)))
   }, [cubeRX, cubeRY])
 
   const onCubePointerUp = useCallback((e: React.PointerEvent) => {
+    const wasClick = dragRef.current.active && dragRef.current.moved < CLICK_DRAG_THRESHOLD
     dragRef.current.active = false
     setGrabbing(false)
     try { (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId) } catch { /* noop */ }
-  }, [])
+    if (wasClick) navigate('/consultancy#what-clients-bring-us')
+  }, [navigate])
 
   // Auto-rotate loop — spins continuously when idle, pauses while you drag,
   // and eases the tilt back to rest after you let go.
@@ -104,7 +117,7 @@ export function HeroSection() {
     return () => cancelAnimationFrame(raf)
   }, [cubeRX, cubeRY])
 
-  // ── Fit + draw a single canvas frame with cover-fit ──
+  // ── Fit + draw a single frame to the canvas with cover-fit ──
   const drawFrame = useCallback((idx: number) => {
     const canvas = canvasRef.current
     if (!canvas) return
@@ -139,72 +152,80 @@ export function HeroSection() {
     ctx.drawImage(img, sx, sy, sw, sh, 0, 0, w, h)
   }, [])
 
-  // ── Preload frames in parallel ──
+  // ── Preload frames — critical frames first & high-priority, rest stream in ──
+  // The very first frames are also <link rel=preload> in index.html, so they
+  // begin downloading before this bundle even executes.
   useEffect(() => {
-    const images: HTMLImageElement[] = []
-    let loaded = 0
-    let critical = 0
+    const images: HTMLImageElement[] = new Array(TOTAL_FRAMES)
+    let criticalDecoded = 0
+    let done = false
 
-    for (let i = 1; i <= TOTAL_FRAMES; i++) {
+    for (let i = 0; i < TOTAL_FRAMES; i++) {
       const img = new Image()
       img.decoding = 'async'
+      // Prioritise the frames needed for first paint; de-prioritise the tail.
+      img.setAttribute('fetchpriority', i < CRITICAL_FRAMES ? 'high' : 'low')
       img.onload = () => {
-        loaded++
-        setProgress(Math.round((loaded / TOTAL_FRAMES) * 100))
-        if (i <= 8) critical++
-        if (critical === 8) {
-          setReady(true)
-          drawFrame(0)
+        if (i < CRITICAL_FRAMES && !done) {
+          criticalDecoded++
+          if (criticalDecoded >= CRITICAL_FRAMES) {
+            done = true
+            setReady(true)
+            drawFrame(0)
+          }
         }
       }
-      img.src = FRAME_URL(i)
-      images.push(img)
+      img.src = FRAME_URL(i + 1)
+      images[i] = img
     }
     framesRef.current = images
   }, [drawFrame])
 
-  // ── Scroll → frame index ──
+  // ── Scroll → smoothed frame scrub ──
+  // Scroll only updates a target; a continuous rAF loop eases the drawn frame
+  // toward it, so fast scrolls glide instead of snapping frame-to-frame.
   useEffect(() => {
     const section = sectionRef.current
     const sticky  = stickyRef.current
     if (!section || !sticky) return
 
-    let raf: number | null = null
-    let pending = false
-
-    const onScroll = () => {
-      if (pending) return
-      pending = true
-      raf = requestAnimationFrame(() => {
-        const rect        = section.getBoundingClientRect()
-        const totalScroll = section.offsetHeight - sticky.offsetHeight
-        const distance    = Math.max(0, -rect.top)
-        const p           = totalScroll > 0 ? Math.min(1, distance / totalScroll) : 0
-
-        progressMV.set(p)
-
-        if (window.scrollY > 8) {
-          const target = Math.min(TOTAL_FRAMES - 1, Math.floor(p * (TOTAL_FRAMES - 1)))
-          if (target !== currentIdx.current) {
-            currentIdx.current = target
-            drawFrame(target)
-          }
-        }
-        pending = false
-      })
+    const computeTarget = () => {
+      const rect        = section.getBoundingClientRect()
+      const totalScroll = section.offsetHeight - sticky.offsetHeight
+      const distance    = Math.max(0, -rect.top)
+      return totalScroll > 0 ? Math.min(1, distance / totalScroll) : 0
     }
 
-    const onResize = () => drawFrame(currentIdx.current)
+    let target  = computeTarget()
+    let current = target
+    let raf     = 0
 
-    onScroll()
+    const onScroll = () => { target = computeTarget() }
+
+    const tick = () => {
+      // Ease current toward target — smaller factor = smoother/softer
+      current += (target - current) * 0.16
+      if (Math.abs(target - current) < 0.0002) current = target
+
+      progressMV.set(current)
+
+      const idx = Math.min(TOTAL_FRAMES - 1, Math.round(current * (TOTAL_FRAMES - 1)))
+      if (idx !== currentIdx.current) {
+        currentIdx.current = idx
+        drawFrame(idx)
+      }
+      raf = requestAnimationFrame(tick)
+    }
+
+    raf = requestAnimationFrame(tick)
     window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', onResize)
+    window.addEventListener('resize', onScroll)
     return () => {
       window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', onResize)
-      if (raf) cancelAnimationFrame(raf)
+      window.removeEventListener('resize', onScroll)
+      cancelAnimationFrame(raf)
     }
-  }, [drawFrame, progressMV])
+  }, [progressMV, drawFrame])
 
   // ── Autonomous floating dust — tiny particles drift smoothly across the hero ──
   useEffect(() => {
@@ -368,12 +389,15 @@ export function HeroSection() {
         {/* One-shot diagonal light slash — cinematic entry sweep */}
         <div className={styles.scanSlash} aria-hidden="true" />
 
+        {/* First frame paints instantly (preloaded in index.html) while the
+            canvas warms up — prevents a black flash on load. */}
         {!ready && (
           <img
             src={FRAME_URL(1)}
             alt=""
             aria-hidden="true"
             className={styles.fallback}
+            fetchPriority="high"
           />
         )}
 
@@ -441,14 +465,6 @@ export function HeroSection() {
         {/* Bottom seam fade — melts the hero into the next section's navy */}
         <div className={styles.seamFade} aria-hidden="true" />
 
-        {!ready && (
-          <div className={styles.loader} aria-label="Loading animation">
-            <div className={styles.loaderTrack}>
-              <div className={styles.loaderBar} style={{ width: `${progress}%` }} />
-            </div>
-          </div>
-        )}
-
         {/* ══ Left floating info cards — fade away on first scroll ══ */}
         <motion.div
           className={styles.infoPanel}
@@ -470,14 +486,37 @@ export function HeroSection() {
             {/* Floor reflection glow */}
             <div className={styles.cubeGlow} />
 
-            {/* Drag surface — captures pointer, spins the cube */}
+            {/* Drag surface — captures pointer, spins the cube; a tap (no drag) navigates */}
             <div
               className={`${styles.cubeGrab} ${grabbing ? styles.cubeGrabbing : ''}`}
               onPointerDown={onCubePointerDown}
               onPointerMove={onCubePointerMove}
               onPointerUp={onCubePointerUp}
               onPointerCancel={onCubePointerUp}
+              onPointerEnter={() => setCubeHover(true)}
+              onPointerLeave={() => setCubeHover(false)}
+              role="link"
+              tabIndex={0}
+              aria-label="Go to Consultancy — What Clients Bring Us"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  navigate('/consultancy#what-clients-bring-us')
+                }
+              }}
             />
+
+            {/* Hover hint — reveals where the cube leads */}
+            <motion.div
+              className={styles.cubeHint}
+              initial={false}
+              animate={{ opacity: cubeHover ? 1 : 0, y: cubeHover ? 0 : 6 }}
+              transition={{ duration: 0.25, ease: DROP_EASE }}
+            >
+              <span className={styles.cubeHintNum}>03</span>
+              <span className={styles.cubeHintText}>What Clients Bring Us</span>
+              <span className={styles.cubeHintArrow}>→</span>
+            </motion.div>
 
             {/* The cube — rotation driven by cursor drag */}
             <motion.div className={styles.cube} style={{ transform: cubeTransform }}>

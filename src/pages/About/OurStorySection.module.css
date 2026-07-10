@@ -5,7 +5,8 @@
   overflow: hidden;
 }
 
-/* Bottom fade — melts into the next section (Values image, dark edge). */
+/* Bottom fade — melts into the next section (Mission), using the site's
+   primary navy rather than the near-black navy-dark shade. */
 .section::after {
   content: '';
   position: absolute;
@@ -14,7 +15,7 @@
   bottom: 0;
   height: clamp(120px, 16vh, 200px);
   pointer-events: none;
-  background: linear-gradient(to bottom, var(--navy-dark-0) 0%, var(--navy-dark) 100%);
+  background: linear-gradient(to bottom, var(--navy-0) 0%, var(--navy) 100%);
 }
 
 /* Subtle grid */

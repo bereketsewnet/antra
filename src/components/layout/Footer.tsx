@@ -7,7 +7,7 @@ const consultancyLinks = [
   { label: 'Corporate Training',     to: '/consultancy' },
   { label: 'Talent Search',          to: '/consultancy' },
   { label: 'Coaching & Mentorship',  to: '/consultancy' },
-  { label: 'Org Transformation',     to: '/consultancy' },
+  { label: 'Organizational Transformation', to: '/consultancy' },
 ]
 
 const tradingLinks = [
@@ -99,10 +99,6 @@ export function Footer() {
           <p className={styles.copyright}>
             © {new Date().getFullYear()} Antra Business Group Plc. All rights reserved.
           </p>
-          <div className={styles.bottomLinks}>
-            <NavLink to="/about" className={styles.bottomLink}>About</NavLink>
-            <NavLink to="/contact" className={styles.bottomLink}>Contact</NavLink>
-          </div>
           <p className={styles.madeBy}>
             Made by{' '}
             <a href="https://wubsites.com" target="_blank" rel="noopener noreferrer" className={styles.madeByLink}>

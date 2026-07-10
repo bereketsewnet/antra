@@ -1,5 +1,6 @@
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
+import { Link } from 'react-router-dom'
 import styles from './MapSection.module.css'
 
 export function AboutMapSection() {
@@ -10,13 +11,54 @@ export function AboutMapSection() {
     <section ref={sectionRef} className={styles.section}>
       <div className={styles.container}>
 
+        {/* ── CTA block — "Ready to work with us?" ── */}
         <motion.div
           className={styles.sectionLabel}
           initial={{ opacity: 0, x: -20 }}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          <span className={styles.labelNumber}>09</span>
+          <span className={styles.labelNumber}>04</span>
+          <span className={styles.labelText}>Let's Talk</span>
+          <div className={styles.labelLine} />
+        </motion.div>
+
+        <div className={styles.ctaInner}>
+          <motion.div
+            className={styles.ctaText}
+            initial={{ opacity: 0, y: 28 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.1, duration: 0.75, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] }}
+          >
+            <h2 className={styles.ctaHeading}>Ready to work with us?</h2>
+            <p className={styles.ctaSub}>
+              Tell us what you are working on. We will respond within one business day.
+            </p>
+          </motion.div>
+
+          <motion.div
+            className={styles.ctaActions}
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.25, duration: 0.6 }}
+          >
+            <Link to="/contact" className={styles.ctaBtn + ' ' + styles.ctaBtnPrimary}>
+              Start a conversation
+            </Link>
+            <Link to="/consultancy" className={styles.ctaBtn + ' ' + styles.ctaBtnGhost}>
+              See our services
+            </Link>
+          </motion.div>
+        </div>
+
+        {/* ── Find Us block ── */}
+        <motion.div
+          className={styles.sectionLabel}
+          initial={{ opacity: 0, x: -20 }}
+          animate={isInView ? { opacity: 1, x: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.1 }}
+        >
+          <span className={styles.labelNumber}>05</span>
           <span className={styles.labelText}>Find Us</span>
           <div className={styles.labelLine} />
         </motion.div>

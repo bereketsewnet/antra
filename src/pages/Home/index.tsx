@@ -1,11 +1,9 @@
 import { motion } from 'framer-motion'
 import { SEO } from '@/components/SEO'
 import { HeroSection } from './HeroSection'
-import { WhatWeDoSection } from './WhatWeDoSection'
 import { ServicePillarsSection } from './ServicePillarsSection'
 import { LatestNewsSection } from './LatestNewsSection'
-import { WhyUsSection } from './WhyUsSection'
-import { LeaderSection } from './LeaderSection'
+import { TeamSection } from './TeamSection'
 import { ClosingCTASection } from './ClosingCTASection'
 
 const pageVariants = {
@@ -47,11 +45,9 @@ export function HomePage() {
       />
       <motion.main variants={pageVariants} initial="initial" animate="animate" exit="exit">
         <HeroSection />
-        <WhatWeDoSection />
         <ServicePillarsSection />
         <LatestNewsSection />
-        <WhyUsSection />
-        <LeaderSection />
+        <TeamSection />
         <ClosingCTASection />
       </motion.main>
     </>

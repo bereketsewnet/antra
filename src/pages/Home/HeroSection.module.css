@@ -829,6 +829,45 @@
   cursor: grabbing;
 }
 
+/* Hover hint — appears above the cube, tells you where a click leads */
+.cubeHint {
+  position: absolute;
+  top: -34px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px;
+  background: rgba(6, 15, 26, 0.88);
+  border: 1px solid rgba(217, 121, 17, 0.4);
+  border-radius: 999px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 6;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+.cubeHintNum {
+  font-family: var(--font-heading);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--orange);
+}
+
+.cubeHintText {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.cubeHintArrow {
+  font-size: 12px;
+  color: var(--orange);
+}
+
 /* ── Cube face ── */
 .face {
   position: absolute;

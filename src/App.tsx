@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { Suspense, useEffect } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
 import { useLenis } from '@/hooks/useLenis'
@@ -12,23 +12,47 @@ function AppInner() {
   const lenisRef = useLenis()
   const location = useLocation()
 
-  // Scroll to top on every route change (Lenis-aware)
+  // Scroll to top on every route change — or to the #hash target if one is
+  // present (lazy pages need a tick to mount before the element exists).
   useEffect(() => {
     const lenis = lenisRef.current
+    const hash = location.hash.slice(1)
+
+    if (hash) {
+      const scrollToHash = () => {
+        const el = document.getElementById(hash)
+        if (!el) return false
+        if (lenis) {
+          lenis.scrollTo(el, { immediate: true, force: true, offset: -90 })
+        } else {
+          const y = el.getBoundingClientRect().top + window.scrollY - 90
+          window.scrollTo(0, y)
+        }
+        return true
+      }
+      if (!scrollToHash()) {
+        const timer = window.setTimeout(scrollToHash, 150)
+        return () => window.clearTimeout(timer)
+      }
+      return
+    }
+
     if (lenis) {
       lenis.scrollTo(0, { immediate: true, force: true })
     } else {
       window.scrollTo(0, 0)
     }
-  }, [location.pathname, lenisRef])
+  }, [location.pathname, location.hash, lenisRef])
 
   return (
     <>
       <Preloader />
       <Navbar />
-      <AnimatePresence mode="wait" initial={false}>
-        <Outlet key={location.pathname} />
-      </AnimatePresence>
+      <Suspense fallback={null}>
+        <AnimatePresence mode="wait" initial={false}>
+          <Outlet key={location.pathname} />
+        </AnimatePresence>
+      </Suspense>
       <Footer />
     </>
   )

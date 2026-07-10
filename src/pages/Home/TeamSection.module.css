@@ -1,0 +1,186 @@
+.section {
+  position: relative;
+  padding-block: clamp(110px, 16vw, 220px);
+  overflow: hidden;
+}
+
+/* Background image — no fixed attachment on mobile (iOS bug) */
+.bgImage {
+  position: absolute;
+  inset: 0;
+  background-image: url('/assets/home%20assets/why-us-section-bg.webp');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+/* Dark overlay */
+.bgOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(6, 15, 26, 0.92) 0%,
+    rgba(11, 33, 53, 0.88) 50%,
+    rgba(6, 15, 26, 0.95) 100%
+  );
+}
+
+/* Edge fades — melt this image band into the neighbouring sections.
+   Both meet the neighbours at --navy-dark, so the seams disappear in
+   dark and light mode alike. They sit above the overlay, below content. */
+.topFade,
+.bottomFade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: clamp(120px, 16vh, 200px);
+  pointer-events: none;
+}
+
+.topFade {
+  top: 0;
+  background: linear-gradient(to bottom, var(--navy-dark) 0%, var(--navy-dark-0) 100%);
+}
+
+.bottomFade {
+  bottom: 0;
+  background: linear-gradient(to top, var(--navy-dark) 0%, var(--navy-dark-0) 100%);
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-pad);
+}
+
+/* ── Header ── */
+.header {
+  text-align: center;
+  margin-bottom: clamp(48px, 6vw, 80px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.labelRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.labelDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--orange);
+  box-shadow: 0 0 8px rgba(217, 121, 17, 0.7);
+  flex-shrink: 0;
+}
+
+.labelText {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: clamp(28px, 4vw, 54px);
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.titleAccent {
+  color: var(--orange);
+}
+
+/* ── Team grid — scales as more people are added; a single card stays
+   a sane width instead of stretching full-bleed ── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 280px));
+  justify-content: center;
+  gap: clamp(24px, 3vw, 36px);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.photoWrap {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  box-shadow:
+    0 24px 64px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+.cardInfo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 4px 4px 0;
+}
+
+.cardAccent {
+  width: 3px;
+  height: 38px;
+  background: var(--orange);
+  border-radius: 2px;
+  flex-shrink: 0;
+  box-shadow: 0 0 10px rgba(217, 121, 17, 0.5);
+}
+
+.cardName {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: clamp(16px, 1.6vw, 20px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--white);
+}
+
+.cardTitle {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--white-60);
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+/* ── Mobile (768px) — fix iOS fixed background ── */
+@media (max-width: 768px) {
+  .bgImage {
+    background-attachment: scroll;
+  }
+
+  .title br {
+    display: none;
+  }
+}

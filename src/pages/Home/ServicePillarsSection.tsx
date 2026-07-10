@@ -7,7 +7,7 @@ const cards = [
     id: 'consultancy',
     number: '01',
     tag: 'Management Consultancy',
-    headline: 'Leadership. Strategy. People.',
+    headline: 'Leadership. Strategy. Organizational Transformation. People Solutions.',
     body: 'We work with executive teams on leadership development, organizational transformation, strategy, talent search, and the coaching that helps senior people deliver on what they committed to. Most of our engagements run past the design phase into implementation, because that is where transformation work usually breaks down.',
     cta: 'Explore consultancy',
     href: '/consultancy',
@@ -116,33 +116,57 @@ export function ServicePillarsSection() {
     <section ref={sectionRef} className={styles.section}>
       <div className={styles.container}>
 
-        {/* Section header */}
-        <div className={styles.header}>
-          <motion.span
-            className={styles.eyebrow}
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
+        {/* Intro block — "What we do" label + description paragraphs */}
+        <div className={styles.intro}>
+          <motion.div
+            className={styles.labelRow}
+            initial={{ opacity: 0, x: -20 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6 }}
           >
-            OUR TWO PRACTICES
-          </motion.span>
-          <motion.h2
-            className={styles.title}
-            initial={{ opacity: 0, y: 30 }}
+            <span className={styles.labelDot} />
+            <span className={styles.labelText}>What we do</span>
+          </motion.div>
+
+          <motion.div
+            className={styles.introBody}
+            initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.1, duration: 0.7, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] }}
+            transition={{ delay: 0.12, duration: 0.65, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] }}
           >
-            Built for clients who need
-            <br />
-            <span className={styles.titleAccent}>both kinds of help.</span>
-          </motion.h2>
+            <p>
+              Our areas of expertise include organizational leadership, strategy
+              formulation and alignment, change and transformation management,
+              leadership development, coaching and mentoring, training, and the
+              translation of strategy into execution. We combine professional and
+              academic excellence to ensure that our approach reflects both
+              international best practice and Ethiopian institutional relevance.
+            </p>
+            <p>
+              Our trading division supplies equipment that cannot be easily
+              sourced inside Ethiopia, from construction machinery, electric
+              vehicles to medical equipment, through our operations in the
+              Djibouti Free Zone.
+            </p>
+          </motion.div>
         </div>
 
-        {/* Cards grid */}
-        <div className={styles.grid}>
-          {cards.map((card, i) => (
-            <TiltCard key={card.id} card={card} index={i} isInView={isInView} />
-          ))}
+        {/* Services heading + cards grid */}
+        <div className={styles.servicesBlock}>
+          <motion.h2
+            className={styles.title}
+            initial={{ opacity: 0, y: 28 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.2, duration: 0.75, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] }}
+          >
+            Our Services
+          </motion.h2>
+
+          <div className={styles.grid}>
+            {cards.map((card, i) => (
+              <TiltCard key={card.id} card={card} index={i} isInView={isInView} />
+            ))}
+          </div>
         </div>
 
       </div>

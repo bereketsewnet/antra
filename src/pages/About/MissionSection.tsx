@@ -6,7 +6,7 @@ const pillars = [
   {
     num: '01',
     title: 'Management Consultancy',
-    text: 'To be a trusted partner of choice for organisational transformation, leadership development, strategy & business alignment, training, coaching and mentoring, talent search and consultancy services in Ethiopia & regional markets.',
+    text: 'To be a trusted partner of choices for organizational transformation, leadership development, strategy & business alignment, training, coaching and mentoring, talent search and consultancy services in Ethiopia & regional markets.',
   },
   {
     num: '02',
@@ -20,7 +20,7 @@ export function MissionSection() {
   const isInView = useInView(sectionRef, { once: true, margin: '-80px' })
 
   return (
-    <section ref={sectionRef} className={styles.section}>
+    <section ref={sectionRef} data-theme-section="hero" className={styles.section}>
       <div className={styles.bgOverlay} aria-hidden="true" />
       <div className={styles.container}>
 

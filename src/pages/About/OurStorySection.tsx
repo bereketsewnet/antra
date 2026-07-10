@@ -19,7 +19,7 @@ export function OurStorySection() {
           animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          <span className={styles.labelNumber}>03</span>
+          <span className={styles.labelNumber}>01</span>
           <span className={styles.labelText}>Our Story</span>
           <div className={styles.labelLine} />
         </motion.div>
@@ -57,12 +57,6 @@ export function OurStorySection() {
                 strategic insight with practical execution — helping clients
                 navigate complexity, unlock opportunities, and achieve sustainable
                 growth and transformation.
-              </p>
-              <p>
-                In addition to our management consultancy services, we offer
-                trading solutions that connect clients with quality products,
-                trusted suppliers, and efficient route-to-market strategies across
-                Ethiopia and regional markets.
               </p>
             </motion.div>
           </div>

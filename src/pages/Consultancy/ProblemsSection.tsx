@@ -16,7 +16,7 @@ export function ProblemsSection() {
   const isInView = useInView(sectionRef, { once: true, margin: '-80px' })
 
   return (
-    <section ref={sectionRef} className={styles.section}>
+    <section ref={sectionRef} id="what-clients-bring-us" className={styles.section}>
       <div className={styles.container}>
 
         {/* Section label */}

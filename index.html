@@ -24,6 +24,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+
+    <!-- Hero scrub — preload the first frames so they download during HTML
+         parse, before the JS bundle executes. Rest stream in from JS. -->
+    <link rel="preload" as="image" href="/assets/hero-frames/frame-001.webp" fetchpriority="high" />
+    <link rel="preload" as="image" href="/assets/hero-frames/frame-002.webp" />
+    <link rel="preload" as="image" href="/assets/hero-frames/frame-003.webp" />
+    <link rel="preload" as="image" href="/assets/hero-frames/frame-004.webp" />
+    <link rel="preload" as="image" href="/assets/hero-frames/frame-005.webp" />
+    <link rel="preload" as="image" href="/assets/hero-frames/frame-006.webp" />
   </head>
   <body>
     <script>
