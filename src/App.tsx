@@ -31,8 +31,18 @@ function AppInner() {
         return true
       }
       if (!scrollToHash()) {
-        const timer = window.setTimeout(scrollToHash, 150)
-        return () => window.clearTimeout(timer)
+        // Lazy-loaded pages can take longer than a single fixed delay to
+        // mount (especially pages with many sections) — poll instead of
+        // trying once, so the scroll never silently lands at the top.
+        let attempts = 0
+        const maxAttempts = 30 // ~3s at 100ms intervals
+        const interval = window.setInterval(() => {
+          attempts += 1
+          if (scrollToHash() || attempts >= maxAttempts) {
+            window.clearInterval(interval)
+          }
+        }, 100)
+        return () => window.clearInterval(interval)
       }
       return
     }

@@ -57,32 +57,76 @@
   font-weight: 600;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--white-60);
 }
 
 .labelLine {
   flex: 1;
   height: 1px;
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--white-10);
 }
 
-.imageWrap {
+.suppliersGrid {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
-  padding: clamp(28px, 4vw, 48px);
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 14px;
-  max-width: 680px;
+  gap: clamp(20px, 3vw, 32px);
 }
 
-.image {
+.supplierCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  flex: 1 1 240px;
+  max-width: 280px;
+  padding: clamp(28px, 4vw, 36px) clamp(24px, 3vw, 32px);
+  background: #FFFFFF;
+  border: 1px solid rgba(11, 33, 53, 0.06);
+  border-radius: 16px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22);
+  transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
+}
+
+.supplierCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.28);
+}
+
+.logoWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  max-width: 580px;
-  height: auto;
-  display: block;
+  height: 56px;
+}
+
+.logo {
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
+}
+
+.supplierName {
+  position: relative;
+  padding-top: 18px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: #0B2135;
+  text-align: center;
+}
+
+.supplierName::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 28px;
+  height: 2px;
+  background: var(--orange);
 }
 
 :global([data-theme="light"]) .section {

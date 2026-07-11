@@ -100,11 +100,10 @@ export function Footer() {
             © {new Date().getFullYear()} Antra Business Group Plc. All rights reserved.
           </p>
           <p className={styles.madeBy}>
-            Made by{' '}
+            Made with 🧡 by {' '}
             <a href="https://wubsites.com" target="_blank" rel="noopener noreferrer" className={styles.madeByLink}>
               Wubsites
             </a>
-            {' '}<span className={styles.heart}>♥</span>
           </p>
         </div>
       </div>

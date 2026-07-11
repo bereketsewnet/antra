@@ -114,6 +114,114 @@
   font-weight: 600;
 }
 
+/* ── Dropdown submenu (desktop) ── */
+.navItem {
+  position: relative;
+  display: inline-flex;
+}
+
+.linkCaret {
+  position: relative;
+  z-index: 1;
+  font-size: 9px;
+  margin-left: 5px;
+  opacity: 0.6;
+  transition: transform 0.2s var(--ease-out);
+}
+
+.navItem:hover .linkCaret {
+  transform: translateY(1px);
+}
+
+.submenu {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px;
+  border-radius: 12px;
+  background: var(--nav-glass-bg-strong);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--nav-glass-border);
+  box-shadow: var(--nav-glass-shadow);
+  z-index: 5;
+}
+
+/* Invisible bridge so the pointer can travel from link to dropdown
+   without the gap closing the menu */
+.submenu::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 0;
+  right: 0;
+  height: 10px;
+}
+
+.submenuItemWrap {
+  position: relative;
+}
+
+.submenuLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--white-80);
+  text-decoration: none;
+  padding: 9px 12px;
+  border-radius: 8px;
+  transition: background 0.18s var(--ease-out), color 0.18s var(--ease-out);
+}
+
+.submenuLink:hover {
+  background: var(--nav-pill-bg);
+  color: var(--orange);
+}
+
+.submenuCaret {
+  font-size: 10px;
+  opacity: 0.55;
+}
+
+/* ── Nested flyout (e.g. Services → 6 practices) — opens to the right ── */
+.childSubmenu {
+  position: absolute;
+  top: 0;
+  left: calc(100% + 8px);
+  min-width: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px;
+  border-radius: 12px;
+  background: var(--nav-glass-bg-strong);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--nav-glass-border);
+  box-shadow: var(--nav-glass-shadow);
+  z-index: 6;
+}
+
+/* Invisible bridge on the left edge so the pointer can travel across
+   the small gap to the flyout without it closing */
+.childSubmenu::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -8px;
+  width: 8px;
+}
+
 /* Sliding orange active pill (shared layoutId) */
 .activePill {
   position: absolute;
@@ -246,6 +354,17 @@
   gap: 0;
 }
 
+.mobileLinkRow {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--white-10);
+}
+
+.mobileLinkRow .mobileLink {
+  flex: 1;
+  border-bottom: none;
+}
+
 .mobileLink {
   display: flex;
   align-items: center;
@@ -268,6 +387,98 @@
 .mobileLink:hover,
 .mobileLinkActive {
   color: var(--white);
+}
+
+/* ── Mobile submenu (tap to expand) ── */
+.mobileSubmenuToggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  color: var(--white-60);
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 0.25s var(--ease-out), color 0.2s;
+}
+
+.mobileSubmenuToggle:hover {
+  color: var(--orange);
+}
+
+.mobileSubmenuToggleOpen {
+  transform: rotate(180deg);
+  color: var(--orange);
+}
+
+.mobileSubmenu {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 8px;
+}
+
+.mobileSubmenuLink {
+  flex: 1;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--white-60);
+  text-decoration: none;
+  padding: 10px 12px 10px 44px;
+  transition: color 0.2s;
+}
+
+.mobileSubmenuLink:hover {
+  color: var(--orange);
+}
+
+/* ── Nested mobile submenu (e.g. Services → 6 practices) ── */
+.mobileSubmenuRow {
+  display: flex;
+  align-items: center;
+}
+
+.mobileChildToggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  margin-right: 4px;
+  background: none;
+  border: none;
+  color: var(--white-60);
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform 0.25s var(--ease-out), color 0.2s;
+}
+
+.mobileChildToggle:hover {
+  color: var(--orange);
+}
+
+.mobileChildSubmenu {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 6px;
+}
+
+.mobileChildSubmenuLink {
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--white-60);
+  text-decoration: none;
+  padding: 9px 12px 9px 74px;
+  transition: color 0.2s;
+}
+
+.mobileChildSubmenuLink:hover {
+  color: var(--orange);
 }
 
 .mobileLinkActive {

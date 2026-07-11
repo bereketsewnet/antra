@@ -22,7 +22,7 @@ export function WhyBuyersSection() {
   const isInView = useInView(sectionRef, { once: true, margin: '-80px' })
 
   return (
-    <section ref={sectionRef} className={styles.section}>
+    <section ref={sectionRef} id="why-buyers-work-with-us" className={styles.section}>
       <div className={styles.container}>
         <div className={styles.grid}>
 

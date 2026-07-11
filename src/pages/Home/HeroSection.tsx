@@ -567,7 +567,7 @@ export function HeroSection() {
             transition={{ delay: 1.5, duration: 0.9, ease: DROP_EASE }}
           >
             <span className={styles.chipDot} />
-            <span className={styles.chipLabel}>What</span>
+            <span className={styles.chipLabel}>Challenges</span>
           </motion.div>
 
           <motion.div
@@ -577,7 +577,7 @@ export function HeroSection() {
             transition={{ delay: 1.85, duration: 0.9, ease: DROP_EASE }}
           >
             <span className={styles.chipDot} />
-            <span className={styles.chipLabel}>Clients</span>
+            <span className={styles.chipLabel}>we help</span>
           </motion.div>
 
           <motion.div
@@ -587,7 +587,7 @@ export function HeroSection() {
             transition={{ delay: 2.2, duration: 0.9, ease: DROP_EASE }}
           >
             <span className={styles.chipDot} />
-            <span className={styles.chipLabel}>Bring Us</span>
+            <span className={styles.chipLabel}>you solve</span>
           </motion.div>
           </div>
 

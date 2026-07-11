@@ -35,7 +35,7 @@ export function ValuesSection() {
   const isInView = useInView(sectionRef, { once: true, margin: '-80px' })
 
   return (
-    <section ref={sectionRef} data-theme-section="hero" className={styles.section}>
+    <section ref={sectionRef} id="core-values" data-theme-section="hero" className={styles.section}>
       <div className={styles.container}>
         {/* Section label */}
         <motion.div

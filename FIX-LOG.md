@@ -734,3 +734,109 @@ The base styles already use the correct auto-flipping `--white` family
 overrides were pure regressions. Deleted them.
 
 **Files:** `src/pages/Contact/MapSection.module.css`
+
+---
+
+## 49. Navbar — "About" hover dropdown with 3 section submenu links
+Added a hover submenu to the "About" nav item with 3 links: Who We Are,
+Mission, Core Values. Clicking any of them navigates to the About page
+and scrolls directly to that section — reusing the hash-scroll mechanism
+already built in fix #1 (works both from another page and while already
+on the About page, since it depends on `location.hash` too).
+
+"Who We Are" links to the "Our Story" section (`#who-we-are`) — the
+literal "Who We Are" section was removed back in fix #13 for duplicating
+"Our Story," so this submenu label maps to the section that now answers
+that same question.
+
+Also added a matching expandable submenu on mobile (tap the caret to
+reveal the 3 links), since "hover" doesn't exist on touch devices.
+
+**Files:** `src/components/layout/Navbar.tsx`, `Navbar.module.css`,
+`src/pages/About/OurStorySection.tsx` (added `id="who-we-are"`),
+`src/pages/About/MissionSection.tsx` (added `id="our-mission"`),
+`src/pages/About/ValuesSection.tsx` (added `id="core-values"`)
+
+---
+
+## 50. Navbar — "Consultancy" hover dropdown with nested "Services" flyout
+Added a hover submenu to "Consultancy" with 5 items: Services, Coaching &
+Mentorship, Organizational Strategy, What Makes Us Unique, Key Partners —
+same click-to-jump-to-section behavior as the About dropdown (fix #49).
+
+"Services" additionally opens its own nested flyout (hover on desktop,
+tap-to-expand on mobile) listing all 6 practices in order: 01
+Organizational Transformation, 02 Leadership Development Programs, 03
+Training on People Management, 04 Talent Search & Assessments, 05
+Advisory & Change, 06 Coaching & Mentorship — each jumping straight to
+that specific practice card (added an `id` to every `ServiceCard`, e.g.
+`practice-org`, `practice-leadership`, etc.). "Coaching & Mentorship" in
+the main 5-item list and "06" in the Services flyout point to the exact
+same anchor, since they're the same card.
+
+**Files:** `src/components/layout/Navbar.tsx`, `Navbar.module.css`,
+`src/pages/Consultancy/ServicesSection.tsx` (added `id="services"` +
+per-card ids), `StrategySection.tsx` (`id="organizational-strategy"`),
+`WhatMakesUsUniqueSection.tsx` (`id="what-makes-us-unique"`),
+`KeyPartnersSection.tsx` (`id="key-partners"`)
+
+---
+
+## 51. Navbar — "Trading" hover dropdown with nested "Product Lines" flyout
+Same pattern as Consultancy (fix #50). "Trading" now has a 4-item hover
+submenu: Product Lines, Why Buyers Work With Us, What Makes Us Unique,
+Suppliers — each jumps straight to that section.
+
+"Product Lines" opens its own nested flyout listing all 4 categories in
+order: 01 Electric Vehicles, 02 Construction Machinery, 03 Sanitary
+Equipment, 04 Medical Equipment — each jumping to that specific product
+card (added an `id` to every product card, e.g. `product-ev`,
+`product-construction`, etc.). Works the same on mobile via nested
+tap-to-expand.
+
+**Files:** `src/components/layout/Navbar.tsx`,
+`src/pages/Trading/ProductLinesSection.tsx` (added `id="product-lines"` +
+per-card ids), `WhyBuyersSection.tsx` (`id="why-buyers-work-with-us"`),
+`WhatMakesUsUniqueSection.tsx` (`id="what-makes-us-unique"`),
+`KeySuppliersSection.tsx` (`id="suppliers"`)
+
+---
+
+## 52. Hero cube click — fixed a real reliability bug in hash-scroll retry
+The cube's click target (`/consultancy#what-clients-bring-us`) and the
+section's `id` were already correctly matched — but the hash-scroll retry
+in `App.tsx` only tried once, 150ms after failing to find the target
+element. Since Consultancy is a lazy-loaded page that now renders many
+more sections than when this retry was first written, a single 150ms
+attempt could miss the mount on a slower connection — silently leaving
+the scroll at position 0 (top of the Hero) instead of jumping to "What
+Clients Bring Us." That's what looked like "wrong place."
+
+Replaced the single retry with a poll (every 100ms, up to ~3s) that keeps
+trying until the target element exists, so the jump can't silently fail
+regardless of how long the page chunk takes to mount.
+
+**Files:** `src/App.tsx`
+
+---
+
+## 53. Hero floating chips — replaced with "Challenges we help you solve"
+Swapped the 3 single-word chips ("What" / "Clients" / "Bring Us") for the
+phrase "Challenges we help you solve," split across the same 3 chip slots:
+"Challenges we" / "help you" / "solve."
+
+Since the new phrases are longer than the original single words, removed
+the all-caps + wide letter-spacing styling (which would have ballooned
+the pills far past their intended size) in favor of normal sentence case
+with tighter spacing — reads as a natural caption instead of a shouty
+label, and keeps the pills a sensible size.
+
+**Files:** `src/pages/Home/HeroSection.tsx`, `HeroSection.module.css`
+
+---
+
+## 54. Hero floating chips — re-split text
+Changed the split from "Challenges we" / "help you" / "solve" to
+"Challenges" / "we help" / "you solve."
+
+**Files:** `src/pages/Home/HeroSection.tsx`, `HeroSection.module.css`

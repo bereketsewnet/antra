@@ -74,6 +74,7 @@ const approach = [
 function ServiceCard({ svc, index, isInView }: { svc: typeof services[0]; index: number; isInView: boolean }) {
   return (
     <motion.div
+      id={`practice-${svc.id}`}
       className={styles.card}
       initial={{ opacity: 0, y: 40 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -118,7 +119,7 @@ export function ServicesSection() {
   const approachInView = useInView(approachRef, { once: true, margin: '-80px' })
 
   return (
-    <section ref={sectionRef} className={styles.section}>
+    <section ref={sectionRef} id="services" className={styles.section}>
       <div className={styles.container}>
 
         {/* Section label */}

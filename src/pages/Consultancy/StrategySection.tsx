@@ -17,7 +17,7 @@ export function StrategySection() {
   const inView = useInView(ref, { once: true, margin: '-80px' })
 
   return (
-    <section ref={ref} className={styles.section}>
+    <section ref={ref} id="organizational-strategy" className={styles.section}>
       <div className={styles.container}>
 
         <div className={styles.grid}>

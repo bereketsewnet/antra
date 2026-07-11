@@ -1114,30 +1114,29 @@
 
 .chipLabel {
   font-family: var(--font-body);
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.82);
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: rgba(255, 255, 255, 0.88);
   white-space: nowrap;
 }
 
 /* Positions — triangular orbit around the cube */
 .chip1 {
-  /* "What" — upper-left, above the cube's top-left corner */
+  /* "Challenges" — upper-left, above the cube's top-left corner */
   top: 72px;
   left: -40px;
   animation: chipFloat1 5.4s ease-in-out infinite;
 }
 .chip2 {
-  /* "Clients" — right side, upper portion of cube */
+  /* "we help" — right side, upper portion of cube */
   top: 155px;
   right: -40px;
   animation: chipFloat2 4.9s ease-in-out infinite;
   animation-delay: 1.2s;
 }
 .chip3 {
-  /* "Bring Us" — lower-left, below the cube */
+  /* "you solve" — lower-left, below the cube */
   top: 380px;
   left: 20px;
   animation: chipFloat3 6.1s ease-in-out infinite;

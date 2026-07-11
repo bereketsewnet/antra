@@ -20,7 +20,7 @@ export function MissionSection() {
   const isInView = useInView(sectionRef, { once: true, margin: '-80px' })
 
   return (
-    <section ref={sectionRef} data-theme-section="hero" className={styles.section}>
+    <section ref={sectionRef} id="our-mission" data-theme-section="hero" className={styles.section}>
       <div className={styles.bgOverlay} aria-hidden="true" />
       <div className={styles.container}>
 

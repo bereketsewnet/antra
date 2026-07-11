@@ -77,7 +77,7 @@ export function WhatMakesUsUniqueSection() {
   const inView = useInView(ref, { once: true, margin: '-80px' })
 
   return (
-    <section ref={ref} className={styles.section}>
+    <section ref={ref} id="what-makes-us-unique" className={styles.section}>
       <div className={styles.container}>
 
         <motion.div

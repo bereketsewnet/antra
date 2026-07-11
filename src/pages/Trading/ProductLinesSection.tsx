@@ -38,6 +38,7 @@ function ProductCard({ product, index, isInView }: { product: typeof products[0]
 
   return (
     <motion.div
+      id={`product-${product.id}`}
       className={styles.card}
       initial={{ opacity: 0, y: 48 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -81,7 +82,7 @@ export function ProductLinesSection() {
   const isInView = useInView(sectionRef, { once: true, margin: '-80px' })
 
   return (
-    <section ref={sectionRef} className={styles.section}>
+    <section ref={sectionRef} id="product-lines" className={styles.section}>
       <div className={styles.container}>
 
         {/* Section label */}
