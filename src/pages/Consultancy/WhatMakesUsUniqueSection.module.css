@@ -1,0 +1,146 @@
+.section {
+  background: var(--navy-dark);
+  padding-block: clamp(80px, 10vw, 130px);
+  position: relative;
+  overflow: hidden;
+}
+
+.section::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(ellipse at 100% 100%, rgba(217, 121, 17, 0.06) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-pad);
+}
+
+/* ── Header ── */
+.labelRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.labelDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--orange);
+  box-shadow: 0 0 8px rgba(217, 121, 17, 0.7);
+  flex-shrink: 0;
+}
+
+.labelText {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+
+.heading {
+  font-family: var(--font-heading);
+  font-size: clamp(26px, 3.2vw, 46px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: var(--white);
+  margin: 0 0 clamp(40px, 5vw, 64px);
+}
+
+.headingAccent {
+  color: var(--orange);
+}
+
+/* ── Cards grid — 5 items in a 3-column grid; last card spans the
+   remaining columns so the trailing row is always fully filled ── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(16px, 2vw, 24px);
+}
+
+.card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: clamp(22px, 2.5vw, 30px);
+  border-radius: 10px;
+  background: var(--white-10);
+  border: 1px solid var(--white-20);
+  transition: background 0.25s var(--ease-out), border-color 0.25s var(--ease-out), transform 0.25s var(--ease-out);
+}
+
+.card:hover {
+  background: rgba(217, 121, 17, 0.07);
+  border-color: rgba(217, 121, 17, 0.35);
+  transform: translateY(-3px);
+}
+
+.card:last-child {
+  grid-column: span 2;
+}
+
+.cardIcon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  border: 1px solid rgba(217, 121, 17, 0.35);
+  background: rgba(217, 121, 17, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--orange);
+  transition: background 0.25s var(--ease-out), transform 0.25s var(--ease-out);
+}
+
+.card:hover .cardIcon {
+  background: rgba(217, 121, 17, 0.14);
+  transform: scale(1.08);
+}
+
+.cardTitle {
+  font-family: var(--font-heading);
+  font-size: clamp(14.5px, 1.15vw, 16.5px);
+  font-weight: 600;
+  color: var(--white);
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .card:last-child {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 560px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card:last-child {
+    grid-column: span 1;
+  }
+}

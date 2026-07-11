@@ -109,7 +109,7 @@
   display: flex;
   flex-direction: column;
   cursor: default;
-  transition: border-color 0.25s var(--ease-out);
+  transition: border-color 0.25s var(--ease-out), transform 0.25s var(--ease-out);
 }
 
 :global([data-theme="light"]) .card {
@@ -119,6 +119,7 @@
 
 .card:hover {
   border-color: rgba(217, 121, 17, 0.35);
+  transform: scale(1.02);
 }
 
 .cardImageWrap {
@@ -134,6 +135,10 @@
   object-fit: cover;
   display: block;
   transition: transform 0.55s var(--ease-out);
+}
+
+.card:hover .cardImage {
+  transform: scale(1.06);
 }
 
 .cardOverlay {
@@ -221,8 +226,13 @@
   right: 0;
   height: 2px;
   background: var(--orange);
+  transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.35s var(--ease-out);
+}
+
+.card:hover .cardRule {
+  transform: scaleX(1);
 }
 
 /* ── Approach strip ── */

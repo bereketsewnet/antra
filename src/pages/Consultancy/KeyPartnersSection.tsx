@@ -8,6 +8,7 @@ export function KeyPartnersSection() {
 
   return (
     <section ref={ref} className={styles.section}>
+      <div className={styles.topFade} aria-hidden="true" />
       <div className={styles.container}>
 
         <motion.div
@@ -16,7 +17,7 @@ export function KeyPartnersSection() {
           animate={inView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          <span className={styles.labelNumber}>03</span>
+          <span className={styles.labelNumber}>04</span>
           <span className={styles.labelText}>Key Partners</span>
           <div className={styles.labelLine} />
         </motion.div>

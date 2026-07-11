@@ -4,6 +4,14 @@ import styles from './StrategySection.module.css'
 
 const EASE = [0.4, 0, 0.2, 1] as [number, number, number, number]
 
+const points = [
+  'Strategy formulation and refinement aligned to organizational purpose, market realities, and growth ambitions',
+  'Translating strategy into clear priorities, operating models, and performance objectives',
+  'Aligning organizational structure, leadership, and capabilities to strategic direction',
+  'Supporting leadership teams to drive strategy execution, not just strategy design',
+  'Ensuring coherence between strategy, functional transformation, and people outcomes',
+]
+
 export function StrategySection() {
   const ref = useRef<HTMLElement>(null)
   const inView = useInView(ref, { once: true, margin: '-80px' })
@@ -49,21 +57,21 @@ export function StrategySection() {
             </motion.p>
           </div>
 
-          {/* Right — image */}
-          <motion.div
-            className={styles.imageWrap}
-            initial={{ opacity: 0, x: 32 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ delay: 0.18, duration: 0.9, ease: EASE }}
-          >
-            <img
-              src="/assets/consultancy%20assets/chaise_image.png"
-              alt="Organizational Strategy and Business Alignment"
-              className={styles.image}
-              loading="lazy"
-            />
-            <div className={styles.imageCorner} />
-          </motion.div>
+          {/* Right — strategy support points */}
+          <div className={styles.pointsList}>
+            {points.map((pt, i) => (
+              <motion.div
+                key={pt}
+                className={styles.pointItem}
+                initial={{ opacity: 0, x: 32 }}
+                animate={inView ? { opacity: 1, x: 0 } : {}}
+                transition={{ delay: 0.2 + i * 0.1, duration: 0.65, ease: EASE }}
+              >
+                <span className={styles.pointNum}>{String(i + 1).padStart(2, '0')}</span>
+                <p className={styles.pointText}>{pt}</p>
+              </motion.div>
+            ))}
+          </div>
 
         </div>
 

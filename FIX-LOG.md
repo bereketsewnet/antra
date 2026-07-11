@@ -380,3 +380,153 @@ Consultancy column's "Org Transformation" link to its full, unabbreviated
 form: "Organizational Transformation."
 
 **Files:** `src/components/layout/Footer.tsx`, `Footer.module.css`
+
+---
+
+## 30. Consultancy page reordered — Problems under Strategy, Key Partners under CTA
+New order: Hero → Our Approach (Intro) → Our Practices (Services) →
+Strategy Practice → What Clients Bring Us (Problems) → Book a discovery
+call (Closing CTA) → Key Partners (now last).
+
+Renumbered "Key Partners" from a duplicate "03" (it collided with "What
+Clients Bring Us") to "04" to stay sequential in the new position.
+
+Reordering broke two previously-matched section-seam colors (the same bug
+class as fix #24/#25 on the About page) — fixed both:
+- "What Clients Bring Us" (image background) had no top fade, so it now cut
+  in abruptly against Strategy's solid navy-dark. Added a top fade matching
+  navy-dark, and corrected its bottom fade to target navy-dark (Closing
+  CTA's actual color) instead of navy (its old neighbor, Services).
+- "Key Partners" had no top fade at all, cutting in abruptly against
+  Closing CTA's navy-dark. Added one, and gave its `.container` (previously
+  missing z-index) an explicit `z-index: 1` so the new fade sits behind the
+  content instead of covering it.
+
+**Files:** `src/pages/Consultancy/index.tsx`, `KeyPartnersSection.tsx`,
+`KeyPartnersSection.module.css`, `ProblemsSection.tsx`, `ProblemsSection.module.css`
+
+---
+
+## 31. "Our Practices" — reordered, dotted list kept on only 2 of 6 cards
+Reordered the 6 practice cards to: 01 Organizational Transformation,
+02 Leadership Development Programs, 03 Training on People Management,
+04 Talent Search & Assessments, 05 Advisory & Change, 06 Coaching &
+Mentorship (tags renumbered to match).
+
+Removed the hover-reveal dotted bullet list from all cards except
+"Organizational Transformation" and "Leadership Development Programs" —
+those two keep their detailed sub-program lists; the other four now show
+just the image, tag, title, and description, with the list rendered
+conditionally only when a card has one.
+
+**Files:** `src/pages/Consultancy/ServicesSection.tsx`
+
+---
+
+## 32. "Our Practices" cards — points always visible, hover simplified
+The dotted sub-program list (on the 2 cards that still have one) was hidden
+by default and only revealed on hover via a JS state + height/opacity
+animation. Removed that — the list is now a normal static block, always
+visible, no hover required.
+
+Replaced the whole hover interaction with plain CSS `:hover` rules (removed
+the `useState`/`onMouseEnter`/`onMouseLeave` JS entirely) applied uniformly
+to all 6 cards: a simple scale-up (`transform: scale(1.02)`) on the card
+itself, plus the existing image zoom and bottom accent-line reveal — same
+visual effects as before, just simpler code and consistent across every
+card regardless of whether it has a points list.
+
+**Files:** `src/pages/Consultancy/ServicesSection.tsx`, `ServicesSection.module.css`
+
+---
+
+## 33. "Strategy Practice" — image replaced with the 5 extracted points
+The chess-piece infographic image next to "Organizational Strategy and
+Business Alignment" was replaced with its own text content. Carefully
+transcribed the 5 circled points from the image (verified with the user
+first — the image showed 5, not 6, one per chess piece):
+
+1. Strategy formulation and refinement aligned to organizational purpose,
+   market realities, and growth ambitions
+2. Translating strategy into clear priorities, operating models, and
+   performance objectives
+3. Aligning organizational structure, leadership, and capabilities to
+   strategic direction
+4. Supporting leadership teams to drive strategy execution, not just
+   strategy design
+5. Ensuring coherence between strategy, functional transformation, and
+   people outcomes
+
+Built as a numbered list (01–05) with a scroll-triggered staggered
+slide-in animation per row, an orange accent bar that grows in on hover,
+and a subtle background tint on hover — replacing the static image with
+an interactive, on-brand list. Removed the image entirely.
+
+**Files:** `src/pages/Consultancy/StrategySection.tsx`, `StrategySection.module.css`
+
+---
+
+## 34. New "What Makes Us Unique" section added (Consultancy page)
+Added a new section right after "Strategy Practice" and before "What
+Clients Bring Us", listing the 5 differentiators exactly as given:
+Practical, Strategic and Business-Driven Expertise · BHR-led Organization
+Transformation · Africa-focused and Market relevant solutions ·
+Partnership-based approach · End-to-end support.
+
+Design: label + heading ("What makes us unique."), then a 3-column card
+grid (icon badge + title), staggered scroll-in animation per card, hover
+lift + orange border highlight. The last card spans the remaining columns
+so a 5-in-3 grid never leaves an empty trailing cell (same technique as
+fix #19). Background matches "Strategy Practice" exactly (`var(--navy-dark)`)
+so both neighboring section seams stay seamless with no extra fade work.
+
+No description text was added under each title — only the 5 titles were
+provided, so the cards are title-only rather than inventing body copy.
+
+**Files added:** `src/pages/Consultancy/WhatMakesUsUniqueSection.tsx`, `WhatMakesUsUniqueSection.module.css`
+**Files:** `src/pages/Consultancy/index.tsx`
+
+---
+
+## 35. "What Makes Us Unique" — custom icon per card
+Replaced the identical rotated-square bullet on every card with a distinct,
+meaning-matched SVG icon per item: target (Practical/Strategic Expertise),
+refresh arrows (BHR-led Transformation), map pin (Africa-focused Market
+solutions), linked chain (Partnership-based approach), layers (End-to-end
+support). Icon badge enlarged slightly and now tints/scales up on card hover.
+
+**Files:** `src/pages/Consultancy/WhatMakesUsUniqueSection.tsx`, `WhatMakesUsUniqueSection.module.css`
+
+---
+
+## 36. Consultancy page light mode — 3 sections had invisible text
+Same bug class as #9/#26/#27: these sections' backgrounds use theme-adaptive
+variables (`var(--navy)`/`var(--navy-dark)`, which flip to near-white in
+light mode) while their text used hardcoded literals (`#ffffff`,
+`rgba(255,255,255,…)`) that don't flip — white-on-white.
+
+- **"Strategy Practice"**: heading, body paragraph, and all 5 point-list
+  rows were invisible.
+- **"What Makes Us Unique"**: heading and all 5 card titles were invisible.
+- **"Key Partners"**: the "04 KEY PARTNERS" label was invisible (the
+  partner logos themselves were fine — they're a raster image, unaffected).
+
+Fixed by switching every hardcoded white literal to the matching adaptive
+token (`var(--white)`, `var(--white-60)`, `var(--white-80)`,
+`var(--white-10)`, `var(--white-20)`) — the same correct pattern already
+used by "Our Practices" and "Book a call," which is why those rendered
+fine. Also removed three no-op light-mode overrides that just reapplied
+the same already-flipping variable and did nothing.
+
+**Files:** `src/pages/Consultancy/StrategySection.module.css`,
+`WhatMakesUsUniqueSection.module.css`, `KeyPartnersSection.module.css`
+
+---
+
+## 37. Trading page "Our Approach" — missing second paragraph added
+Added the missing paragraph 2 under the existing "Our trading work is
+concentrated..." paragraph: "We offer trading solutions that connect
+clients with quality products, trusted suppliers, and efficient
+route-to-market strategies across Ethiopia and regional markets."
+
+**Files:** `src/pages/Trading/IntroSection.tsx`, `IntroSection.module.css`

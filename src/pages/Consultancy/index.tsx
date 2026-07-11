@@ -5,6 +5,7 @@ import { IntroSection } from './IntroSection'
 import { ServicesSection } from './ServicesSection'
 import { ProblemsSection } from './ProblemsSection'
 import { StrategySection } from './StrategySection'
+import { WhatMakesUsUniqueSection } from './WhatMakesUsUniqueSection'
 import { KeyPartnersSection } from './KeyPartnersSection'
 import { ConsultancyClosingCTA } from './ClosingCTASection'
 
@@ -51,12 +52,13 @@ export function ConsultancyPage() {
       />
       <motion.main variants={pageVariants} initial="initial" animate="animate" exit="exit">
         <ConsultancyHeroSection />
-        <ProblemsSection />
         <IntroSection />
         <ServicesSection />
         <StrategySection />
-        <KeyPartnersSection />
+        <WhatMakesUsUniqueSection />
+        <ProblemsSection />
         <ConsultancyClosingCTA />
+        <KeyPartnersSection />
       </motion.main>
     </>
   )

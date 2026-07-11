@@ -59,6 +59,14 @@
   margin: 0;
 }
 
+.bodySecondary {
+  font-family: var(--font-body);
+  font-size: clamp(15px, 1.25vw, 17px);
+  line-height: 1.75;
+  color: var(--white-80);
+  margin: 16px 0 0;
+}
+
 .accentLine {
   width: 80px;
   height: 3px;

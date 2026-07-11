@@ -48,6 +48,17 @@ export function IntroSection() {
               one purchase, which is the standard we measure ourselves against.
             </motion.p>
 
+            <motion.p
+              className={styles.bodySecondary}
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 0.4, duration: 0.7 }}
+            >
+              We offer trading solutions that connect clients with quality products,
+              trusted suppliers, and efficient route-to-market strategies across
+              Ethiopia and regional markets.
+            </motion.p>
+
             <motion.div
               className={styles.accentLine}
               initial={{ scaleX: 0, originX: 0 }}

@@ -17,6 +17,7 @@ export function ProblemsSection() {
 
   return (
     <section ref={sectionRef} id="what-clients-bring-us" className={styles.section}>
+      <div className={styles.topFade} aria-hidden="true" />
       <div className={styles.container}>
 
         {/* Section label */}
