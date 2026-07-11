@@ -530,3 +530,207 @@ clients with quality products, trusted suppliers, and efficient
 route-to-market strategies across Ethiopia and regional markets."
 
 **Files:** `src/pages/Trading/IntroSection.tsx`, `IntroSection.module.css`
+
+---
+
+## 38. "Product Categories" — hover spec list removed from all 4 cards
+Removed the hover-reveal bullet list (specs) from Electric Vehicles,
+Construction Machinery, Sanitary Equipment, and Medical Equipment cards
+entirely — no points shown at all now, on hover or otherwise. Kept the
+other hover effects (image zoom, tag underline, bottom accent bar), only
+the specs list was removed. Cleaned up the now-unused `specs` data and CSS.
+
+**Files:** `src/pages/Trading/ProductLinesSection.tsx`, `ProductLinesSection.module.css`
+
+---
+
+## 39. New "What Makes Us Unique" section added (Trading page)
+Added a new section right after "Product Categories," before "Key
+Suppliers." Content: 3 groups, each with a custom icon (truck for
+Distribution & Retail, trending-up for Brand Building, two people for
+Fleet/Trader relationships) and its sub-bullet list, exactly as given:
+
+- **Distribution and Retail Expertise** — distribution capabilities incl.
+  Logistics (Cars & Parts) training & org setup; deep retail performance
+  knowledge; price positioning and competitive value offerings.
+- **Brand Building Capability** — consistent marketing/messaging from
+  start; aligned to OEM brand strategy & execution; prioritized model &
+  partnership leverage; immediate investment in marketing channels.
+- **Handling Fleet Customers and Traders** — close cooperation with fleet
+  customers; close engagement with government and business owners; trust
+  built with major traders/fleet customers through long relationships.
+
+3-column card grid, staggered scroll-in animation, icon badge + hover lift
+matching the Consultancy page's "What Makes Us Unique" design language.
+Text colors used theme-adaptive tokens (`var(--white)` family) from the
+start to avoid the light-mode bug fixed in #36. Background matches its
+neighbors exactly (`var(--navy)`), so no seam/fade issues.
+
+**Files added:** `src/pages/Trading/WhatMakesUsUniqueSection.tsx`, `WhatMakesUsUniqueSection.module.css`
+**Files:** `src/pages/Trading/index.tsx`
+
+---
+
+## 40. Trading page — "What Makes Us Unique" moved to sit directly under "Product Categories"
+The new section (fix #39) was placed after the *entire* Product Lines
+component — but that component also contained an embedded "Why Buyers Work
+With Us" (Djibouti Freezone) block, so "What Makes Us Unique" wasn't
+actually adjacent to "Product Categories."
+
+Extracted "Why Buyers Work With Us" into its own standalone component
+(`WhyBuyersSection.tsx`) and reordered the page so "What Makes Us Unique"
+sits immediately after the product cards:
+
+**New order:** Hero → Our Approach (Intro) → Product Categories →
+**What Makes Us Unique** → Why Buyers Work With Us → Key Suppliers →
+Closing CTA.
+
+All of Product Categories, What Makes Us Unique, and Why Buyers Work With
+Us now share the exact same flat `var(--navy)` background, so the whole
+run is seamless with no fade patching needed — removed Product Categories'
+now-obsolete bottom fade (it used to target `navy-dark` for the old
+neighbor, Closing CTA) and gave Why Buyers Work With Us its own fresh
+bottom fade into Key Suppliers.
+
+**Files added:** `src/pages/Trading/WhyBuyersSection.tsx`, `WhyBuyersSection.module.css`
+**Files:** `src/pages/Trading/index.tsx`, `ProductLinesSection.tsx`, `ProductLinesSection.module.css`
+
+---
+
+## 41. "Why Buyers Work With Us" — square grid-line background added
+Added the same subtle square grid-line texture used across the rest of the
+site (60px squares, `var(--white-10)` lines) on top of the section's flat
+navy background.
+
+**Files:** `src/pages/Trading/WhyBuyersSection.module.css`
+
+---
+
+## 42. Trading page — "Key Suppliers" moved under "Request a quote" (now last)
+Confirmed section numbering was already correct/sequential (Product
+Categories 01, Why Buyers Work With Us 02, Key Suppliers 03 — Intro and
+What Makes Us Unique stay unnumbered, matching the site's convention).
+
+Moved "Key Suppliers" to the very end of the page, after the "Request a
+quote" Closing CTA.
+
+**New order:** Hero → Our Approach → Product Categories (01) → What Makes
+Us Unique → Why Buyers Work With Us (02) → Request a quote (Closing CTA) →
+Key Suppliers (03, now last).
+
+Fixed the two seams this reorder touched: "Why Buyers Work With Us" now
+fades into the CTA's `navy-dark` (was fading to `navy`, its old neighbor),
+and "Key Suppliers" gained a new top fade from `navy-dark` since it now
+follows the CTA instead of preceding it — same pattern as fix #30 on the
+Consultancy page.
+
+**Files:** `src/pages/Trading/index.tsx`, `WhyBuyersSection.module.css`,
+`KeySuppliersSection.tsx`, `KeySuppliersSection.module.css`
+
+---
+
+## 43. Contact page hero — background image no longer cut off
+The hero's background image wrapper (`.bgWrap`) was sized with
+`inset: -20% 0 60% 0` — percentages taken against the *entire* section
+(hero + the whole contact form below it combined), not just the visible
+hero band. As the form grew over past edits, that `bottom: 60%` cutoff
+point drifted, so the image box ended up far shorter than the visible
+hero area — cutting the background image off well before it reached the
+bottom of the hero, and exposing gaps/seams.
+
+Replaced it with a box sized in fixed units (`vh`/`px`, never a percent of
+the oversized parent) that matches the `.overlay` gradient's own box
+exactly (78vh / 760px max), plus a small symmetric buffer on both edges so
+the existing GSAP scroll-parallax always has image to reveal in either
+direction without ever exposing blank space.
+
+**Files:** `src/pages/Contact/ContactFormSection.module.css`
+
+---
+
+## 44. Contact hero — gap between image and form section closed
+The symmetric buffer added in fix #43 over-corrected: the bottom half of
+that buffer let raw, untinted image poke out below the dark overlay's
+fade, showing as a visible photo strip with a hard seam right above the
+form section (exactly what the marked-up screenshot showed).
+
+Root cause: the scroll-parallax (`yPercent: -12`) only ever shifts the
+image *upward*, so a bottom buffer was never needed — it only created a
+gap where none should exist. Removed the bottom buffer entirely; the
+image box's bottom edge now lands exactly on the overlay's bottom edge
+(78vh / 760px), with the top-only buffer still giving the parallax room
+to move.
+
+**Files:** `src/pages/Contact/ContactFormSection.module.css`
+
+---
+
+## 45. Contact form — clear per-field error messages instead of one generic banner
+The form had no client-side validation at all (`noValidate` on the
+`<form>`, native browser validation disabled) — a missing name, invalid
+email, or empty message would submit anyway and only ever surface a single
+generic banner ("Something went wrong…") with no indication of what was
+actually wrong.
+
+Added real validation that runs before submission:
+- **Full Name** — required.
+- **Email** — required, and checked against a real email pattern
+  ("That email address doesn't look right — check for typos.").
+- **Message** — required, minimum length nudge if it's just a couple of
+  words ("A few more details would help…").
+
+Each invalid field now gets its own specific message directly beneath it,
+plus an orange→red error border, and clears itself the moment the user
+edits that field. The top banner is reserved for what it's actually good
+for — a validation summary ("Please fix the highlighted field(s) below.")
+or real server/network failures, both reworded to be more specific and
+actionable than the previous single catch-all message.
+
+**Files:** `src/pages/Contact/ContactFormSection.tsx`, `ContactFormSection.module.css`
+
+---
+
+## 46. Working hours updated site-wide
+Changed from "Mon – Fri, 8am – 6pm EAT" to Mon–Fri 8am–5pm plus a Saturday
+half day (8am–12pm), everywhere it appears on the site.
+
+**Files:** `src/pages/Contact/ContactFormSection.tsx`, `src/pages/Contact/MapSection.tsx`,
+`src/pages/About/MapSection.tsx`
+
+---
+
+## 47. Map location updated to the exact place link (Contact + About pages)
+Resolved the given short link (`https://maps.app.goo.gl/voFHXuUdfUe2Ezfc8`)
+— it points to "Rayuma Building, beside Getu Commercial, in front of Oda
+Restaurant, Addis Ababa," confirming the existing office address. Updated
+both pages:
+
+- **Map embed** — re-pointed the iframe query to that exact resolved place
+  name (same proven `q=…&output=embed` technique already used site-wide,
+  just now targeting the precise location instead of a generic street
+  search).
+- **Clickable map** — added a transparent link overlay on top of the
+  iframe, so clicking anywhere on the map opens
+  `maps.app.goo.gl/voFHXuUdfUe2Ezfc8` in a new tab (an iframe swallows
+  clicks itself, so this required an overlay rather than just wrapping it
+  in an `<a>`).
+- **"Get Directions" / "Open in Google Maps" buttons** — both now link
+  directly to the exact `maps.app.goo.gl/voFHXuUdfUe2Ezfc8` URL.
+
+**Files:** `src/pages/Contact/MapSection.tsx`, `MapSection.module.css`,
+`src/pages/About/MapSection.tsx`, `MapSection.module.css`
+
+---
+
+## 48. "Our Location" (Contact page) — invisible text in light mode fixed
+Same bug class as fix #27 (which fixed the near-identical map section on
+the About page, but missed this Contact-page version): three light-mode
+overrides used `var(--navy-dark)`/`var(--navy)`/`var(--navy-60)` — all
+*background* tokens that flip to near-white in light mode — applied to the
+heading, address text, and office-hours note. White-on-white, invisible.
+
+The base styles already use the correct auto-flipping `--white` family
+(`var(--white)`, `var(--white-80)`, `var(--white-60)`), so the three
+overrides were pure regressions. Deleted them.
+
+**Files:** `src/pages/Contact/MapSection.module.css`

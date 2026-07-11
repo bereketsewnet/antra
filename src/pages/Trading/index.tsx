@@ -3,6 +3,8 @@ import { SEO } from '@/components/SEO'
 import { TradingHeroSection } from './HeroSection'
 import { IntroSection } from './IntroSection'
 import { ProductLinesSection } from './ProductLinesSection'
+import { WhatMakesUsUniqueSection } from './WhatMakesUsUniqueSection'
+import { WhyBuyersSection } from './WhyBuyersSection'
 import { KeySuppliersSection } from './KeySuppliersSection'
 import { TradingClosingCTA } from './ClosingCTASection'
 
@@ -59,8 +61,10 @@ export function TradingPage() {
         <TradingHeroSection />
         <IntroSection />
         <ProductLinesSection />
-        <KeySuppliersSection />
+        <WhatMakesUsUniqueSection />
+        <WhyBuyersSection />
         <TradingClosingCTA />
+        <KeySuppliersSection />
       </motion.main>
     </>
   )

@@ -65,10 +65,20 @@
 
 /* ── Map ── */
 .mapWrap {
+  position: relative;
   border-radius: 8px;
   overflow: hidden;
   border: 1px solid var(--white-10);
   height: clamp(340px, 46vw, 540px);
+}
+
+/* Transparent overlay — clicking the map opens the exact location in
+   Google Maps instead of interacting with the embedded iframe controls. */
+.mapOverlayLink {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  cursor: pointer;
 }
 
 .map {
@@ -150,18 +160,6 @@
 /* Light mode */
 :global([data-theme="light"]) .section {
   background: #f4f7fb;
-}
-
-:global([data-theme="light"]) .heading {
-  color: var(--navy-dark);
-}
-
-:global([data-theme="light"]) .detailText {
-  color: var(--navy);
-}
-
-:global([data-theme="light"]) .detailNote {
-  color: var(--navy-60);
 }
 
 /* Responsive */

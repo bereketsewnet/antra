@@ -13,7 +13,21 @@
   pointer-events: none;
 }
 
+/* Top fade — melts in from the previous section (Closing CTA, navy-dark). */
+.topFade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: clamp(100px, 14vh, 170px);
+  pointer-events: none;
+  z-index: 1;
+  background: linear-gradient(to bottom, var(--navy-dark) 0%, var(--navy-dark-0) 100%);
+}
+
 .container {
+  position: relative;
+  z-index: 1;
   width: 100%;
   max-width: var(--container-max);
   margin-inline: auto;

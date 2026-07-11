@@ -82,11 +82,18 @@ export function AboutMapSection() {
           >
             <iframe
               className={styles.map}
-              src="https://maps.google.com/maps?q=Bole+Dembel,+Airport+Road,+Kirkos+Sub+City,+Addis+Ababa,+Ethiopia&output=embed&z=16"
+              src="https://maps.google.com/maps?q=Rayuma+Building,+beside+Getu+Commercial,+in+front+of+Oda+Restaurant,+Addis+Ababa&output=embed&z=17"
               title="Antra Business Group office location"
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
+            />
+            <a
+              href="https://maps.app.goo.gl/voFHXuUdfUe2Ezfc8"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.mapOverlayLink}
+              aria-label="Open Antra Business Group location in Google Maps"
             />
           </motion.div>
 
@@ -119,7 +126,7 @@ export function AboutMapSection() {
                   +251 951 77 97 77<br />
                   +251 986 11 18 11
                 </p>
-                <p className={styles.detailNote}>Mon – Fri, 8am – 6pm EAT</p>
+                <p className={styles.detailNote}>Mon – Fri, 8am – 5pm · Sat, 8am – 12pm EAT</p>
               </div>
             </div>
 
@@ -133,7 +140,7 @@ export function AboutMapSection() {
             </div>
 
             <a
-              href="https://maps.google.com/maps?q=Bole+Dembel,+Airport+Road,+Kirkos+Sub+City,+Addis+Ababa,+Ethiopia"
+              href="https://maps.app.goo.gl/voFHXuUdfUe2Ezfc8"
               target="_blank"
               rel="noopener noreferrer"
               className={styles.directionsBtn}

@@ -26,7 +26,7 @@ const contactDetails = [
     label: 'Phone',
     value: '+251 951 77 97 77',
     valueAlt: '+251 986 11 18 11',
-    sub: 'Mon – Fri, 8am – 6pm EAT',
+    sub: 'Mon – Fri, 8am – 5pm · Sat, 8am – 12pm EAT',
   },
   {
     icon: '✉️',
@@ -48,6 +48,32 @@ type FormState = {
 
 type Status = 'idle' | 'sending' | 'sent' | 'error'
 
+type FieldErrors = Partial<Record<keyof FormState, string>>
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+function validateForm(form: FormState): FieldErrors {
+  const errors: FieldErrors = {}
+
+  if (!form.name.trim()) {
+    errors.name = 'Please tell us your full name.'
+  }
+
+  if (!form.email.trim()) {
+    errors.email = 'Please enter your email address.'
+  } else if (!EMAIL_RE.test(form.email.trim())) {
+    errors.email = 'That email address doesn\'t look right — check for typos.'
+  }
+
+  if (!form.message.trim()) {
+    errors.message = 'Let us know what you\'re working on — this field can\'t be empty.'
+  } else if (form.message.trim().length < 10) {
+    errors.message = 'A few more details would help — at least a sentence or two.'
+  }
+
+  return errors
+}
+
 export function ContactFormSection() {
   const bgRef = useRef<HTMLDivElement>(null)
   const sectionRef = useRef<HTMLElement>(null)
@@ -58,6 +84,7 @@ export function ContactFormSection() {
     name: '', company: '', email: '', phone: '', service: '', message: '',
   })
   const [status, setStatus] = useState<Status>('idle')
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({})
 
   useEffect(() => {
     if (!bgRef.current || !sectionRef.current) return
@@ -81,12 +108,28 @@ export function ContactFormSection() {
   ) => {
     const { name, value } = e.target
     setForm(prev => ({ ...prev, [name]: value }))
+    setFieldErrors(prev => {
+      if (!prev[name as keyof FormState]) return prev
+      const next = { ...prev }
+      delete next[name as keyof FormState]
+      return next
+    })
   }, [])
 
   const [errorMessage, setErrorMessage] = useState<string>('')
 
   const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault()
+
+    const errors = validateForm(form)
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors)
+      setStatus('error')
+      setErrorMessage('Please fix the highlighted field(s) below.')
+      return
+    }
+
+    setFieldErrors({})
     setStatus('sending')
     setErrorMessage('')
     try {
@@ -100,11 +143,11 @@ export function ContactFormSection() {
         setStatus('sent')
       } else {
         setStatus('error')
-        setErrorMessage(data?.error || 'Something went wrong. Please email info@antragroup.et directly.')
+        setErrorMessage(data?.error || 'The message could not be sent from our end. Please try again in a moment, or email info@antragroup.et directly.')
       }
     } catch {
       setStatus('error')
-      setErrorMessage('Could not reach the server. Please email info@antragroup.et directly.')
+      setErrorMessage('Could not reach the server — check your internet connection and try again, or email info@antragroup.et directly.')
     }
   }, [form])
 
@@ -250,10 +293,12 @@ export function ContactFormSection() {
                     <input
                       id="name" name="name" type="text" required
                       placeholder="Solomon Tadesse"
-                      className={styles.input}
+                      className={`${styles.input} ${fieldErrors.name ? styles.inputError : ''}`}
                       value={form.name}
                       onChange={handleChange}
+                      aria-invalid={!!fieldErrors.name}
                     />
+                    {fieldErrors.name && <span className={styles.fieldErrorText}>{fieldErrors.name}</span>}
                   </motion.div>
                   <motion.div className={styles.field} custom={1} variants={fieldVariants} initial="hidden" animate={isInView ? 'visible' : 'hidden'}>
                     <label className={styles.label} htmlFor="company">Company / Organisation</label>
@@ -274,10 +319,12 @@ export function ContactFormSection() {
                     <input
                       id="email" name="email" type="email" required
                       placeholder="solomon@acme.et"
-                      className={styles.input}
+                      className={`${styles.input} ${fieldErrors.email ? styles.inputError : ''}`}
                       value={form.email}
                       onChange={handleChange}
+                      aria-invalid={!!fieldErrors.email}
                     />
+                    {fieldErrors.email && <span className={styles.fieldErrorText}>{fieldErrors.email}</span>}
                   </motion.div>
                   <motion.div className={styles.field} custom={3} variants={fieldVariants} initial="hidden" animate={isInView ? 'visible' : 'hidden'}>
                     <label className={styles.label} htmlFor="phone">Phone Number</label>
@@ -315,10 +362,12 @@ export function ContactFormSection() {
                   <textarea
                     id="message" name="message" required rows={5}
                     placeholder="Tell us about your project, the challenge you are facing, or the equipment you need..."
-                    className={`${styles.input} ${styles.textarea}`}
+                    className={`${styles.input} ${styles.textarea} ${fieldErrors.message ? styles.inputError : ''}`}
                     value={form.message}
                     onChange={handleChange}
+                    aria-invalid={!!fieldErrors.message}
                   />
+                  {fieldErrors.message && <span className={styles.fieldErrorText}>{fieldErrors.message}</span>}
                 </motion.div>
 
                 {/* Submit */}

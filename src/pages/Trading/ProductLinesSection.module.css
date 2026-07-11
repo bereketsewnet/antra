@@ -5,18 +5,6 @@
   overflow: hidden;
 }
 
-/* Bottom fade — melts into the next section (Closing CTA, navy-dark). */
-.section::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: clamp(120px, 16vh, 200px);
-  pointer-events: none;
-  background: linear-gradient(to bottom, var(--navy-dark-0) 0%, var(--navy-dark) 100%);
-}
-
 .section::before {
   content: '';
   position: absolute;
@@ -96,7 +84,6 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: clamp(16px, 2.5vw, 28px);
-  margin-bottom: clamp(60px, 10vw, 120px);
 }
 
 /* ── Card ── */
@@ -197,31 +184,6 @@
   margin: 0;
 }
 
-.specs {
-  list-style: none;
-  padding: 0;
-  margin: 8px 0 0;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.specItem {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 13px;
-  color: var(--white-60);
-  line-height: 1.5;
-}
-
-.specDot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--orange);
-  flex-shrink: 0;
-}
 
 .bottomBar {
   position: absolute;
@@ -234,127 +196,7 @@
   transition: transform 0.35s var(--ease-out);
 }
 
-/* ── Freezone feature ── */
-.freezone {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(40px, 6vw, 80px);
-  align-items: start;
-  border-top: 1px solid var(--white-10);
-  padding-top: clamp(60px, 8vw, 100px);
-}
-
-.freezoneImageCol {
-  position: sticky;
-  top: 100px;
-}
-
-.freezoneImage {
-  width: 100%;
-  height: clamp(360px, 44vw, 580px);
-  object-fit: cover;
-  border-radius: 4px;
-  display: block;
-}
-
-.freezoneBadge {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  margin-top: 16px;
-  padding: 16px 20px;
-  border: 1px solid rgba(217, 121, 17, 0.25);
-  background: rgba(217, 121, 17, 0.06);
-  border-radius: 4px;
-}
-
-.freezoneBadgeTitle {
-  font-family: var(--font-heading);
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--white);
-  letter-spacing: -0.01em;
-}
-
-.freezoneBadgeSub {
-  font-size: 11px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--orange);
-}
-
-.freezoneContent {
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-}
-
-.freezoneHeading {
-  font-family: var(--font-heading);
-  font-size: clamp(28px, 3.5vw, 48px);
-  font-weight: 700;
-  color: var(--white);
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-  margin: 0;
-}
-
-.freezonePoints {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  border-top: 1px solid var(--white-10);
-}
-
-.freezonePoint {
-  display: flex;
-  gap: 20px;
-  padding: 22px 0;
-  border-bottom: 1px solid var(--white-10);
-  align-items: flex-start;
-  transition: background 0.2s;
-}
-
-.freezonePoint:hover .freezonePointTitle {
-  color: var(--orange);
-}
-
-.freezonePointBar {
-  width: 2px;
-  height: 40px;
-  background: var(--orange);
-  flex-shrink: 0;
-  border-radius: 1px;
-}
-
-.freezonePointTitle {
-  font-family: var(--font-heading);
-  font-size: clamp(15px, 1.4vw, 18px);
-  font-weight: 700;
-  color: var(--white);
-  letter-spacing: -0.01em;
-  margin: 0 0 6px;
-  transition: color 0.2s var(--ease-out);
-}
-
-.freezonePointText {
-  font-size: clamp(13px, 1vw, 15px);
-  color: var(--white-60);
-  line-height: 1.75;
-  margin: 0;
-}
-
 /* ── Responsive ── */
-@media (max-width: 1024px) {
-  .freezoneImageCol {
-    position: static;
-  }
-
-  .freezoneImage {
-    height: clamp(280px, 40vw, 440px);
-  }
-}
-
 @media (max-width: 768px) {
   .grid {
     grid-template-columns: 1fr;
@@ -362,18 +204,5 @@
 
   .imageWrap {
     height: clamp(220px, 55vw, 340px);
-  }
-
-  .freezone {
-    grid-template-columns: 1fr;
-    gap: 48px;
-  }
-
-  .freezoneImageCol {
-    order: -1;
-  }
-
-  .freezoneImage {
-    height: clamp(240px, 55vw, 360px);
   }
 }

@@ -5,9 +5,18 @@
   overflow: hidden;
 }
 
+/* Sized so its BOTTOM edge lands exactly on .overlay's bottom edge
+   (78vh / 760px max) — the parallax (yPercent: -12) only ever shifts this
+   box upward as you scroll, so a top-only buffer gives it room to move
+   without the bottom edge ever dropping below the overlay's fade and
+   exposing a strip of untinted image. */
 .bgWrap {
   position: absolute;
-  inset: -20% 0 60% 0;
+  top: -40px;
+  left: 0;
+  right: 0;
+  height: calc(78vh + 40px);
+  max-height: 800px;
   z-index: 0;
 }
 
@@ -447,6 +456,27 @@
 .input:focus {
   border-color: var(--orange);
   background: rgba(217, 121, 17, 0.05);
+}
+
+.inputError {
+  border-color: #FF6F3C;
+  background: rgba(255, 111, 60, 0.06);
+}
+
+.inputError:focus {
+  border-color: #FF6F3C;
+  background: rgba(255, 111, 60, 0.08);
+}
+
+.fieldErrorText {
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  color: #ff8a6c;
+  margin-top: -2px;
+}
+
+:global([data-theme="light"]) .fieldErrorText {
+  color: #b8421a;
 }
 
 .selectWrap {

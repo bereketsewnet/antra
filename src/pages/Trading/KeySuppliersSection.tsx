@@ -8,6 +8,7 @@ export function KeySuppliersSection() {
 
   return (
     <section ref={ref} className={styles.section}>
+      <div className={styles.topFade} aria-hidden="true" />
       <div className={styles.container}>
 
         <motion.div
