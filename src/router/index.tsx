@@ -13,6 +13,7 @@ const ContactPage     = lazy(() => import('@/pages/Contact').then(m => ({ defaul
 const PracticeDetailPage = lazy(() => import('@/pages/PracticeDetail').then(m => ({ default: m.PracticeDetailPage })))
 const CareersPage     = lazy(() => import('@/pages/Careers').then(m => ({ default: m.CareersPage })))
 const JobDetailPage   = lazy(() => import('@/pages/Careers/JobDetailPage').then(m => ({ default: m.JobDetailPage })))
+const SurveyPage      = lazy(() => import('@/pages/Survey').then(m => ({ default: m.SurveyPage })))
 // Admin panel — its own chunk, separate top-level route (no public navbar/footer).
 const AdminApp        = lazy(() => import('@/admin/AdminApp').then(m => ({ default: m.AdminApp })))
 
@@ -28,6 +29,7 @@ export const router = createBrowserRouter([
       { path: 'trading', element: <TradingPage /> },
       { path: 'careers', element: <CareersPage /> },
       { path: 'careers/:slug', element: <JobDetailPage /> },
+      { path: 'survey/:slug', element: <SurveyPage /> },
       { path: 'contact', element: <ContactPage /> },
     ],
   },

@@ -16,6 +16,7 @@ export default defineConfig({
     proxy: {
       '/api':      { target: 'http://localhost:8080', changeOrigin: true },
       '/mail.php': { target: 'http://localhost:8080', changeOrigin: true },
+      '/uploads':  { target: 'http://localhost:8080', changeOrigin: true },
     },
   },
   build: {

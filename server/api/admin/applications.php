@@ -13,7 +13,7 @@ require __DIR__ . '/../_lib/auth.php';
 require __DIR__ . '/../_lib/mailer.php';
 require __DIR__ . '/../_lib/status-emails.php';
 
-require_auth();
+require_role('admin', 'hr');
 $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 $id     = (int)($_GET['id'] ?? 0);
 $jobId  = (int)($_GET['job_id'] ?? 0);

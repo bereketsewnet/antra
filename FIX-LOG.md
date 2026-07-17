@@ -1533,3 +1533,142 @@ on the public careers cards, the job detail page, and the admin jobs table.
 `server/api/admin/jobs.php`, `server/api/apply.php`, `server/README.md`,
 `src/admin/{ApplicationsManager.tsx,JobsManager.tsx,types.ts}`,
 `src/pages/Careers/{index.tsx,Careers.module.css,JobDetailPage.tsx,JobDetail.module.css}`
+
+---
+
+## 84. Survey module — full custom builder, public fill page, results + CSV (owner's big feature)
+The complete self-hosted, Google-Forms-style survey system (Google Forms is
+only the visual reference — nothing is integrated with Google; all data is
+in our MySQL).
+
+**Backend (all dependency-free PHP):**
+- `admin/surveys.php` — survey CRUD; saves the survey + its questions in one
+  request. Questions lock automatically once responses exist (prevents
+  orphaning answer data — meta/settings/status stay editable).
+- `survey.php` (public) — list published surveys (for the site card) + fetch
+  one to fill; enforces response limit ("closed" state).
+- `survey-submit.php` (public) — validates required answers + email, stores
+  response + answers in a transaction, returns the confirmation message.
+- `admin/survey-results.php` — per-question aggregates (choice counts +
+  text answers) + individual responses; `?format=csv` streams an Excel-ready
+  CSV (UTF-8 BOM).
+- 10 question types: short answer, paragraph, multiple choice, checkboxes,
+  dropdown, linear scale, star rating, date, email, number. Settings:
+  status (draft/published/closed), collect email, show progress bar,
+  confirmation message, response limit.
+
+**Admin frontend** (`src/admin/`): `SurveysManager` (list + publish/close/
+delete), `SurveyEditor` (the builder — add/reorder/delete questions, per-type
+config, settings, live question-lock notice), `SurveyResults` (summary bars
++ individual table + CSV export). Added "Surveys" to the sidebar + routes.
+
+**Public frontend:**
+- `/survey/:slug` (`src/pages/Survey/`) — a clean Google-Forms-style fill
+  page rendering every question type, with progress bar, validation,
+  required markers, and a confirmation screen.
+- `SurveySection` on the **Consultancy page** — shows published surveys as
+  simple cards linking to their own fill page (renders nothing when none are
+  published), exactly as the owner asked (card on Consultancy → separate
+  survey page).
+
+**Verified end-to-end** on local XAMPP: create survey w/ 3 question types →
+publish → public list → fetch → submit response → aggregates → CSV export,
+plus admin list. All PHP lints clean; `tsc` clean; CSS cross-checked. A
+sample "Employee Experience Survey" (published, 1 response) is in the DB.
+
+**Files added:** `server/api/_lib/slug.php`, `server/api/admin/surveys.php`,
+`server/api/admin/survey-results.php`, `server/api/survey.php`, `server/api/survey-submit.php`,
+`src/admin/{surveyTypes.ts,SurveysManager.tsx,SurveyEditor.tsx,SurveyResults.tsx}`,
+`src/pages/Survey/{index.tsx,Survey.module.css}`,
+`src/pages/Consultancy/{SurveySection.tsx,SurveySection.module.css}`
+**Files changed:** `src/admin/{AdminApp.tsx,AdminLayout.tsx}`, `src/router/index.tsx`,
+`src/pages/Consultancy/index.tsx`
+
+---
+
+## 85. Admin overhaul — staff management, job thumbnails, modern dashboard with charts
+Three big admin additions.
+
+**1. Staff / user management** (admin-role only). New `admin/users.php`
+(list/create/update/delete, role, activate/deactivate, password reset) with
+guards: can't delete/deactivate yourself, can't remove or demote the last
+active admin, email uniqueness. New `admin/profile.php` for any user to edit
+their own name/email/password (password change requires the current one).
+Frontend: `UsersManager` (table + add/edit modal + reset password + activate)
+and `Profile`. "Staff" appears in the sidebar for admins only; "My profile"
+for everyone.
+
+**2. Job thumbnail images.** Added `thumbnail` column to jobs + a public
+web-accessible uploads folder (`server/uploads/jobs`, gitignored) served at
+`/uploads/...` (added to the Vite dev proxy). New authenticated
+`admin/upload-image.php` (validates real MIME — jpg/png/webp/gif, 4 MB cap).
+The job editor has an optional image field with live preview + remove; the
+image shows on the public careers **cards** (full-bleed top) and the job
+**detail** page.
+
+**3. Modern dashboard.** Rewrote `admin/stats.php` to return rich data
+(counters, applications-by-status, jobs-by-status, 14-day application trend,
+top jobs, recent applications, survey response counts). Built dependency-free
+**animated SVG charts** (`charts.tsx`: donut/pie with legend, horizontal
+bars, area/line trend — all animated via framer-motion). New Dashboard:
+accent-topped stat cards, an area chart of applications over time, donut
+charts for application + job status, top-jobs bars, a recent-applications
+table, and survey response bars — all in a responsive 2-column grid.
+
+**Verified end-to-end**: staff create + guards (409 on self-delete / last-admin
+demote), profile update, image upload → served at /uploads → job thumbnail
+round-trips to the public API. All PHP lints clean; `tsc` clean; CSS
+cross-checked. A sample HR user (Hiwot HR / hr@antragroup.et) is seeded.
+
+**Files added:** `server/api/admin/{users,profile,upload-image}.php`,
+`src/admin/{charts.tsx,UsersManager.tsx,Profile.tsx}`
+**Files changed:** `server/api/admin/{stats,jobs}.php`, `server/api/jobs.php`,
+`server/schema.sql`, `.gitignore`, `vite.config.ts`,
+`src/admin/{Dashboard.tsx,AdminApp.tsx,AdminLayout.tsx,JobEditor.tsx,types.ts,admin.module.css}`,
+`src/lib/api.ts`, `src/pages/Careers/{index.tsx,Careers.module.css,JobDetailPage.tsx,JobDetail.module.css}`
+
+---
+
+## 86. Survey-only staff role + Consultancy survey nav sub-link
+**New "survey" role.** Added `survey` to the `admin_users.role` enum. Access
+is now role-scoped server-side (was any-authenticated): jobs / applications /
+CV-download / image-upload require `admin` or `hr`; surveys / survey-results
+require `admin` or `survey`; staff stays `admin`-only. The admin sidebar now
+shows links by role — HR sees Jobs + Applications, a Survey user sees only
+Surveys, admin sees everything (all roles see Dashboard + My profile). The
+staff editor has a "Survey (surveys only)" role option. Verified: a survey
+user gets 200 on surveys and 403 on jobs/applications/staff.
+
+**Consultancy survey nav link.** Added "Survey" under the Consultancy dropdown
+in the public navbar, linking to `/consultancy#surveys` — it scrolls to the
+survey card section (id="surveys"). (That section was already wired and the
+public endpoint returns the published surveys — if it wasn't showing, the
+local PHP server just needed a restart to pick up the survey endpoints.)
+
+**Files changed:** `server/schema.sql`, `server/api/admin/{jobs,applications,surveys,survey-results,users,download-cv,upload-image}.php`,
+`src/admin/{types.ts,AdminLayout.tsx,UsersManager.tsx}`, `src/components/layout/Navbar.tsx`
+
+---
+
+## 87. Fix: survey dropdown options invisible on dark theme
+The native `<select>` on the public survey fill page inherited white text,
+but the browser's dropdown popup has a light background — so the options
+rendered white-on-white (invisible). Added explicit `.input option`
+colours (`--navy-dark` background, `--white` text) so options are readable
+in both dark and light theme. (The Contact form already handled this.)
+
+**Files:** `src/pages/Survey/Survey.module.css`
+
+---
+
+## 88. Fix: Consultancy survey section rendered as an empty box
+The survey section on the Consultancy page mounts only *after* its `/survey.php`
+data resolves — often after the user has already scrolled to where it sits
+(deep in a long page, below the fixed navbar). Its content animations were
+gated on `useInView`, which never flipped to `true` for that late mount, so
+the label, heading, and cards stayed at `opacity: 0` — a tall, empty dark
+box. Switched it to animate on mount (no scroll-into-view dependency), so the
+content is always visible once the surveys load. (Renders nothing at all when
+there are no published surveys / the API is unreachable, as before.)
+
+**Files:** `src/pages/Consultancy/SurveySection.tsx`

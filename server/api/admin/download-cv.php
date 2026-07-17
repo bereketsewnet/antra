@@ -10,7 +10,7 @@ require __DIR__ . '/../_lib/http.php';
 require __DIR__ . '/../_lib/db.php';
 require __DIR__ . '/../_lib/auth.php';
 
-require_auth();
+require_role('admin', 'hr');
 require_method('GET');
 
 $id = (int)($_GET['id'] ?? 0);

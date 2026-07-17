@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS admin_users (
   name          VARCHAR(120)  NOT NULL,
   email         VARCHAR(190)  NOT NULL,
   password_hash VARCHAR(255)  NOT NULL,
-  role          ENUM('admin','hr') NOT NULL DEFAULT 'hr',
+  role          ENUM('admin','hr','survey') NOT NULL DEFAULT 'hr',
   is_active     TINYINT(1)    NOT NULL DEFAULT 1,
   last_login_at DATETIME      NULL,
   created_at    DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS jobs (
   location      VARCHAR(160)  NULL,
   employment_type ENUM('full_time','part_time','contract','internship','temporary') NOT NULL DEFAULT 'full_time',
   summary       VARCHAR(500)  NULL,           -- short teaser for the listing card
+  thumbnail     VARCHAR(255)  NULL,           -- optional public image URL for the listing/detail
   description   MEDIUMTEXT    NULL,           -- full description (sanitized HTML)
   requirements  MEDIUMTEXT    NULL,           -- responsibilities / requirements (sanitized HTML)
   salary_range  VARCHAR(120)  NULL,

@@ -215,6 +215,30 @@
   padding: 24px;
 }
 
+/* Dashboard chart grid — left column wider than right, collapses on small screens */
+.dashGrid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+  align-items: start;
+}
+
+@media (max-width: 860px) {
+  .dashGrid { grid-template-columns: 1fr; }
+}
+
+/* Image upload preview */
+.thumbPreview {
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--a-border);
+  display: block;
+}
+
 /* ── Table ── */
 .table {
   width: 100%;

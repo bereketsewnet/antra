@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
-import { apiGet, apiJson, apiPostJson, type ApiError } from '@/lib/api'
+import { apiGet, apiJson, apiPostJson, apiPostForm, type ApiError } from '@/lib/api'
 import { EMPLOYMENT_TYPES, type AdminJob } from './types'
 import s from './admin.module.css'
 
 const EMPTY = {
   title: '', department: '', location: '', employment_type: 'full_time',
   status: 'draft', summary: '', description: '', requirements: '',
-  salary_range: '', closes_at: '',
+  salary_range: '', closes_at: '', thumbnail: '',
 }
 
 export function JobEditor() {
@@ -30,7 +30,7 @@ export function JobEditor() {
           title: j.title ?? '', department: j.department ?? '', location: j.location ?? '',
           employment_type: j.employment_type ?? 'full_time', status: j.status ?? 'draft',
           summary: j.summary ?? '', description: j.description ?? '', requirements: j.requirements ?? '',
-          salary_range: j.salary_range ?? '', closes_at: j.closes_at ?? '',
+          salary_range: j.salary_range ?? '', closes_at: j.closes_at ?? '', thumbnail: j.thumbnail ?? '',
         })
       })
       .catch(e => setError(e.message))
@@ -38,6 +38,22 @@ export function JobEditor() {
   }, [id, isEdit])
 
   const set = (k: string, v: string) => setForm(prev => ({ ...prev, [k]: v }))
+
+  const [uploading, setUploading] = useState(false)
+  const uploadImage = async (file: File | undefined) => {
+    if (!file) return
+    setUploading(true); setError('')
+    try {
+      const fd = new FormData()
+      fd.append('image', file)
+      const r = await apiPostForm<{ url: string }>('/admin/upload-image.php', fd)
+      set('thumbnail', r.url)
+    } catch (err) {
+      setError((err as ApiError).message || 'Image upload failed.')
+    } finally {
+      setUploading(false)
+    }
+  }
 
   const save = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -75,6 +91,20 @@ export function JobEditor() {
           <input className={`${s.input} ${fieldErrors.title ? s.inputError : ''}`}
             value={form.title} onChange={e => set('title', e.target.value)} placeholder="Management Consultant" />
           {fieldErrors.title && <span className={s.errText}>{fieldErrors.title}</span>}
+        </div>
+
+        {/* Thumbnail image (optional) */}
+        <div className={s.field}>
+          <label className={s.label}>Thumbnail image <span className={s.muted}>(optional — shown on the careers page)</span></label>
+          {form.thumbnail && <img src={form.thumbnail} alt="Thumbnail" className={s.thumbPreview} style={{ marginBottom: 10 }} />}
+          <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+            <input type="file" accept="image/png,image/jpeg,image/webp,image/gif"
+              onChange={e => uploadImage(e.target.files?.[0])} disabled={uploading} />
+            {uploading && <span className={s.muted}>Uploading…</span>}
+            {form.thumbnail && !uploading && (
+              <button type="button" className={`${s.btn} ${s.btnGhost} ${s.btnSm}`} onClick={() => set('thumbnail', '')}>Remove</button>
+            )}
+          </div>
         </div>
 
         <div className={s.formRow}>

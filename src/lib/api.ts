@@ -67,6 +67,7 @@ export interface JobListItem {
   location: string | null
   employment_type: string
   summary: string | null
+  thumbnail: string | null
   posted_at: string | null
   closes_at: string | null
 }

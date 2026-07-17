@@ -2,7 +2,17 @@ export interface AdminUser {
   id: number
   name: string
   email: string
-  role: 'admin' | 'hr'
+  role: 'admin' | 'hr' | 'survey'
+}
+
+export interface StaffUser {
+  id: number
+  name: string
+  email: string
+  role: 'admin' | 'hr' | 'survey'
+  is_active: number | boolean
+  last_login_at: string | null
+  created_at: string
 }
 
 export type JobStatus = 'draft' | 'open' | 'closed'

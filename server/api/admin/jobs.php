@@ -13,7 +13,7 @@ require __DIR__ . '/../_lib/db.php';
 require __DIR__ . '/../_lib/auth.php';
 require __DIR__ . '/../_lib/jobs-maintenance.php';
 
-$user   = require_auth();
+$user   = require_role('admin', 'hr');
 $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 $id     = (int)($_GET['id'] ?? 0);
 
@@ -82,6 +82,7 @@ if ($method === 'POST' || $method === 'PATCH' || $method === 'PUT') {
         'location'        => field($body, 'location') ?: null,
         'employment_type' => $employmentType,
         'summary'         => field($body, 'summary') ?: null,
+        'thumbnail'       => field($body, 'thumbnail') ?: null,
         'description'     => trim((string)($body['description'] ?? '')) ?: null,
         'requirements'    => trim((string)($body['requirements'] ?? '')) ?: null,
         'salary_range'    => field($body, 'salary_range') ?: null,

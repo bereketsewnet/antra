@@ -133,6 +133,9 @@ export function JobDetailPage() {
 
             {/* Left: description */}
             <div className={styles.content}>
+              {job.thumbnail && (
+                <img src={job.thumbnail} alt={job.title} className={styles.heroImage} loading="lazy" />
+              )}
               {job.description && (
                 <div className={styles.block}>
                   <h2 className={styles.blockTitle}>About the role</h2>

@@ -126,6 +126,15 @@
   gap: clamp(28px, 4vw, 44px);
 }
 
+.heroImage {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid var(--white-10);
+  display: block;
+}
+
 .block {
   display: flex;
   flex-direction: column;

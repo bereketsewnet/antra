@@ -111,6 +111,11 @@ export function CareersPage() {
                     transition={{ delay: 0.05 + i * 0.07, duration: 0.55, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] }}
                   >
                     <Link to={`/careers/${job.slug}`} className={styles.card}>
+                      {job.thumbnail && (
+                        <div className={styles.cardImageWrap}>
+                          <img src={job.thumbnail} alt="" className={styles.cardImage} loading="lazy" />
+                        </div>
+                      )}
                       <div className={styles.cardMeta}>
                         <span className={`${styles.metaTag} ${styles.metaType}`}>
                           {EMPLOYMENT_TYPE_LABELS[job.employment_type] ?? job.employment_type}

@@ -28,8 +28,17 @@ export function AdminLayout() {
           <div className={s.sidebarLogo}>Antra Admin</div>
           <nav className={s.navList}>
             <NavLink to="/admin" end className={navClass}>Dashboard</NavLink>
-            <NavLink to="/admin/jobs" className={navClass}>Jobs</NavLink>
-            <NavLink to="/admin/applications" className={navClass}>Applications</NavLink>
+            {(user.role === 'admin' || user.role === 'hr') && (
+              <>
+                <NavLink to="/admin/jobs" className={navClass}>Jobs</NavLink>
+                <NavLink to="/admin/applications" className={navClass}>Applications</NavLink>
+              </>
+            )}
+            {(user.role === 'admin' || user.role === 'survey') && (
+              <NavLink to="/admin/surveys" className={navClass}>Surveys</NavLink>
+            )}
+            {user.role === 'admin' && <NavLink to="/admin/staff" className={navClass}>Staff</NavLink>}
+            <NavLink to="/admin/profile" className={navClass}>My profile</NavLink>
           </nav>
           <div className={s.sidebarFoot}>
             <div className={s.sidebarUser}>{user.name}</div>

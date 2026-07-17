@@ -19,7 +19,7 @@ $slug = field($_GET, 'slug');
 if ($slug !== '') {
     $stmt = db()->prepare(
         "SELECT id, slug, title, department, location, employment_type,
-                summary, description, requirements, salary_range,
+                summary, thumbnail, description, requirements, salary_range,
                 posted_at, closes_at
          FROM jobs
          WHERE slug = ? AND status = 'open'
@@ -39,7 +39,7 @@ if ($slug !== '') {
 
 // List — newest first, exclude expired.
 $stmt = db()->query(
-    "SELECT id, slug, title, department, location, employment_type, summary,
+    "SELECT id, slug, title, department, location, employment_type, summary, thumbnail,
             posted_at, closes_at
      FROM jobs
      WHERE status = 'open'

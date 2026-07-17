@@ -39,6 +39,7 @@ const links = [
       { label: 'Services',              hash: 'services', children: servicePractices },
       { label: 'Organizational Strategy', hash: 'organizational-strategy' },
       { label: 'What Makes Us Unique',  hash: 'what-makes-us-unique' },
+      { label: 'Survey',                hash: 'surveys' },
     ],
   },
   {

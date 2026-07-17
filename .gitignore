@@ -23,6 +23,8 @@ mail-config.php
 # Uploaded CVs / private user data (should live outside web root in prod anyway)
 server/private/
 private/
+# Uploaded public job images (kept out of git; recreated on the server)
+server/uploads/
 
 
 # Editor directories and files
