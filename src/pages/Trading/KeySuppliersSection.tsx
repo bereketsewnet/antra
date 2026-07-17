@@ -6,18 +6,22 @@ const SUPPLIERS = [
   {
     name: 'XCMG',
     logo: '/assets/trading%20assets/XCMG_logo.webp',
+    website: 'https://www.xcmgglobal.com',
   },
   {
     name: 'DEVELON',
     logo: '/assets/trading%20assets/develon_partner_logo.png',
+    website: 'https://www.mydevelon.com',
   },
   {
     name: 'ABA Trading FZCO',
     logo: '/assets/trading%20assets/ABA_trading_logo.png',
+    website: undefined,
   },
   {
     name: 'My Wish Enterprise',
     logo: '/assets/trading%20assets/my_whish_partner_logo.png',
+    website: 'https://mywishenterprise.com',
   },
 ]
 
@@ -28,6 +32,7 @@ export function KeySuppliersSection() {
   return (
     <section ref={ref} id="suppliers" className={styles.section}>
       <div className={styles.topFade} aria-hidden="true" />
+      <div className={styles.bottomFade} aria-hidden="true" />
       <div className={styles.container}>
 
         <motion.div
@@ -37,30 +42,51 @@ export function KeySuppliersSection() {
           transition={{ duration: 0.6 }}
         >
           <span className={styles.labelNumber}>03</span>
-          <span className={styles.labelText}>Key Suppliers</span>
+          <span className={styles.labelText}>Key Suppliers & Brands</span>
           <div className={styles.labelLine} />
         </motion.div>
 
         <div className={styles.suppliersGrid}>
-          {SUPPLIERS.map((supplier, index) => (
-            <motion.div
-              key={supplier.name}
-              className={styles.supplierCard}
-              initial={{ opacity: 0, y: 24 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.2 + index * 0.1, duration: 0.7, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] }}
-            >
-              <div className={styles.logoWrap}>
-                <img
-                  src={supplier.logo}
-                  alt={`${supplier.name} logo`}
-                  className={styles.logo}
-                  loading="lazy"
-                />
-              </div>
-              <span className={styles.supplierName}>{supplier.name}</span>
-            </motion.div>
-          ))}
+          {SUPPLIERS.map((supplier, index) => {
+            const cardContent = (
+              <>
+                <div className={styles.logoWrap}>
+                  <img
+                    src={supplier.logo}
+                    alt={`${supplier.name} logo`}
+                    className={styles.logo}
+                    loading="lazy"
+                  />
+                </div>
+                <span className={styles.supplierName}>{supplier.name}</span>
+              </>
+            )
+
+            return supplier.website ? (
+              <motion.a
+                key={supplier.name}
+                href={supplier.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.supplierCard}
+                initial={{ opacity: 0, y: 24 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 0.2 + index * 0.1, duration: 0.7, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] }}
+              >
+                {cardContent}
+              </motion.a>
+            ) : (
+              <motion.div
+                key={supplier.name}
+                className={styles.supplierCard}
+                initial={{ opacity: 0, y: 24 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 0.2 + index * 0.1, duration: 0.7, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] }}
+              >
+                {cardContent}
+              </motion.div>
+            )
+          })}
         </div>
 
       </div>

@@ -10,6 +10,7 @@ const AboutPage       = lazy(() => import('@/pages/About').then(m => ({ default:
 const ConsultancyPage = lazy(() => import('@/pages/Consultancy').then(m => ({ default: m.ConsultancyPage })))
 const TradingPage     = lazy(() => import('@/pages/Trading').then(m => ({ default: m.TradingPage })))
 const ContactPage     = lazy(() => import('@/pages/Contact').then(m => ({ default: m.ContactPage })))
+const PracticeDetailPage = lazy(() => import('@/pages/PracticeDetail').then(m => ({ default: m.PracticeDetailPage })))
 
 export const router = createBrowserRouter([
   {
@@ -19,6 +20,7 @@ export const router = createBrowserRouter([
       { index: true, element: <HomePage /> },
       { path: 'about', element: <AboutPage /> },
       { path: 'consultancy', element: <ConsultancyPage /> },
+      { path: 'consultancy/practices/:slug', element: <PracticeDetailPage /> },
       { path: 'trading', element: <TradingPage /> },
       { path: 'contact', element: <ContactPage /> },
     ],

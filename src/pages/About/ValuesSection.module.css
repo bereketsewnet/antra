@@ -200,14 +200,16 @@
   .section {
     background-attachment: scroll;
   }
-
-  .missions {
-    grid-template-columns: 1fr;
-  }
 }
 
 @media (max-width: 540px) {
   .valuesGrid {
     grid-template-columns: 1fr;
+  }
+
+  /* In a single-column grid, spanning 2 tracks forces a phantom implicit
+     column — the card renders half-width and overlaps its neighbours. */
+  .valueCard:last-child {
+    grid-column: span 1;
   }
 }

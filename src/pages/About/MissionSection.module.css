@@ -51,54 +51,43 @@
   padding-inline: var(--container-pad);
 }
 
-.sectionLabel {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: clamp(40px, 5vw, 64px);
-}
-
-.labelNumber {
-  font-family: var(--font-heading);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  color: var(--orange);
-}
-
-.labelText {
-  font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.25em;
-  color: var(--white-60);
-  text-transform: uppercase;
-}
-
-.labelLine {
-  flex: 1;
-  height: 1px;
-  background: var(--white-10);
-}
-
 .heading {
   font-family: var(--font-heading);
-  font-size: clamp(32px, 4.5vw, 62px);
+  font-size: clamp(34px, 4.4vw, 60px);
   font-weight: 700;
   color: var(--white);
   letter-spacing: -0.03em;
-  line-height: 1.1;
-  margin: 0 0 clamp(20px, 2.5vw, 32px);
+  line-height: 1.15;
+  margin: 0 0 clamp(60px, 8vw, 96px);
 }
 
-.headingAccent { color: var(--orange); }
+/* Shimmering gradient sweep — matches the Core Values section's accent treatment.
+   Sized a little smaller than "Our Mission" above it. */
+.headingAccent {
+  font-size: clamp(24px, 3.2vw, 42px);
+  font-weight: 600;
+  background: linear-gradient(
+    100deg,
+    #B85F0B   0%,
+    #E38620  20%,
+    #FFB472  40%,
+    #FFF4E0  55%,
+    #FFB472  70%,
+    #E38620  85%,
+    #B85F0B 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  background-size: 250% 100%;
+  animation: missionShimmer 8s ease-in-out 1s infinite;
+}
 
-.statement {
-  font-size: clamp(15px, 1.3vw, 18px);
-  color: var(--white-80);
-  line-height: 1.8;
-  max-width: 680px;
-  margin: 0 0 clamp(60px, 8vw, 96px);
+@keyframes missionShimmer {
+  0%   { background-position: 180% center; }
+  45%  { background-position: 0%   center; }
+  100% { background-position: 180% center; }
 }
 
 .pillars {

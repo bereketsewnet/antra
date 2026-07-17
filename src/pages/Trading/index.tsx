@@ -31,7 +31,7 @@ const jsonLd = {
   },
   serviceType: [
     'Electric Vehicle Supply',
-    'Construction Machinery',
+    'Construction Machineries',
     'Sanitary Equipment',
     'Medical Equipment',
   ],
@@ -40,7 +40,7 @@ const jsonLd = {
     name: 'Product Lines',
     itemListElement: [
       { '@type': 'Offer', itemOffered: { '@type': 'Product', name: 'Electric Vehicles' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Product', name: 'Construction Machinery' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Product', name: 'Construction Machineries' } },
       { '@type': 'Offer', itemOffered: { '@type': 'Product', name: 'Sanitary Equipment' } },
       { '@type': 'Offer', itemOffered: { '@type': 'Product', name: 'Medical Equipment' } },
     ],
@@ -63,8 +63,8 @@ export function TradingPage() {
         <ProductLinesSection />
         <WhatMakesUsUniqueSection />
         <WhyBuyersSection />
-        <TradingClosingCTA />
         <KeySuppliersSection />
+        <TradingClosingCTA />
       </motion.main>
     </>
   )

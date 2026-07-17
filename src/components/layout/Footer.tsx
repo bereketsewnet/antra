@@ -3,18 +3,19 @@ import { useTheme } from '@/contexts/ThemeContext'
 import styles from './Footer.module.css'
 
 const consultancyLinks = [
-  { label: 'Leadership Development', to: '/consultancy' },
-  { label: 'Corporate Training',     to: '/consultancy' },
-  { label: 'Talent Search',          to: '/consultancy' },
-  { label: 'Coaching & Mentorship',  to: '/consultancy' },
-  { label: 'Organizational Transformation', to: '/consultancy' },
+  { label: 'Organizational Transformation', to: '/consultancy/practices/org' },
+  { label: 'Leadership Development',        to: '/consultancy/practices/leadership' },
+  { label: 'Training on People Management', to: '/consultancy/practices/people-mgmt' },
+  { label: 'Talent Search & Assessments',   to: '/consultancy/practices/talent' },
+  { label: 'Advisory & Change',             to: '/consultancy/practices/advisory' },
+  { label: 'Coaching & Mentorship',         to: '/consultancy/practices/coaching' },
 ]
 
 const tradingLinks = [
-  { label: 'Electric Vehicles',        to: '/trading' },
-  { label: 'Construction Machinery',   to: '/trading' },
-  { label: 'Sanitary Products',        to: '/trading' },
+  { label: 'Construction Machineries', to: '/trading' },
   { label: 'Medical Equipment',        to: '/trading' },
+  { label: 'Electric Vehicles',        to: '/trading' },
+  { label: 'Sanitary Products',        to: '/trading' },
 ]
 
 export function Footer() {

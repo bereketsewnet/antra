@@ -14,7 +14,7 @@ const products = [
     id: 'construction',
     image: '/assets/trading%20assets/product-construction-machinery.webp',
     tag: 'Category 02',
-    title: 'Construction Machinery',
+    title: 'Construction Machineries',
     short: 'Excavators, loaders, and supporting equipment for construction firms, contractors, and industrial projects. We source from manufacturers and supply in Ethiopia and the region.',
   },
   {

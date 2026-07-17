@@ -18,7 +18,7 @@ export function AboutMapSection() {
           animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          <span className={styles.labelNumber}>04</span>
+          <span className={styles.labelNumber}>05</span>
           <span className={styles.labelText}>Let's Talk</span>
           <div className={styles.labelLine} />
         </motion.div>
@@ -58,7 +58,7 @@ export function AboutMapSection() {
           animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.1 }}
         >
-          <span className={styles.labelNumber}>05</span>
+          <span className={styles.labelNumber}>06</span>
           <span className={styles.labelText}>Find Us</span>
           <div className={styles.labelLine} />
         </motion.div>

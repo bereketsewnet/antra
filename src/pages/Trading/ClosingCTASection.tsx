@@ -5,7 +5,7 @@ import styles from './ClosingCTASection.module.css'
 
 const categories = [
   { label: 'Electric Vehicles' },
-  { label: 'Construction Machinery' },
+  { label: 'Construction Machineries' },
   { label: 'Sanitary Equipment' },
   { label: 'Medical Equipment' },
 ]

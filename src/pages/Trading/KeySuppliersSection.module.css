@@ -13,7 +13,7 @@
   pointer-events: none;
 }
 
-/* Top fade — melts in from the previous section (Closing CTA, navy-dark). */
+/* Top fade — melts in from the previous section (Why Buyers Work With Us, navy-dark). */
 .topFade {
   position: absolute;
   left: 0;
@@ -23,6 +23,18 @@
   pointer-events: none;
   z-index: 1;
   background: linear-gradient(to bottom, var(--navy-dark) 0%, var(--navy-dark-0) 100%);
+}
+
+/* Bottom fade — melts out into the next section (Closing CTA, navy-dark). */
+.bottomFade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: clamp(100px, 14vh, 170px);
+  pointer-events: none;
+  z-index: 1;
+  background: linear-gradient(to bottom, var(--navy-0) 0%, var(--navy-dark) 100%);
 }
 
 .container {
@@ -85,7 +97,12 @@
   border: 1px solid rgba(11, 33, 53, 0.06);
   border-radius: 16px;
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22);
+  text-decoration: none;
   transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
+}
+
+a.supplierCard {
+  cursor: pointer;
 }
 
 .supplierCard:hover {

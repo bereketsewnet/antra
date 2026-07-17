@@ -1,48 +1,58 @@
 /* ================================================================
-   ANTRA HERO — Scroll-Scrub 3D Animation
-   Scroll distance = 220vh (scrub through 120 frames).
-   Inner viewport is pinned via position: sticky.
-   Text overlay sits on the right; monolith occupies the left third.
+   ANTRA HERO — Video Background + 3D Cube
+   A single looping video fills the hero (100vh). A darkening
+   overlay keeps the text legible. The draggable 3D glass cube
+   sits on the left; the headline/subhead/CTAs sit on the right.
 ================================================================ */
 
 .hero {
   position: relative;
   width: 100%;
-  height: 220vh;                     /* total scroll length for the scrub */
-  background: #060F1A;               /* fallback while frames load */
-}
-
-/* ── Pinned viewport ── */
-.sticky {
-  position: sticky;
-  top: 0;
-  width: 100%;
   height: 100vh;
+  height: 100svh;
+  min-height: 620px;
   overflow: hidden;
   background: #060F1A;
   isolation: isolate;
 }
 
-/* ── Base layers ── */
-.fallback,
-.canvas {
+/* ── Background video ── */
+.video {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  display: block;
   z-index: 1;
   object-fit: cover;
   object-position: center;
   background: #060F1A;
 }
 
-.fallback {
-  z-index: 0;
-  filter: saturate(1.05);
+/* ── Darkening overlay — a "little background overlay" so the video
+   never overpowers the text. General wash + a stronger right-side
+   tint where the headline/subhead sit. ── */
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(6, 15, 26, 0.55) 0%,
+      rgba(6, 15, 26, 0.34) 32%,
+      rgba(6, 15, 26, 0.42) 68%,
+      rgba(6, 15, 26, 0.72) 100%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(6, 15, 26, 0.52) 0%,
+      rgba(6, 15, 26, 0.20) 55%,
+      rgba(6, 15, 26, 0.12) 100%
+    );
 }
 
-/* ── Top fade — real DOM div, blends animation into the solid navbar ── */
+/* ── Top fade — blends the video seamlessly into the solid navbar ── */
 .topNavFade {
   position: absolute;
   top: 0;
@@ -58,196 +68,13 @@
   background: linear-gradient(to bottom, #ffffff 0%, transparent 100%);
 }
 
-/* ── Film grain — cinematic noise texture over the whole hero ──
-   Shifts position every frame to simulate real film grain.
-   Opacity is intentionally tiny so you feel it, not see it.    */
-.sticky::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 15;
-  pointer-events: none;
-  opacity: 0.032;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 200px 200px;
-  animation: grainShift 7s steps(1) infinite;
-  will-change: transform;
-}
-
-@keyframes grainShift {
-  0%   { transform: translate(0%,    0%);   }
-  10%  { transform: translate(-6%,  -9%);   }
-  20%  { transform: translate(-14%,  5%);   }
-  30%  { transform: translate( 8%,  -24%);  }
-  40%  { transform: translate(-5%,   22%);  }
-  50%  { transform: translate(-12%,  10%);  }
-  60%  { transform: translate( 14%,   0%);  }
-  70%  { transform: translate( 0%,   14%);  }
-  80%  { transform: translate( 4%,   32%);  }
-  90%  { transform: translate(-9%,   9%);   }
-  100% { transform: translate( 0%,    0%);  }
-}
-
-/* ── Diagonal light slash — fires once on load, sweeps left→right ──
-   A wide angled slab of near-invisible warm light that shoots across
-   the whole hero in ~1.5 s, then is gone. The kind of flash you see
-   on luxury product reveals and game trailers.                        */
-.scanSlash {
-  position: absolute;
-  top: -60%;
-  left: -80%;
-  width: 55%;
-  height: 220%;
-  z-index: 13;
-  pointer-events: none;
-  background: linear-gradient(
-    108deg,
-    transparent              0%,
-    rgba(255, 210, 140, 0.03) 36%,
-    rgba(255, 255, 255, 0.08) 50%,
-    rgba(255, 210, 140, 0.03) 64%,
-    transparent             100%
-  );
-  animation: scanSlash 1.55s cubic-bezier(0.4, 0, 0.15, 1) 0.4s 1 both;
-  will-change: left;
-}
-
-@keyframes scanSlash {
-  from { left: -80%; }
-  to   { left: 170%; }
-}
-
-/* ── Gradient mesh — corner colour depth blobs ──
-   Two dark-tinted radial blobs in opposite corners create
-   the sense of infinite atmospheric depth behind the shards. */
-.mesh {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  background:
-    radial-gradient(ellipse 65% 65% at -5%  -5%,  rgba(5,  35, 100, 0.55) 0%, transparent 65%),
-    radial-gradient(ellipse 60% 60% at 108% 108%, rgba(50,  5,  90, 0.45) 0%, transparent 65%),
-    radial-gradient(ellipse 45% 45% at 108%   0%, rgba(0,  20,  60, 0.25) 0%, transparent 60%);
-  animation: meshBreath 22s ease-in-out infinite alternate;
-  will-change: opacity;
-}
-
-@keyframes meshBreath {
-  0%   { opacity: 0.7; }
-  50%  { opacity: 1.0; }
-  100% { opacity: 0.75; }
-}
-
-/* ── God rays — light beams radiating from the shard glow centre ──
-   The source point is ~(38%, 45%) in the hero where the glass shards
-   glow warmest. Each ray is a tall strip rotated to fan outward.      */
-.rays {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-/* Shared ray base */
-.ray1, .ray2, .ray3, .ray4 {
-  position: absolute;
-  width: 180px;
-  height: 220%;
-  top: -60%;
-  background: linear-gradient(
-    to bottom,
-    transparent               0%,
-    rgba(255, 195, 120, 0.05) 18%,
-    rgba(255, 175,  90, 0.08) 42%,
-    rgba(255, 195, 120, 0.05) 68%,
-    transparent               100%
-  );
-  transform-origin: top center;
-}
-
-.ray1 {
-  left: 32%;
-  transform: rotate(-155deg);
-  animation: rayPulse1 9s  ease-in-out infinite;
-}
-.ray2 {
-  left: 40%;
-  width: 120px;
-  transform: rotate(-170deg);
-  animation: rayPulse2 13s ease-in-out infinite;
-  animation-delay: 2.5s;
-  opacity: 0.75;
-}
-.ray3 {
-  left: 24%;
-  width: 90px;
-  transform: rotate(-142deg);
-  animation: rayPulse3 17s ease-in-out infinite;
-  animation-delay: 5s;
-  opacity: 0.55;
-}
-.ray4 {
-  left: 44%;
-  width: 70px;
-  transform: rotate(-178deg);
-  animation: rayPulse1 11s ease-in-out infinite;
-  animation-delay: 7s;
-  opacity: 0.45;
-}
-
-@keyframes rayPulse1 {
-  0%, 100% { opacity: 0.45; transform: rotate(-155deg) scaleX(0.9);  }
-  50%       { opacity: 1.0;  transform: rotate(-152deg) scaleX(1.25); }
-}
-@keyframes rayPulse2 {
-  0%, 100% { opacity: 0.55; transform: rotate(-170deg) scaleX(1.1);  }
-  50%       { opacity: 1.0;  transform: rotate(-173deg) scaleX(0.75); }
-}
-@keyframes rayPulse3 {
-  0%, 100% { opacity: 0.35; transform: rotate(-142deg) scaleX(1.3);  }
-  50%       { opacity: 0.85; transform: rotate(-146deg) scaleX(0.85); }
-}
-
-/* ── Editorial gradient overlays — deepen the right side for text ── */
-.overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 4;
-  pointer-events: none;
-  background:
-    linear-gradient(
-      90deg,
-      rgba(6, 15, 26, 0)      0%,
-      rgba(6, 15, 26, 0)      35%,
-      rgba(6, 15, 26, 0.35)  55%,
-      rgba(6, 15, 26, 0.85)  100%
-    );
-}
-
-.vignette {
-  position: absolute;
-  inset: 0;
-  z-index: 6;
-  pointer-events: none;
-  background:
-    radial-gradient(
-      120% 90% at 50% 50%,
-      transparent 55%,
-      rgba(6, 15, 26, 0.55) 100%
-    );
-}
-
-/* ── Bottom seam fade — a smooth "taper fade" that melts the hero
-   into the next section's navy so there is no hard shard line.
-   Sits above the frame/particles/grain but below the cube & text. ── */
+/* ── Bottom seam fade — melts the hero into the next section's navy ── */
 .seamFade {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  height: 38vh;
+  height: 30vh;
   z-index: 16;
   pointer-events: none;
   background: linear-gradient(
@@ -271,97 +98,46 @@
   );
 }
 
-/* Interactive orange dust — floats freely, drifts toward cursor */
-.particles {
+/* ================================================================
+   CONTENT — text on the right, vertically centred
+================================================================ */
+.content {
   position: absolute;
   inset: 0;
-  z-index: 5;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  mix-blend-mode: screen;    /* warm additive glow over dark background */
-  opacity: 1;
-}
-
-/* ── Loader (only visible during initial preload) ── */
-.loader {
-  position: absolute;
-  bottom: 32px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 25;
-  width: min(320px, 60vw);
-}
-
-.loaderTrack {
-  height: 2px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 1px;
-  overflow: hidden;
-}
-
-.loaderBar {
-  height: 100%;
-  background: linear-gradient(90deg, transparent, var(--orange), transparent);
-  transition: width 0.15s ease-out;
-}
-
-/* ── Content layer — text and CTAs ── */
-.content {
-  position: relative;
   z-index: 20;
-  width: 100%;
-  height: 100%;
   max-width: var(--container-max);
   margin: 0 auto;
-  /* Extra top padding so the sub-group (which appears where headline was) never sits under the sticky navbar */
-  /* top | right | bottom | left — tighter right edge pushes text closer to right side */
-  padding: clamp(150px, 16vw, 200px) clamp(16px, 2vw, 40px) clamp(60px, 8vw, 100px) clamp(24px, 5vw, 80px);
+  padding: 78px clamp(24px, 5vw, 80px) clamp(150px, 21vh, 200px);
   box-sizing: border-box;
-
-  display: grid;
-  grid-template-columns: 1.6fr minmax(0, 500px); /* wider left gap = text pushed to the right */
-  grid-template-rows: 1fr auto;
-  gap: 40px;
-  align-items: start;
-
-  /* Let pointer events fall through the empty left column to the cube below.
-     Interactive children (.textCol) re-enable pointer events. */
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  /* Let pointer events fall through to the cube on the right;
+     .textCol re-enables them for the links. */
   pointer-events: none;
 }
 
-/* Force the text column to the right */
 .textCol {
-  grid-column: 2;
-  grid-row: 1;
-  color: #ffffff;
-  max-width: 500px;
   width: 100%;
+  max-width: 540px;
+  color: #ffffff;
   pointer-events: auto;
 }
 
-/* Two groups stacked in the same visual space */
 .textStack {
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: auto;
+  display: flex;
+  flex-direction: column;
 }
 
-.groupHero,
-.groupSub {
-  grid-column: 1 / -1;
-  grid-row: 1 / -1;
-  align-self: start;
-  will-change: transform, opacity, filter;
+.groupHero {
+  display: flex;
+  flex-direction: column;
 }
 
 .groupSub {
   display: flex;
   flex-direction: column;
-  /* Push down to sit where the middle of the headline used to be — a natural replacement */
-  padding-top: clamp(50px, 6vw, 90px);
-  max-width: 560px;
+  margin-top: clamp(4px, 1vw, 14px);
 }
 
 /* ── Eyebrow ── */
@@ -369,7 +145,8 @@
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: clamp(20px, 2.5vw, 32px);
+  align-self: flex-start;
+  margin-bottom: clamp(16px, 2vw, 24px);
   padding: 6px 14px 6px 10px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -404,16 +181,16 @@
 /* ── Headline ── */
 .headline {
   font-family: var(--font-heading);
-  /* Tuned so "Transformation" (14 chars) fits within the 620px column at max size. */
-  font-size: clamp(40px, 5vw, 72px);
+  font-size: clamp(36px, 4.2vw, 60px);
   font-weight: 700;
-  line-height: 0.98;
+  line-height: 1.0;
   letter-spacing: -0.035em;
-  margin: 0 0 clamp(24px, 2.6vw, 34px);
+  margin: 0 0 clamp(16px, 2vw, 24px);
   color: #ffffff;
   display: flex;
   flex-direction: column;
   gap: 0.01em;
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.35);
 }
 
 .headlineLine {
@@ -428,7 +205,7 @@
     #B85F0B   0%,
     #E38620  18%,
     #FFB472  32%,
-    #FFF4E0  50%,   /* bright shimmer highlight point */
+    #FFF4E0  50%,
     #FFB472  68%,
     #E38620  82%,
     #B85F0B 100%
@@ -459,12 +236,13 @@
 /* ── Subhead ── */
 .subhead {
   font-family: var(--font-body);
-  font-size: clamp(15px, 1.4vw, 19px);
+  font-size: clamp(14px, 1.15vw, 16.5px);
   font-weight: 300;
-  line-height: 1.7;
-  color: rgba(255, 255, 255, 0.78);
-  margin: 0 0 clamp(36px, 4vw, 52px);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.82);
+  margin: 0 0 clamp(22px, 3vw, 32px);
   max-width: 540px;
+  text-shadow: 0 1px 16px rgba(0, 0, 0, 0.4);
 }
 
 .subhead strong {
@@ -542,175 +320,74 @@
   transform: translateY(-2px);
 }
 
-/* ── Scroll cue ── */
-.scrollCue {
-  grid-column: 1 / -1;
-  grid-row: 2;
-  align-self: end;
-  justify-self: center;
+/* ── Impact stat band — cited industry benchmarks, anchors the bottom ── */
+.statBand {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 19;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 clamp(24px, 5vw, 80px) clamp(20px, 3vh, 36px);
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 12px;
+  gap: clamp(12px, 1.6vh, 20px);
   pointer-events: none;
 }
 
-.scrollLabel {
+.statBandLabel {
   font-family: var(--font-body);
   font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.42em;
+  font-weight: 600;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.5);
 }
 
-.scrollTrack {
-  width: 1px;
-  height: 56px;
-  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.4), transparent);
-  position: relative;
-  overflow: hidden;
+.statBandGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(16px, 2.2vw, 36px);
 }
 
-.scrollDot {
-  position: absolute;
-  top: 0;
-  width: 1px;
-  height: 16px;
-  background: var(--orange);
-  box-shadow: 0 0 6px rgba(217, 121, 17, 0.8);
+.statItem {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-left: clamp(14px, 1.4vw, 20px);
+  border-left: 1px solid rgba(255, 255, 255, 0.14);
 }
 
-/* ================================================================
-   RESPONSIVE
-================================================================ */
-
-/* Tablet / smaller desktop */
-@media (max-width: 1100px) {
-  .content {
-    grid-template-columns: 1fr;
-    padding-top: clamp(120px, 15vw, 160px);
-  }
-  .textCol {
-    grid-column: 1;
-    max-width: 620px;
-    margin-left: auto;
-    padding-right: clamp(0px, 2vw, 20px);
-  }
-  .headline {
-    font-size: clamp(38px, 6.2vw, 66px);
-  }
-  .overlay {
-    background: linear-gradient(
-      180deg,
-      rgba(6, 15, 26, 0.15)   0%,
-      rgba(6, 15, 26, 0.35)  55%,
-      rgba(6, 15, 26, 0.85) 100%
-    );
-  }
+.statFigure {
+  font-family: var(--font-heading);
+  font-size: clamp(26px, 3vw, 40px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--orange);
 }
 
-/* Mobile */
-@media (max-width: 700px) {
-  .hero {
-    height: 180vh;                   /* shorter scroll on mobile */
-  }
-  .content {
-    grid-template-columns: 1fr;
-    padding: clamp(120px, 22vw, 170px) 20px 40px;
-    justify-content: end;
-    align-items: end;
-  }
-  .textCol {
-    grid-column: 1;
-    grid-row: 1;
-    align-self: end;
-    text-align: left;
-    margin: 0;
-    max-width: 100%;
-    padding-bottom: clamp(60px, 10vh, 100px);
-  }
-  .eyebrowRow {
-    margin-bottom: 18px;
-    padding: 5px 12px 5px 8px;
-  }
-  .eyebrow {
-    font-size: 10px;
-    letter-spacing: 0.28em;
-  }
-  .headline {
-    /* "Transformation" (14 chars) needs to fit ~340-400px viewport minus padding */
-    font-size: clamp(32px, 9vw, 48px);
-    line-height: 1.02;
-    letter-spacing: -0.03em;
-  }
-  .headlineLine {
-    white-space: normal;             /* allow wrap on tiny screens if it must */
-  }
-  .subhead {
-    font-size: 14px;
-    line-height: 1.65;
-    max-width: 100%;
-    margin-bottom: 24px;
-  }
-  .actions {
-    flex-direction: column;
-    align-items: stretch;
-    width: 100%;
-    gap: 12px;
-  }
-  .btnPrimary,
-  .btnGhost {
-    justify-content: center;
-    padding: 14px 22px;
-    width: 100%;
-    box-sizing: border-box;
-    font-size: 14px;
-  }
-  .overlay {
-    background: linear-gradient(
-      180deg,
-      rgba(6, 15, 26, 0.05)  0%,
-      rgba(6, 15, 26, 0.55)  55%,
-      rgba(6, 15, 26, 0.92) 100%
-    );
-  }
-  .scrollCue {
-    display: none;                   /* the scroll cue is redundant on mobile */
-  }
+.statCaption {
+  font-family: var(--font-body);
+  font-size: clamp(11.5px, 0.9vw, 13.5px);
+  font-weight: 500;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.85);
 }
 
-/* Tiny phones (≤400px) — extra safety */
-@media (max-width: 400px) {
-  .headline {
-    font-size: clamp(28px, 9.5vw, 40px);
-  }
-  .subhead {
-    font-size: 13.5px;
-  }
-}
-
-/* ── Light-mode adjustments — hero stays dark for cinematic feel ── */
-:global([data-theme="light"]) .hero {
-  background: #060F1A;
-}
-:global([data-theme="light"]) .sticky {
-  background: #060F1A;
-}
-:global([data-theme="light"]) .textCol {
-  color: #ffffff;
-}
-:global([data-theme="light"]) .subhead {
-  color: rgba(255, 255, 255, 0.78);
-}
-:global([data-theme="light"]) .eyebrow {
-  color: rgba(255, 255, 255, 0.7);
+.statSource {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-style: italic;
+  line-height: 1.3;
+  color: rgba(255, 255, 255, 0.42);
 }
 
 /* ================================================================
-   LEFT INFO CARDS — floating stats, fade on scroll
+   3D ROTATING GLASS CUBE — left side, draggable + clickable
 ================================================================ */
-
 .infoPanel {
   position: absolute;
   inset: 0;
@@ -718,64 +395,18 @@
   pointer-events: none;
 }
 
-/* ══════════════════════════════════════════
-   3D ROTATING GLASS CUBE
-   6 faces: Consultancy (front), Trading (right),
-   Purpose (back), Djibouti (left),
-   ANTRA brand (top), Addis Ababa (bottom)
-══════════════════════════════════════════ */
-
 .cubeStage {
   position: absolute;
-  top: 47%;
-  left: 20%;
+  top: 43%;
+  left: 78%;
   transform: translate(-50%, -50%);
   width: 380px;
   height: 460px;
   pointer-events: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
   overflow: visible;
 }
 
-/* ── Nova-style staggered label above the cube ── */
-.cubeLabel {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0;
-  width: 100%;
-}
-
-.cubeLabelWord {
-  font-family: var(--font-heading);
-  font-size: clamp(22px, 2.8vw, 34px);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-  color: #ffffff;
-  display: block;
-}
-
-.cubeLabelWord:nth-child(2) {
-  color: var(--orange);
-}
-
-.cubeLabelSub {
-  font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 400;
-  letter-spacing: 0.08em;
-  color: rgba(255, 255, 255, 0.35);
-  margin: 10px 0 0;
-  text-transform: uppercase;
-}
-
-/* Perspective lives on the direct parent of .cube.
-   Framer Motion animates opacity/y here — that's fine,
-   the `perspective` property is independent of `transform`. */
+/* Perspective lives on the direct parent of .cube. */
 .cubeScene {
   position: absolute;
   inset: 0;
@@ -812,7 +443,7 @@
   will-change: transform;
 }
 
-/* Invisible drag surface over the cube — captures the pointer */
+/* Invisible drag surface over the cube — captures the pointer; a tap navigates */
 .cubeGrab {
   position: absolute;
   top: 50%;
@@ -913,7 +544,6 @@
     0 0 34px rgba(217, 121, 17, 0.18);
 }
 
-/* ── Face content — all orange ── */
 .faceTag {
   font-family: var(--font-body);
   font-size: 9px;
@@ -940,150 +570,32 @@
   box-shadow: 0 0 8px rgba(217, 121, 17, 0.9);
 }
 
-.faceStat {
-  font-family: var(--font-heading);
-  font-size: 58px;
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.04em;
-  color: #F0A63C;
-}
-.faceSup {
-  font-size: 0.5em;
-  vertical-align: super;
-  color: rgba(217, 121, 17, 0.85);
-}
-.faceStatLabel {
-  font-family: var(--font-body);
-  font-size: 10.5px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: #D97911;
-}
-
-.faceBrand {
-  font-family: var(--font-heading);
-  font-size: 30px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  color: #F0A63C;
-}
-.faceBrandSub {
-  font-family: var(--font-body);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: #D97911;
-}
-
-.faceBottom svg { color: #D97911; }
-.faceLoc {
-  font-family: var(--font-body);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.03em;
-  color: #F0A63C;
-}
-
-/* Responsive scale */
+/* Responsive cube scale */
 @media (max-width: 1200px) {
   .cubeStage {
-    left: 20%;
+    left: 80%;
     transform: translate(-50%, -50%) scale(0.86);
   }
 }
 
-/* Hide below 900px — not enough left space */
+/* Short viewports — shrink + lift the cube so it clears the bottom stat band */
+@media (max-height: 820px) {
+  .cubeStage {
+    top: 40%;
+    transform: translate(-50%, -50%) scale(0.78);
+  }
+}
+
+/* Hide below 900px — not enough left space, text takes over */
 @media (max-width: 900px) {
   .cubeStage {
     display: none;
   }
 }
 
-/* ── Cursor spotlight — a large warm amber glow follows the mouse ──
-   Position is updated directly via DOM (no React state) for buttery
-   60 fps performance. Starts invisible; opacity toggled by JS.       */
-.cursorSpot {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 700px;
-  height: 700px;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 7;
-  opacity: 0;
-  background: radial-gradient(
-    circle,
-    rgba(217, 121, 17, 0.07)  0%,
-    rgba(217, 121, 17, 0.035) 35%,
-    transparent               70%
-  );
-  transition: opacity 0.5s ease;
-  will-change: transform, opacity;
-}
-
-/* ── Sonar pulse rings — concentric circles expand from the shard glow ──
-   Three rings staggered in time create a calm, breathing radar effect.    */
-.pulseRings {
-  position: absolute;
-  top: 46%;
-  left: 31%;
-  transform: translate(-50%, -50%);
-  z-index: 8;
-  pointer-events: none;
-}
-
-.ring {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  border: 1px solid rgba(217, 121, 17, 0.22);
-  transform: translate(-50%, -50%) scale(1);
-  animation: ringExpand 6s ease-out infinite;
-  will-change: transform, opacity;
-}
-
-.ring2 { animation-delay: 2s; }
-.ring3 { animation-delay: 4s; }
-
-@keyframes ringExpand {
-  0%   { transform: translate(-50%, -50%) scale(0.4);  opacity: 0.7; }
-  60%  { opacity: 0.15; }
-  100% { transform: translate(-50%, -50%) scale(4.8);  opacity: 0; }
-}
-
-/* ── Load bloom — fires once when canvas frames become ready ──
-   A warm radial burst centred on the shard glow that balloons out
-   and fades — signals the hero "going live" after the preload.   */
-.loadBloom {
-  position: absolute;
-  top: 46%;
-  left: 31%;
-  width: 340px;
-  height: 340px;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  z-index: 9;
-  background: radial-gradient(
-    circle,
-    rgba(255, 210, 130, 0.42)  0%,
-    rgba(217, 121,  17, 0.22) 30%,
-    rgba(217, 121,  17, 0.06) 60%,
-    transparent               80%
-  );
-  will-change: transform, opacity;
-}
-
-/* ── Floating credential chips — hover near the cube ──
-   Glass pill badges that float with subtle 3D drift animations.
-   They live inside infoPanel so they fade on scroll with the cube. */
+/* ================================================================
+   FLOATING CREDENTIAL CHIPS — orbit the cube
+================================================================ */
 .chip {
   position: absolute;
   display: inline-flex;
@@ -1123,20 +635,17 @@
 
 /* Positions — triangular orbit around the cube */
 .chip1 {
-  /* "Challenges" — upper-left, above the cube's top-left corner */
   top: 72px;
   left: -40px;
   animation: chipFloat1 5.4s ease-in-out infinite;
 }
 .chip2 {
-  /* "we help" — right side, upper portion of cube */
   top: 155px;
   right: -40px;
   animation: chipFloat2 4.9s ease-in-out infinite;
   animation-delay: 1.2s;
 }
 .chip3 {
-  /* "you solve" — lower-left, below the cube */
   top: 380px;
   left: 20px;
   animation: chipFloat3 6.1s ease-in-out infinite;
@@ -1163,77 +672,136 @@
   .chip { display: none; }
 }
 
-/* ── Marquee ticker — infinite horizontal brand/service scroll ──
-   Sits above the seam fade, masked on both edges for clean fade-in/out.
-   Signals premium positioning — same device used by Vercel, Linear, etc. */
-.ticker {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 43vh;
-  z-index: 16;
-  height: 34px;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  pointer-events: none;
-  -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 7%, black 93%, transparent 100%);
-  mask-image:         linear-gradient(90deg, transparent 0%, black 7%, black 93%, transparent 100%);
+/* ================================================================
+   RESPONSIVE — text layout
+================================================================ */
+@media (max-width: 900px) {
+  .content {
+    justify-content: center;
+    text-align: left;
+    padding: 96px clamp(20px, 6vw, 48px) clamp(180px, 30vh, 240px);
+  }
+  .textCol {
+    max-width: 640px;
+  }
+  .headline {
+    font-size: clamp(38px, 8vw, 60px);
+  }
+  /* Cube is hidden here, so the band drops to two columns */
+  .statBandGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(14px, 3vw, 28px) clamp(20px, 4vw, 40px);
+  }
 }
 
-.tickerTrack {
-  display: flex;
-  flex-shrink: 0;
-  white-space: nowrap;
-  animation: tickerScroll 34s linear infinite;
-  will-change: transform;
+@media (max-width: 600px) {
+  .content {
+    padding: 96px 22px 56px;
+  }
+  .eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.28em;
+  }
+  .headline {
+    font-size: clamp(32px, 10vw, 46px);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+  }
+  .headlineLine {
+    white-space: normal;
+  }
+  .subhead {
+    font-size: 14px;
+    line-height: 1.65;
+  }
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 12px;
+  }
+  .btnPrimary,
+  .btnGhost {
+    justify-content: center;
+    padding: 14px 22px;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 14px;
+  }
+  /* Hide the stat band on phones — the hero is too tight for it there */
+  .statBand {
+    display: none;
+  }
 }
 
-.tickerRun {
-  display: inline-flex;
-  align-items: center;
-  flex-shrink: 0;
+@media (max-width: 400px) {
+  .headline {
+    font-size: clamp(28px, 10vw, 40px);
+  }
+  .subhead {
+    font-size: 13.5px;
+  }
 }
 
-.tickerItem {
-  display: inline-flex;
-  align-items: center;
-  gap: 16px;
-  padding: 0 26px;
-  font-family: var(--font-body);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.40em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.26);
+/* Short viewports (laptops) — compact the text + band so the vertically
+   centred content never overlaps the bottom stat band. */
+@media (max-height: 860px) and (min-width: 901px) {
+  .content {
+    padding-top: 66px;
+    padding-bottom: clamp(112px, 16vh, 148px);
+  }
+  .eyebrowRow {
+    margin-bottom: 12px;
+  }
+  .headline {
+    font-size: clamp(30px, 3.4vw, 46px);
+    margin-bottom: 12px;
+  }
+  .subhead {
+    font-size: 13.5px;
+    line-height: 1.5;
+    margin-bottom: 18px;
+  }
+  .statBandLabel {
+    display: none;
+  }
+  .statBand {
+    padding-bottom: clamp(16px, 2vh, 24px);
+    gap: 8px;
+  }
+  .statFigure {
+    font-size: clamp(22px, 2.4vw, 32px);
+  }
+  .statCaption {
+    font-size: 11.5px;
+  }
+  .statSource {
+    font-size: 9.5px;
+  }
 }
 
-.tickerDot {
-  font-size: 5px;
-  line-height: 1;
-  color: rgba(217, 121, 17, 0.52);
+/* ── Light-mode adjustments — hero stays dark for cinematic feel ── */
+:global([data-theme="light"]) .hero {
+  background: #060F1A;
 }
-
-@keyframes tickerScroll {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+:global([data-theme="light"]) .textCol {
+  color: #ffffff;
+}
+:global([data-theme="light"]) .subhead {
+  color: rgba(255, 255, 255, 0.82);
+}
+:global([data-theme="light"]) .eyebrow {
+  color: rgba(255, 255, 255, 0.7);
 }
 
 /* ── Motion preference: honor prefers-reduced-motion ── */
 @media (prefers-reduced-motion: reduce) {
   .eyebrowDot,
-  .scrollDot,
   .chipDot,
   .chip1, .chip2, .chip3,
-  .scanSlash,
-  .tickerTrack,
-  .headlineAccent,
-  .ring, .ring2, .ring3 {
+  .cubeGlow,
+  .headlineAccent {
     animation: none !important;
-  }
-  .cursorSpot,
-  .loadBloom {
-    display: none;
   }
   .btnPrimary,
   .btnGhost {

@@ -5,17 +5,17 @@ import { useTheme } from '@/contexts/ThemeContext'
 import styles from './Navbar.module.css'
 
 const servicePractices = [
-  { label: '01 · Organizational Transformation',    hash: 'practice-org' },
-  { label: '02 · Leadership Development Programs',  hash: 'practice-leadership' },
-  { label: '03 · Training on People Management',    hash: 'practice-people-mgmt' },
-  { label: '04 · Talent Search & Assessments',      hash: 'practice-talent' },
-  { label: '05 · Advisory & Change',                hash: 'practice-advisory' },
-  { label: '06 · Coaching & Mentorship',            hash: 'practice-coaching' },
+  { label: '01 · Organizational Transformation',    to: '/consultancy/practices/org' },
+  { label: '02 · Leadership Development Programs',  to: '/consultancy/practices/leadership' },
+  { label: '03 · Training on People Management',    to: '/consultancy/practices/people-mgmt' },
+  { label: '04 · Talent Search & Assessments',      to: '/consultancy/practices/talent' },
+  { label: '05 · Advisory & Change',                to: '/consultancy/practices/advisory' },
+  { label: '06 · Coaching & Mentorship',            to: '/consultancy/practices/coaching' },
 ]
 
 const productLines = [
   { label: '01 · Electric Vehicles',        hash: 'product-ev' },
-  { label: '02 · Construction Machinery',   hash: 'product-construction' },
+  { label: '02 · Construction Machineries', hash: 'product-construction' },
   { label: '03 · Sanitary Equipment',       hash: 'product-sanitary' },
   { label: '04 · Medical Equipment',        hash: 'product-medical' },
 ]
@@ -26,9 +26,10 @@ const links = [
     label: 'About',
     to: '/about',
     submenu: [
-      { label: 'Who We Are',  hash: 'who-we-are' },
-      { label: 'Mission',     hash: 'our-mission' },
-      { label: 'Core Values', hash: 'core-values' },
+      { label: 'Who We Are',      hash: 'who-we-are' },
+      { label: 'Mission',         hash: 'our-mission' },
+      { label: 'Core Values',     hash: 'core-values' },
+      { label: 'Our Leaders',     hash: 'meet-our-leaders' },
     ],
   },
   {
@@ -36,10 +37,8 @@ const links = [
     to: '/consultancy',
     submenu: [
       { label: 'Services',              hash: 'services', children: servicePractices },
-      { label: 'Coaching & Mentorship', hash: 'practice-coaching' },
       { label: 'Organizational Strategy', hash: 'organizational-strategy' },
       { label: 'What Makes Us Unique',  hash: 'what-makes-us-unique' },
-      { label: 'Key Partners',          hash: 'key-partners' },
     ],
   },
   {
@@ -49,7 +48,7 @@ const links = [
       { label: 'Product Lines',            hash: 'product-lines', children: productLines },
       { label: 'Why Buyers Work With Us',  hash: 'why-buyers-work-with-us' },
       { label: 'What Makes Us Unique',     hash: 'what-makes-us-unique' },
-      { label: 'Suppliers',                hash: 'suppliers' },
+      { label: 'Key Suppliers & Brands',    hash: 'suppliers' },
     ],
   },
   { label: 'Contact',     to: '/contact' },
@@ -174,8 +173,8 @@ export function Navbar() {
                                   >
                                     {item.children.map(child => (
                                       <Link
-                                        key={child.hash}
-                                        to={`${to}#${child.hash}`}
+                                        key={child.to ?? child.hash}
+                                        to={child.to ?? `${to}#${child.hash}`}
                                         className={styles.submenuLink}
                                       >
                                         {child.label}
@@ -330,8 +329,8 @@ export function Navbar() {
                                     >
                                       {item.children.map(child => (
                                         <Link
-                                          key={child.hash}
-                                          to={`${to}#${child.hash}`}
+                                          key={child.to ?? child.hash}
+                                          to={child.to ?? `${to}#${child.hash}`}
                                           className={styles.mobileChildSubmenuLink}
                                         >
                                           {child.label}

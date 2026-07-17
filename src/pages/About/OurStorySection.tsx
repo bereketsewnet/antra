@@ -12,18 +12,6 @@ export function OurStorySection() {
     <section ref={sectionRef} id="who-we-are" className={styles.section}>
       <div className={styles.container}>
 
-        {/* Section label */}
-        <motion.div
-          className={styles.sectionLabel}
-          initial={{ opacity: 0, x: -20 }}
-          animate={isInView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.6 }}
-        >
-          <span className={styles.labelNumber}>01</span>
-          <span className={styles.labelText}>Our Story</span>
-          <div className={styles.labelLine} />
-        </motion.div>
-
         {/* Main content grid */}
         <div className={styles.grid}>
 
@@ -35,9 +23,7 @@ export function OurStorySection() {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.1, duration: 0.8, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] }}
             >
-              Built to do
-              <br />
-              <span className={styles.headingAccent}>two things at once.</span>
+              Our Story
             </motion.h2>
 
             <motion.div

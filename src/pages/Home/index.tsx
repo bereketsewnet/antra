@@ -3,8 +3,8 @@ import { SEO } from '@/components/SEO'
 import { HeroSection } from './HeroSection'
 import { ServicePillarsSection } from './ServicePillarsSection'
 import { LatestNewsSection } from './LatestNewsSection'
-import { TeamSection } from './TeamSection'
 import { ClosingCTASection } from './ClosingCTASection'
+import { PartnersSection } from './PartnersSection'
 
 const pageVariants = {
   initial: { opacity: 0 },
@@ -47,8 +47,8 @@ export function HomePage() {
         <HeroSection />
         <ServicePillarsSection />
         <LatestNewsSection />
-        <TeamSection />
         <ClosingCTASection />
+        <PartnersSection />
       </motion.main>
     </>
   )

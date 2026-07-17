@@ -39,37 +39,6 @@
   z-index: 1;
 }
 
-/* ── Section label ── */
-.sectionLabel {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: clamp(40px, 5vw, 64px);
-}
-
-.labelNumber {
-  font-family: var(--font-heading);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  color: var(--orange);
-}
-
-.labelText {
-  font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.25em;
-  color: var(--white-60);
-  text-transform: uppercase;
-}
-
-.labelLine {
-  flex: 1;
-  height: 1px;
-  background: var(--white-10);
-}
-
 /* ── Grid ── */
 .grid {
   display: grid;
@@ -93,10 +62,6 @@
   letter-spacing: -0.03em;
   line-height: 1.1;
   margin: 0;
-}
-
-.headingAccent {
-  color: var(--orange);
 }
 
 .bodyStack {

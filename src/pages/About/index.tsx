@@ -4,6 +4,7 @@ import { AboutHeroSection } from './HeroSection'
 import { OurStorySection } from './OurStorySection'
 import { MissionSection } from './MissionSection'
 import { ValuesSection } from './ValuesSection'
+import { LeadersSection } from './LeadersSection'
 import { AboutMapSection } from './MapSection'
 
 const pageVariants = {
@@ -40,6 +41,7 @@ export function AboutPage() {
         <OurStorySection />
         <MissionSection />
         <ValuesSection />
+        <LeadersSection />
         <AboutMapSection />
       </motion.main>
     </>

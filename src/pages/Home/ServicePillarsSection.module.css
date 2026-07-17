@@ -52,24 +52,24 @@
 .labelRow {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 14px;
 }
 
 .labelDot {
-  width: 6px;
-  height: 6px;
+  width: 11px;
+  height: 11px;
   border-radius: 50%;
   background: var(--orange);
-  box-shadow: 0 0 8px rgba(217, 121, 17, 0.7);
+  box-shadow: 0 0 12px rgba(217, 121, 17, 0.7);
   flex-shrink: 0;
 }
 
 .labelText {
-  font-family: var(--font-body);
-  font-size: 11px;
+  font-family: var(--font-heading);
+  font-size: clamp(28px, 3.6vw, 48px);
   font-weight: 700;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
   color: var(--orange);
 }
 
@@ -131,6 +131,8 @@
   cursor: pointer;
   will-change: transform;
   border: 1px solid var(--white-20);
+  text-decoration: none;
+  color: inherit;
 }
 
 .cardBg {
@@ -186,12 +188,12 @@
 
 .cardTag {
   font-family: var(--font-body);
-  font-size: 10px;
+  font-size: 14px;
   font-weight: 800;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   color: #0B2135;
   text-transform: uppercase;
-  padding: 6px 14px;
+  padding: 7px 16px;
   background: linear-gradient(120deg, #FFB472, #D97911);
   border: none;
   border-radius: 100px;
@@ -213,7 +215,7 @@
 
 .cardHeadline {
   font-family: var(--font-heading);
-  font-size: clamp(19px, 2vw, 26px);
+  font-size: clamp(23px, 2.6vw, 33px);
   font-weight: 700;
   color: var(--white);
   letter-spacing: -0.02em;

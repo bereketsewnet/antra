@@ -3,6 +3,13 @@
 Running record of fixes applied during the numbered fix-request pass. Each entry
 lists what changed and which files were touched.
 
+This log has two parts:
+
+- **Part 1 — Fixes #1–54:** the initial fix pass, already reported to the owner
+  (summarized in `Antra-Update-Summary.md`).
+- **Part 2 — Fixes #55 onward:** the new round of changes made in response to the
+  owner's review feedback, starting with the header/navbar update.
+
 ---
 
 ## 1. Hero cube — clickable, links to Consultancy §03
@@ -840,3 +847,516 @@ Changed the split from "Challenges we" / "help you" / "solve" to
 "Challenges" / "we help" / "you solve."
 
 **Files:** `src/pages/Home/HeroSection.tsx`, `HeroSection.module.css`
+
+---
+---
+
+# ══════════════════════════════════════════════════════════════
+# PART 2 — OWNER FEEDBACK ROUND (new fixes, not yet reported)
+# Everything above (#1–54) was already reported to the owner in
+# `Antra-Update-Summary.md`. Everything below is new, made in
+# response to the owner's review comments — starting with the
+# header/navbar update.
+# ══════════════════════════════════════════════════════════════
+
+---
+
+## 55. Navbar — "Coaching & Mentorship" removed from top-level Consultancy menu
+It's already listed as practice 06 inside the "Services" nested flyout —
+having it twice (once standalone, once nested) was redundant since it's
+a sub-item of Services, not a peer section. Removed the standalone entry;
+it's still reachable via Services → 06 Coaching & Mentorship.
+
+**Files:** `src/components/layout/Navbar.tsx`
+
+---
+
+## 56. Homepage hero — 3D system removed entirely, replaced with a video background
+Per owner feedback: the 3D system (the scroll-scrubbed 120-frame image
+sequence *and* the draggable 3D CSS cube) was too heavy for initial load
+time and was removed completely. Also removed the separate branded
+loading-screen intro (`Preloader`) — it had its own 3D spinning cube and
+depended on the now-deleted frame files, and as a full-screen blocking
+overlay it worked directly against faster load times.
+
+The hero now plays a single looping background video (provided by the
+owner, copied into the project) instead of scrubbing through frames.
+This is one video request instead of dozens of image requests, no
+JavaScript-driven canvas drawing loop, and no 3D CSS transforms. All the
+lightweight ambient effects were kept (film grain, light rays, gradient
+mesh, particle dust, cursor spotlight, marquee ticker) since they're
+CSS/canvas-only and don't add network weight.
+
+The cube's "click to jump to Consultancy" behavior and its 6 problem-face
+labels were removed along with the cube (no longer applicable). The
+floating "Challenges we help you solve" chips, which existed to orbit the
+cube, were also removed since they no longer have anything to orbit.
+
+**Cleanup — deleted entirely:**
+- 120 original hero frame images (`art-source/hero-frames-original/`)
+- 60 optimized hero frame images (`public/assets/hero-frames/`)
+- The frame-generation script (`scripts/optimize-hero-frames.mjs`) and its
+  `npm run optimize:frames` command
+- The branded loading-screen intro (`src/components/Preloader/`)
+- Leftover dead code from an earlier unused attempt: `VideoSection.tsx`,
+  `VideoSection.module.css`, `public/assets/webpage2_video.mp4`
+- An already-unused 3D particle component (`ParticleField.tsx`) and its
+  now-pointless dependencies (`three`, `@react-three/fiber`,
+  `@react-three/drei`) and the unused `sharp` image-processing dependency
+
+**Files added:** `public/assets/home assets/hero-video.mp4`
+**Files removed:** see cleanup list above
+**Files:** `src/pages/Home/HeroSection.tsx`, `HeroSection.module.css`,
+`src/App.tsx`, `index.html`, `package.json`
+
+*Note: `package.json` dependencies were edited but `npm install` was not
+run — the lockfile/node_modules still have the old packages physically
+present until you run `npm install` to sync them.*
+
+---
+
+## 57. Hero — cube restored, effects removed, layout fixed (correction to #56)
+Fix #56 over-removed: the owner wanted only the heavy 3D *frame-sequence
+background* gone (the ~180 image frames that hurt load time), NOT the
+lightweight 3D CSS cube. Corrected:
+
+- **3D cube restored** — the draggable, auto-rotating glass cube with its 6
+  problem faces, floating "Challenges / we help / you solve" chips, hover
+  hint, and click-to-jump-to-Consultancy behavior are all back. It's pure
+  CSS/JS with zero network weight, so it doesn't affect load time.
+- **Video background kept** — still one looping video instead of the frame
+  sequence (the heavy part that was correctly removed).
+- **Darkening overlay added** — the video was washing out the text
+  (headline unreadable in the owner's screenshot). Added a background
+  overlay (general top-to-bottom wash + stronger right-side tint where the
+  text sits) plus subtle text shadows, so the copy is clearly legible.
+- **Text overlap fixed** — the headline and subhead were rendering on top
+  of each other. Root cause: the old design placed both text groups in the
+  *same* CSS grid cell (`grid-row: 1 / -1`) so they could cross-fade as you
+  scroll-scrubbed; with the scroll-scrub gone they both showed at once,
+  overlapping. Rebuilt the hero as a normal 100vh section with the two
+  groups stacked vertically (eyebrow → headline → subhead → CTAs).
+- **Ambient effects removed** — per the owner's "remove the effects":
+  dropped the marquee ticker, floating particle dust, cursor spotlight,
+  god rays, gradient mesh, film grain, scan-slash, sonar pulse rings, and
+  load bloom. Kept only the video, overlay, cube, text, and scroll cue for
+  a clean, fast hero.
+
+**Files:** `src/pages/Home/HeroSection.tsx`, `HeroSection.module.css`
+
+---
+
+## 58. Impact-stats moved from Consultancy "Key Partners" to the Home hero
+The 4 cited industry-benchmark stats ("Why structured transformation pays
+off" — 25–35% delivery efficiency, 2× leadership retention, 12% rework
+reduction, 3–5× ROI) were removed from the bottom of the Consultancy
+"Key Partners" section and relocated to the Home hero.
+
+In the hero they render as a clean full-width stat band anchored along the
+bottom edge: a small "Why structured transformation pays off · industry
+benchmarks" label above a 4-column row of stats (big orange figure +
+caption + source), each separated by a thin divider. The hero's text was
+given extra bottom padding and the cube was nudged/shrunk on shorter
+viewports so nothing collides with the band; the old scroll cue was
+removed (the stat band now anchors the bottom). Band drops to 2 columns
+on tablet and hides on phones (hero too tight there).
+
+The source attributions were kept on every stat — these are owner-approved
+*because* they're clearly-sourced external research (McKinsey / Deloitte),
+not Antra's own metrics, so the attribution must stay for them to remain
+compliant.
+
+Consultancy "Key Partners" now shows just the two partner logos (NOVA
+Business School Africa, Batian Consulting), as before the stats were added.
+
+**Files:** `src/pages/Home/HeroSection.tsx`, `HeroSection.module.css`,
+`src/pages/Consultancy/KeyPartnersSection.tsx`, `KeyPartnersSection.module.css`
+
+---
+
+## 59. Hero — text/stat-band overlap fixed (follow-up to #58)
+On laptop-height viewports the vertically-centred hero text was taller than
+the space above the new stat band, so the headline/buttons spilled down
+over the stats. Fixed by reducing the headline (max 72px → 60px) and
+subhead sizing/margins, and adding a short-viewport rule
+(`max-height: 860px` on desktop widths) that compacts the text further,
+hides the band's label, and shrinks the stat figures — so the centred
+content always clears the band. Also shrinks/lifts the cube on short
+viewports (already partly handled in #58) so it clears the band too.
+
+**Files:** `src/pages/Home/HeroSection.module.css`
+
+---
+
+## 60. "Our Services" section — bigger "What we do" label + bigger card titles
+- The small orange "What we do" label was restyled to match the "Our
+  Services" heading — large, bold, heading font (`clamp(28px, 3.6vw, 48px)`)
+  — while keeping its orange color (per the owner: bigger/bolder, same
+  color). Its accent dot was scaled up (6px → 11px) to stay proportional.
+- The two service-card titles ("Leadership. Strategy. Organizational
+  Transformation. People Solutions." and "Source. Ship. Deliver.") were
+  increased (`clamp(19px, 2vw, 26px)` → `clamp(23px, 2.6vw, 33px)`) so they
+  read as bigger, more prominent titles.
+
+**Files:** `src/pages/Home/ServicePillarsSection.module.css`
+
+---
+
+## 61. "Our Services" cards — bigger tag titles + whole card clickable
+- Increased the card tag title font size only ("Management Consultancy" /
+  "Trading & Supply" pills): 10px → 14px, with slightly larger padding so
+  the pill stays balanced.
+- Made the **entire card clickable** instead of just the CTA link. The card
+  element is now a single React Router `<Link>` to its destination
+  (`/consultancy` / `/trading`); the inner "Explore consultancy" / "See our
+  product lines" CTA became a visual `<span>` (a nested `<a>` inside an `<a>`
+  is invalid HTML). Added anchor resets (`text-decoration: none`,
+  `color: inherit`) and an `aria-label` so the whole card reads as one link.
+  Bonus: it now uses client-side routing (no full page reload) — the old
+  CTA was a plain `<a>` that reloaded the page.
+
+**Files:** `src/pages/Home/ServicePillarsSection.tsx`, `ServicePillarsSection.module.css`
+
+---
+
+## 62. Key Partners moved from Consultancy to the Home page + logos made clickable
+Removed the "Key Partners" section (§04) from the Consultancy page and
+placed it on the Home page as the last section, directly above the footer
+(both it and the footer are `navy-dark`, so the seam is clean).
+
+- Created `src/pages/Home/PartnersSection.tsx` — centered "Our Partners"
+  header + the two partner logo cards.
+- Each partner card is now a **clickable link** opening in a new tab:
+  NOVA Business School Africa → https://nova.edu.gh, Batian Consulting →
+  https://www.batian-consulting.com (owner-supplied URLs).
+- Deleted the Consultancy `KeyPartnersSection.tsx`/`.module.css`.
+- Removed the now-dead "Key Partners" item from the navbar's Consultancy
+  dropdown (its `#key-partners` anchor no longer exists on that page).
+- Consultancy §04 was the last numbered section, so no renumbering needed;
+  "Book a discovery call" (Closing CTA) is now the Consultancy page's final
+  section.
+
+**Files added:** `src/pages/Home/PartnersSection.tsx`, `PartnersSection.module.css`
+**Files removed:** `src/pages/Consultancy/KeyPartnersSection.tsx`, `KeyPartnersSection.module.css`
+**Files:** `src/pages/Home/index.tsx`, `src/pages/Consultancy/index.tsx`,
+`src/components/layout/Navbar.tsx`
+
+---
+
+## 63. "Our Team" moved from Home to the About page + navbar submenu added
+Removed the "Our Team / Leadership that stays in the room." section from the
+Home page and added it to the About page as a new numbered section,
+**§04 "Meet Our Leaders"**, sitting right after Core Values (03). Adapted
+its header from the Home dot-label style to the About page's numbered
+`sectionLabel` convention so it matches the rest of the page; kept the
+"Leadership that stays in the room." heading, the textured photo background,
+and the Anteneh Tegegn leader card.
+
+Renumbered the sections after it: "Let's Talk" 04→05, "Find Us" 05→06.
+
+Added an **"Our Leaders"** item to the navbar's About dropdown, linking to
+`/about#meet-our-leaders` (jumps straight to the new section).
+
+All section seams verified: Core Values ends `navy-dark` → Leaders fades in
+from `navy-dark` and out to `navy-dark` → Find Us/Map starts `navy-dark`.
+On the Home page, removing the Team band left two adjacent `navy-dark`
+sections (Latest News → Closing CTA), which is seamless.
+
+**Files added:** `src/pages/About/LeadersSection.tsx`, `LeadersSection.module.css`
+**Files removed:** `src/pages/Home/TeamSection.tsx`, `TeamSection.module.css`
+**Files:** `src/pages/About/index.tsx`, `MapSection.tsx`,
+`src/pages/Home/index.tsx`, `src/components/layout/Navbar.tsx`
+
+---
+
+## 64. About page — removed the "01 Our Story" number/label, renamed heading to "Our Story"
+Removed the small numbered eyebrow row ("01 · Our Story") above the big
+heading in the About page's first content section. The big heading that
+used to read "Built to do / two things at once." is now simply **"Our
+Story"**. Cleaned up the now-unused `sectionLabel`/`labelNumber`/`labelText`/
+`labelLine`/`headingAccent` CSS rules that only existed for that removed row.
+No other section's numbering changed — this only affects the first section.
+
+**Files:** `src/pages/About/OurStorySection.tsx`, `OurStorySection.module.css`
+
+---
+
+## 65. About page — "Our Mission" section simplified (bold title, new subtitle, description removed)
+Restructured the Mission section's header, matching the pattern used for
+Our Story:
+- Removed the small "02 · Our Mission" numbered eyebrow row and its thin
+  horizontal divider line.
+- "Our Mission" is now the big, bold heading itself — bumped up to
+  extra-bold (800) and a larger size than before.
+- The old heading "Our mission is to / empower organisations." is replaced
+  by a new subtitle line: **"Enabling growth and transformation."**
+- The long description paragraph underneath ("Our mission is to empower
+  organizations by delivering exceptional management consulting...") is
+  removed completely.
+- The two pillar cards (Management Consultancy / Trading & Supply) are
+  unchanged.
+
+Cleaned up the now-unused `sectionLabel`/`labelNumber`/`labelText`/
+`labelLine`/`headingAccent`/`statement` CSS rules.
+
+**Files:** `src/pages/About/MissionSection.tsx`, `MissionSection.module.css`
+
+---
+
+## 66. About page — "Our Mission" heading now uses the Core Values two-line/shimmer treatment
+Reworked fix #65's result so the Mission heading matches the exact visual
+pattern used on the Core Values section ("The principles that / don't
+bend."):
+- Combined into a single two-line heading — no longer a separate title +
+  subtitle paragraph.
+- Line 1, **"Our Mission"** — plain bold white text.
+- Line 2, **"Enabling growth and transformation."** — the same shimmering
+  orange gradient sweep animation used for Values' "don't bend." accent
+  (own keyframe `missionShimmer` to avoid colliding with Values' scoped
+  `valuesShimmer`).
+- Heading size/weight brought in line with the Values heading (700 weight,
+  same clamp) so both sections read consistently.
+
+**Files:** `src/pages/About/MissionSection.tsx`, `MissionSection.module.css`
+
+---
+
+## 67. About page — "Enabling growth and transformation." made smaller than "Our Mission"
+Follow-up to #66: the accent line was the same size as the "Our Mission"
+line above it. Sized it down (~30% smaller, lighter weight) so "Our
+Mission" reads as the dominant line and "Enabling growth and
+transformation." sits underneath it as a smaller accent, not equal weight.
+
+**Files:** `src/pages/About/MissionSection.module.css`
+
+---
+
+## 68. About page — Core Values cards overlapping on phone, fixed
+Root cause: `.valueCard:last-child` sets `grid-column: span 2` (so the 5th
+card fills the leftover cell in the 3-column desktop grid), but the mobile
+breakpoint (≤540px) collapses the grid to a single column without
+resetting that span. Spanning 2 tracks inside a 1-column grid forces the
+browser to create a phantom implicit 2nd column, so the last card rendered
+half-width and overlapped the card next to it.
+
+Fixed by resetting `.valueCard:last-child { grid-column: span 1; }` inside
+the ≤540px breakpoint. Also removed a dead, misnamed `.missions` rule at
+the 768px breakpoint (leftover/typo — the section has no `.missions` class,
+its grid class is `.valuesGrid`, and the correct single-column collapse
+already happens at the 540px breakpoint).
+
+**Files:** `src/pages/About/ValuesSection.module.css`
+
+---
+
+## 69. About page — hero section background image swapped
+Changed the top ("About Us") hero section's background image from
+`about-hero-bg.webp` to the owner-supplied `about-bg.jpg`.
+
+**Files:** `src/pages/About/HeroSection.module.css`
+
+---
+
+## 70. Consultancy page — "Our Practices" cards simplified + separate detail pages per practice
+Reworked the "Six areas. One commitment." section (owner reference: Nova's
+"Leadership Development Programmes" layout — small image + title cards that
+link out to their own detail page, not an inline expand).
+
+**Card grid** (`ServicesSection.tsx`):
+- Each of the 6 practice cards is now just a small image + title +
+  "Explore this practice →", no more inline description/points/tag overlay.
+- Grid is responsive: 3 columns on desktop, 4 columns on very wide screens
+  (≥1400px), 2 columns on tablet (≤900px), 1 column on phone (≤480px).
+- Clicking a card navigates to its own detail page instead of expanding
+  in place.
+
+**New detail pages** — one per practice, at `/consultancy/practices/:slug`
+(`org`, `leadership`, `people-mgmt`, `talent`, `advisory`, `coaching`):
+- New route + lazy-loaded page: `src/pages/PracticeDetail/index.tsx`.
+- Layout: dark banner with breadcrumb (Consultancy › Our Practices ›
+  [Practice]) + title, then an image/description intro with a "Book a
+  discovery call" CTA, then two columns — **Indicative Modules** and
+  **What Your Organisation Gains** — then a strip linking to the other 5
+  practices. Unknown/invalid slugs redirect back to `/consultancy`.
+- Practice content (title, image, description, modules, gains) now lives
+  in one shared source, `src/data/practices.ts`, used by both the card
+  grid and the detail pages. The "modules" lists reuse the existing
+  practice bullet points where they already existed (Organizational
+  Transformation, Leadership Development); for the other four practices
+  (Training on People Management, Talent Search & Assessments, Advisory &
+  Change, Coaching & Mentorship) I broke their existing description text
+  into module bullets and wrote a matching "what your organisation gains"
+  list in the same voice as the rest of the site — sample copy, flag if
+  the owner wants it rewritten.
+
+**Navbar submenu fix**: the Consultancy → Services flyout's 6 sub-links
+used to jump to `#practice-org` etc. anchors on the same page. Since those
+anchor ids no longer exist on the simplified cards, updated those 6 links
+to route straight to the new detail pages instead (added an optional `to`
+override so `Navbar.tsx`'s link-building logic can point directly at a
+route instead of building a `page#hash` anchor).
+
+**Files added:** `src/data/practices.ts`, `src/pages/PracticeDetail/index.tsx`,
+`src/pages/PracticeDetail/PracticeDetail.module.css`
+**Files changed:** `src/pages/Consultancy/ServicesSection.tsx`,
+`ServicesSection.module.css`, `src/router/index.tsx`,
+`src/components/layout/Navbar.tsx`
+
+---
+
+## 71. Practice detail pages — removed fabricated bullet content, kept only the real original bullets
+Follow-up to #70 after owner feedback: no invented copy allowed on these
+pages — only content that actually existed on the site already.
+
+- **"What Your Organisation Gains"** was entirely new copy I wrote for
+  fix #70 (it never existed anywhere on the site before). Removed
+  completely, for all 6 practices.
+- The **modules bullet list** for Training on People Management, Talent
+  Search & Assessments, Advisory & Change, and Coaching & Mentorship was
+  me splitting their existing paragraph into bullet points — that
+  reformatting counts as added content, not original site copy, so it's
+  removed. Those 4 detail pages now show only the original description
+  paragraph (unchanged), same as before, no bullet list section.
+- **Organizational Transformation** and **Leadership Development
+  Programs** keep their bullet lists exactly as they were on the old
+  cards — verified word-for-word against the original `points` arrays,
+  nothing added, corrected, or reworded.
+
+**Files:** `src/data/practices.ts`, `src/pages/PracticeDetail/index.tsx`,
+`PracticeDetail.module.css`
+
+---
+
+## 72. Consultancy page — practice cards always 3 per row, slightly wider
+Removed the ≥1400px breakpoint that bumped the grid to 4 cards per row —
+it's now a fixed 3-per-row on desktop at every width. Tightened the gap
+between cards a bit and increased the card image height slightly so each
+card reads a little larger/wider now that it isn't competing for space
+with a 4th column.
+
+**Files:** `src/pages/Consultancy/ServicesSection.module.css`
+
+---
+
+## 73. Trading page — "Key Suppliers" renamed to "Key Suppliers & Brands"
+Renamed the section label on the Trading page and its matching entry in
+the navbar's Trading submenu flyout, so both read "Key Suppliers & Brands"
+consistently.
+
+**Files:** `src/pages/Trading/KeySuppliersSection.tsx`, `src/components/layout/Navbar.tsx`
+
+---
+
+## 74. Trading page — "Key Suppliers & Brands" nav link fixed + logos made clickable
+**Nav link landing wrong**: root cause was section ordering, not the anchor
+itself (`id="suppliers"` already matched the navbar's `hash: 'suppliers'`
+correctly). The Key Suppliers section had ended up placed *after* the
+Closing CTA — the very last thing on the page, right against the footer
+with almost no scroll room past it, so the anchor-scroll couldn't land on
+it properly. Every other page on the site keeps its Closing CTA last;
+Trading was the exception. Moved Key Suppliers back to before the Closing
+CTA (between "Why Buyers Work With Us" and the CTA), restoring that
+pattern. Added a bottom fade to Key Suppliers so it still hands off
+cleanly into the Closing CTA's navy-dark background (previously it had no
+bottom fade at all, since it used to butt directly against the footer).
+
+**Clickable logos**: each supplier card is now a link to their site,
+opening in a new tab:
+- XCMG → https://www.xcmgglobal.com
+- DEVELON → https://www.mydevelon.com
+- My Wish Enterprise → https://mywishenterprise.com
+- ABA Trading FZCO → no website supplied, left as a plain (non-clickable) card
+
+**Files:** `src/pages/Trading/index.tsx`, `KeySuppliersSection.tsx`, `KeySuppliersSection.module.css`
+
+---
+
+## 75. Anchor nav links unreliable (worst on Trading "Key Suppliers & Brands") — hardened the scroll handler
+The intermittent "jumps to the wrong place / does nothing" behaviour on
+in-page nav links wasn't specific to Key Suppliers — that section just
+exposed it most because it's the deepest section on a long page. Two real
+bugs in the global anchor-scroll handler (`App.tsx`), both fixed:
+
+1. **Re-clicking the same link did nothing.** The scroll effect only
+   depended on `location.pathname` + `location.hash` *values*. Clicking
+   `#suppliers`, scrolling away by hand, then clicking `#suppliers` again
+   left both values unchanged, so the effect never re-ran. Added
+   `location.key` to the dependency array — React Router mints a fresh key
+   on every navigation (even to an identical URL), so every click now
+   re-fires the scroll. (This was the "I scroll a little then click and
+   nothing happens" case.)
+
+2. **Landed short / in the wrong place.** The handler scrolled the instant
+   the target element existed, but a section low on the page keeps sliding
+   down while everything above it settles — lazy images loading, font
+   swaps, in-view animations, and (cross-page) the 0.3s exit + 0.5s enter
+   page transition. The one-shot scroll therefore landed above the section.
+   Replaced the "scroll once and stop" logic with a scroll-and-settle loop
+   that re-scrolls at 150/350/600/900ms, tracking the target until the
+   layout stops moving. Also bumped the mount-polling window from ~3s to
+   ~4s to comfortably cover the page-transition delay on cross-page jumps.
+
+This is a general improvement for every submenu anchor across the site, not
+just the Trading page.
+
+**Files:** `src/App.tsx`
+
+---
+
+## 76. Contact page — reduced gap between hero subtext and "Send a Message" form
+The form section (`.body`) used the same large top/bottom padding value
+(`--section-pad-y`, ~110–220px) on both sides, which stacked on top of the
+hero's own bottom whitespace and created a big empty gap between "Send us
+a note..." and the "01 · Send a Message" label. Reduced just the top
+padding to a smaller clamp, leaving the bottom padding (spacing before the
+map section) unchanged.
+
+**Files:** `src/pages/Contact/ContactFormSection.module.css`
+
+---
+
+## 77. Contact page — odd navy stripe between hero and form section, fixed
+Root cause: `.hero`'s `min-height: 78vh` and `max-height: 760px` were
+conflicting. Per the CSS spec, `min-height` wins when the two disagree, so
+on any tall viewport where `78vh` exceeds `760px` (common on desktop
+monitors), `.hero` grew taller than the decorative background layers
+(image, overlay, aurora, orbs), which are capped at `760px` via
+`height` + `max-height` (no `min-height`, so they behave differently and
+correctly clamp to 760px). That left a gap between where the image/overlay
+stopped and where `.hero`'s box actually ended — exposing the raw page
+background (`body { background-color: var(--navy) }`) as a stray
+medium-navy stripe, distinct from both the darker photo overlay above it
+and the near-black form section below it.
+
+Fixed by sizing `.hero` with `min-height: min(78vh, 760px)` instead — now
+it can never grow past what the background layers actually cover. Also
+gave `.section` itself a `var(--navy-dark)` fallback background (matching
+the form section's color) so any future rendering gap blends in instead of
+showing the page's raw navy.
+
+**Files:** `src/pages/Contact/ContactFormSection.module.css`
+
+---
+
+## 78. Footer links reordered/renamed to match services + "Construction Machinery" → "Construction Machineries" site-wide
+**Footer — Consultancy column**, now ordered and labeled to match the six
+practices exactly (and linked to each practice's own detail page from
+fix #70, instead of just `/consultancy`):
+1. Organizational Transformation
+2. Leadership Development
+3. Training on People Management
+4. Talent Search & Assessments
+5. Advisory & Change
+6. Coaching & Mentorship
+
+**Footer — Trading column**, reordered to: Construction Machineries,
+Medical Equipment, Electric Vehicles, Sanitary Products.
+
+**"Construction Machinery" → "Construction Machineries"** — renamed
+everywhere it appeared for consistency: the navbar's Trading → Product
+Lines flyout, the Trading page's product card title, the Trading closing
+CTA's category pill, and the page's JSON-LD service/offer names.
+
+**Files:** `src/components/layout/Footer.tsx`, `src/components/layout/Navbar.tsx`,
+`src/pages/Trading/ProductLinesSection.tsx`, `src/pages/Trading/ClosingCTASection.tsx`,
+`src/pages/Trading/index.tsx`

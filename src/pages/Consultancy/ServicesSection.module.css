@@ -91,11 +91,11 @@
   margin: 0 0 clamp(40px, 6vw, 72px);
 }
 
-/* ── Cards grid ── */
+/* ── Cards grid — small image + title cards, always 3 up on desktop ── */
 .grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: clamp(16px, 2.5vw, 28px);
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(14px, 1.6vw, 20px);
   margin-bottom: clamp(60px, 10vw, 120px);
 }
 
@@ -108,7 +108,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  cursor: default;
+  text-decoration: none;
   transition: border-color 0.25s var(--ease-out), transform 0.25s var(--ease-out);
 }
 
@@ -125,7 +125,7 @@
 .cardImageWrap {
   position: relative;
   overflow: hidden;
-  height: clamp(180px, 22vw, 280px);
+  height: clamp(155px, 18vw, 220px);
   flex-shrink: 0;
 }
 
@@ -146,76 +146,35 @@
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(11, 33, 53, 0.2) 0%,
-    rgba(6, 15, 26, 0.6) 100%
+    rgba(11, 33, 53, 0.15) 0%,
+    rgba(6, 15, 26, 0.35) 100%
   );
 }
 
-.cardTag {
-  position: absolute;
-  top: 14px;
-  left: 14px;
-  font-family: var(--font-body);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--orange);
-  background: rgba(6, 15, 26, 0.75);
-  padding: 5px 10px;
-  border-radius: 2px;
-  border: 1px solid rgba(217, 121, 17, 0.3);
-}
-
 .cardBody {
-  padding: clamp(20px, 2.5vw, 32px);
+  padding: clamp(16px, 1.8vw, 22px);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
   flex: 1;
 }
 
 .cardTitle {
   font-family: var(--font-heading);
-  font-size: clamp(18px, 1.8vw, 24px);
+  font-size: clamp(15px, 1.3vw, 18px);
   font-weight: 700;
   color: var(--white);
   letter-spacing: -0.02em;
-  line-height: 1.2;
+  line-height: 1.25;
   margin: 0;
 }
 
-.cardShort {
-  font-size: clamp(13px, 1vw, 15px);
-  color: var(--white-60);
-  line-height: 1.7;
-  margin: 0;
-}
-
-.cardPoints {
-  list-style: none;
-  padding: 0;
-  margin: 8px 0 0;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.cardPoint {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 13px;
-  color: var(--white-60);
-  line-height: 1.5;
-}
-
-.cardPointDot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--orange);
-  flex-shrink: 0;
+.cardExplore {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--orange);
 }
 
 /* Bottom rule reveals on hover */
@@ -326,18 +285,28 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .cardImageWrap {
-    height: clamp(200px, 50vw, 320px);
+    height: clamp(150px, 24vw, 200px);
   }
 }
 
 @media (max-width: 540px) {
   .approachGrid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cardImageWrap {
+    height: clamp(180px, 50vw, 260px);
   }
 }

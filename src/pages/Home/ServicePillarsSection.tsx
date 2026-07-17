@@ -1,5 +1,6 @@
 import { useRef, useState, useCallback } from 'react'
 import { motion, useInView } from 'framer-motion'
+import { Link } from 'react-router-dom'
 import styles from './ServicePillarsSection.module.css'
 
 const cards = [
@@ -30,11 +31,11 @@ function TiltCard({ card, index, isInView }: {
   index: number
   isInView: boolean
 }) {
-  const cardRef = useRef<HTMLDivElement>(null)
+  const cardRef = useRef<HTMLAnchorElement>(null)
   const [tilt, setTilt] = useState({ x: 0, y: 0 })
   const [hovered, setHovered] = useState(false)
 
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
     const el = cardRef.current
     if (!el) return
     const rect = el.getBoundingClientRect()
@@ -55,8 +56,10 @@ function TiltCard({ card, index, isInView }: {
       animate={isInView ? { opacity: 1, y: 0, x: 0 } : {}}
       transition={{ delay: 0.2 + index * 0.18, duration: 0.85, ease: [0.34, 1.56, 0.64, 1] as [number, number, number, number] }}
     >
-      <div
+      <Link
         ref={cardRef}
+        to={card.href}
+        aria-label={card.tag}
         className={styles.card}
         style={{
           transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(${hovered ? 1.02 : 1})`,
@@ -87,7 +90,7 @@ function TiltCard({ card, index, isInView }: {
             <p className={styles.cardText}>{card.body}</p>
           </div>
 
-          <a href={card.href} className={styles.cardCta}>
+          <span className={styles.cardCta}>
             <span>{card.cta}</span>
             <motion.span
               className={styles.ctaArrow}
@@ -98,12 +101,12 @@ function TiltCard({ card, index, isInView }: {
                 <path d="M3 9H15M15 9L10 4M15 9L10 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </motion.span>
-          </a>
+          </span>
         </div>
 
         {/* Corner accent */}
         <div className={styles.cornerAccent} />
-      </div>
+      </Link>
     </motion.div>
   )
 }

@@ -6,7 +6,6 @@ import { ServicesSection } from './ServicesSection'
 import { ProblemsSection } from './ProblemsSection'
 import { StrategySection } from './StrategySection'
 import { WhatMakesUsUniqueSection } from './WhatMakesUsUniqueSection'
-import { KeyPartnersSection } from './KeyPartnersSection'
 import { ConsultancyClosingCTA } from './ClosingCTASection'
 
 const pageVariants = {
@@ -58,7 +57,6 @@ export function ConsultancyPage() {
         <WhatMakesUsUniqueSection />
         <ProblemsSection />
         <ConsultancyClosingCTA />
-        <KeyPartnersSection />
       </motion.main>
     </>
   )
