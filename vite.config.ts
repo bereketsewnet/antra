@@ -9,6 +9,15 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  // Local dev only: forward PHP API calls to the PHP server (started with
+  // `php -S localhost:8080 -t server`). Lets `npm run dev` talk to the real
+  // PHP + MySQL backend. Has no effect on the production build.
+  server: {
+    proxy: {
+      '/api':      { target: 'http://localhost:8080', changeOrigin: true },
+      '/mail.php': { target: 'http://localhost:8080', changeOrigin: true },
+    },
+  },
   build: {
     rolldownOptions: {
       output: {

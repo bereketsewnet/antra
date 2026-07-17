@@ -51,6 +51,7 @@ const links = [
       { label: 'Key Suppliers & Brands',    hash: 'suppliers' },
     ],
   },
+  { label: 'Careers',     to: '/careers' },
   { label: 'Contact',     to: '/contact' },
 ]
 

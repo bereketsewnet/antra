@@ -18,6 +18,11 @@ antra.email.config.png
 .env
 .env.local
 mail-config.php
+# config.php reads its values from .env and holds no secrets, so it IS committed.
+# The real secrets live in .env (ignored above).
+# Uploaded CVs / private user data (should live outside web root in prod anyway)
+server/private/
+private/
 
 
 # Editor directories and files

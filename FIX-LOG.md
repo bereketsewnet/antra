@@ -1360,3 +1360,176 @@ CTA's category pill, and the page's JSON-LD service/offer names.
 **Files:** `src/components/layout/Footer.tsx`, `src/components/layout/Navbar.tsx`,
 `src/pages/Trading/ProductLinesSection.tsx`, `src/pages/Trading/ClosingCTASection.tsx`,
 `src/pages/Trading/index.tsx`
+
+---
+
+## 79. Backend Phase 1 — foundation + public Careers/Jobs flow (PHP + MySQL on cPanel)
+First backend beyond the contact form. Extends the existing dependency-free
+PHP setup (`server/mail.php` style) with a MySQL database, admin auth
+foundation, and the complete public-facing careers experience.
+
+**Database** (`server/schema.sql`): `admin_users` (multi-user + roles
+admin/hr), `jobs`, `applications`, and the survey tables (`surveys`,
+`survey_questions`, `survey_responses`, `survey_answers`) ready for the
+next phase.
+
+**Shared PHP libs** (`server/api/_lib/`, blocked from direct web access via
+.htaccess): `bootstrap.php` (config + JSON headers + hardened session +
+error handler), `db.php` (PDO/MySQL), `http.php` (JSON + method + rate-limit
++ input helpers), `auth.php` (session login, `require_auth`/`require_role`,
+bcrypt), `mailer.php` (reusable SMTP, copied from mail.php so the contact
+form stays untouched).
+
+**Auth endpoints:** `auth/login.php`, `logout.php`, `me.php`. Plus
+`create-admin.php` — a one-time CLI script to seed the first admin (delete
+after use).
+
+**Public careers endpoints:** `jobs.php` (list open jobs / single by slug,
+hides drafts + expired) and `apply.php` (application submit with CV upload —
+validates file by real MIME not client type, stores outside web root,
+emails HR an alert, saves to DB).
+
+**Frontend:**
+- "Careers" nav link added next to Contact.
+- `src/lib/api.ts` — small typed fetch client for `/api/*.php`.
+- `/careers` — listing page (fetches open jobs, with loading/empty/error states).
+- `/careers/:slug` — job detail + application form (name/email/phone/cover
+  note/CV upload) posting to `apply.php`, with field-level validation and a
+  success state.
+- Routes lazy-loaded in the router.
+
+**Security:** CV files stored outside `public_html` (served only via an
+authenticated endpoint, built next phase); `config.php` + `private/` CV
+folder gitignored; admin auth enforced server-side; passwords bcrypt-hashed.
+
+**Ops:** `server/README.md` — full cPanel setup guide (create DB, run
+schema, config, private CV folder, first-admin). `server/seed-sample-jobs.sql`
+— optional sample rows to preview the Careers page before the admin exists.
+
+Verified: all 15 PHP files pass `php -l`; frontend `tsc --noEmit` clean; new
+CSS modules cross-checked. NOTE: the API only responds on the deployed
+cPanel site (needs PHP+MySQL) — like the existing contact form, it won't
+work under `vite dev`.
+
+**Still to build (next phases):** admin panel UI (login, jobs CRUD,
+applications dashboard + CV download, user management), then the custom
+survey builder + public survey fill + results dashboard.
+
+**Files added:** `server/schema.sql`, `server/seed-sample-jobs.sql`,
+`server/create-admin.php`, `server/README.md`, `server/api/config.example.php`,
+`server/api/_lib/{bootstrap,db,http,auth,mailer}.php`, `server/api/_lib/.htaccess`,
+`server/api/auth/{login,logout,me}.php`, `server/api/jobs.php`, `server/api/apply.php`,
+`src/lib/api.ts`, `src/pages/Careers/{index.tsx,Careers.module.css,JobDetailPage.tsx,JobDetail.module.css}`
+**Files changed:** `src/components/layout/Navbar.tsx`, `src/router/index.tsx`, `.gitignore`
+
+---
+
+## 80. Backend config moved to .env + local (XAMPP) dev setup working
+Per owner request, unified the new backend's configuration into a `.env`
+file instead of a PHP config array:
+- `server/api/_lib/env.php` — tiny dependency-free `.env` parser.
+- `server/api/config.php` — now reads values from `.env` (with safe
+  fallback defaults) and holds NO secrets, so it's committed. It looks for
+  `.env` one level ABOVE the web/server root (local: `<project>/.env`;
+  cPanel: `/home/USER/.env`, outside public_html).
+- `.env` (gitignored, created for local XAMPP) + `.env.example` (committed
+  template). SMTP stays in `mail-config.php` (shared with the contact form,
+  left untouched).
+- Vite dev proxy added: `/api` + `/mail.php` → `http://localhost:8080` so
+  `npm run dev` talks to a local `php -S` server. No effect on prod build.
+
+**Local stack verified working** (XAMPP MariaDB 10.4 + PHP 8.2):
+schema imported (7 tables), 2 sample jobs seeded, first admin user created,
+and all endpoints tested via curl — public jobs list returns data, admin
+login succeeds (200), brute-force throttle fires (429), wrong password
+rejected (401).
+
+**Files added:** `server/api/_lib/env.php`, `.env.example` (+ local `.env`, gitignored)
+**Files changed:** `server/api/config.php` (now env-driven, committed), `vite.config.ts`, `.gitignore`
+
+---
+
+## 81. Admin panel built (login + dashboard + jobs + applications) + job cards → grid
+Two things: fixed the Careers job cards to a **grid/box layout** (was a
+stacked single-column list — now responsive `auto-fill` boxes, each a
+self-contained card with type/department tags, title, summary, location +
+"View role →"), and built the **admin panel** (the reason `/admin` errored —
+the route + API didn't exist).
+
+**Admin API** (`server/api/admin/`, all auth-guarded server-side):
+- `jobs.php` — full CRUD (list w/ application counts, create w/ auto-unique
+  slug, update, delete, publish/close via status).
+- `applications.php` — list (all or by job), single detail, status update.
+- `download-cv.php` — streams a stored CV to a signed-in admin only (the CV
+  lives outside the web root; this is the only way to fetch it).
+- `stats.php` — dashboard counts.
+
+**Admin frontend** (`src/admin/`, its own lazy chunk, mounted at a separate
+top-level `/admin/*` route so it has none of the public navbar/footer/theme):
+- `AuthContext` (session check via `/auth/me.php`, login, logout).
+- `LoginPage`, `AdminLayout` (sidebar + protected-route redirect).
+- `Dashboard` (stat cards), `JobsManager` (table + publish/close/delete),
+  `JobEditor` (create/edit form), `ApplicationsManager` (table + detail
+  modal with CV download + status change).
+- Self-contained `admin.module.css` (fixed light palette, independent of the
+  site's dark/light theme).
+
+**Verified end-to-end** against local XAMPP: login sets session → stats,
+job create, list, delete all work with the cookie → unauthenticated request
+returns 401. Frontend `tsc` clean; admin CSS classes cross-checked.
+
+**Files added:** `server/api/admin/{jobs,applications,download-cv,stats}.php`,
+`src/admin/{types.ts,AuthContext.tsx,AdminApp.tsx,AdminLayout.tsx,LoginPage.tsx,Dashboard.tsx,JobsManager.tsx,JobEditor.tsx,ApplicationsManager.tsx,admin.module.css}`
+**Files changed:** `src/lib/api.ts` (apiJson for PATCH/DELETE),
+`src/router/index.tsx` (/admin route), `src/pages/Careers/{index.tsx,Careers.module.css}` (grid)
+
+---
+
+## 82. Fix: admin login page rendered blank (white-on-white)
+The admin CSS palette variables (`--a-navy`, `--a-text`, `--a-border`, …)
+were declared only on `.root`, but the login page (`.loginWrap`) and the
+loading screen (`.centered`) render OUTSIDE `.root`. So every color inside
+the login card resolved to an undefined variable → inherited white text and
+white input borders on a white card = an empty-looking box. Moved the
+variable declarations onto a shared selector (`.root, .loginWrap, .centered`)
+so all three admin entry points get the palette.
+
+**Files:** `src/admin/admin.module.css`
+
+---
+
+## 83. Applications: status emails + note, inline CV preview; Jobs: auto-close + deadline countdown
+Three owner requests on the careers/admin side.
+
+**1. Status-update emails + optional note.** Added `status_note` +
+`status_updated_at` columns to `applications`. The admin's application
+detail now has a proper "Update status" panel: status dropdown, an optional
+message box, and a "notify applicant" checkbox (on by default). On save it
+updates the status and — if notify + a valid email — sends the applicant a
+professional, per-status email (`_lib/status-emails.php`) that always names
+the job they applied for, thanks them, and includes the admin's note. The
+**rejected** template specifically encourages them to keep applying, not
+give up, and keep developing; **hired** congratulates and sets up next
+steps. Uses the shared SMTP mailer (owner-updated `mail-config.php`
+credentials — verified: a real test send returned success).
+
+**2. In-browser CV preview.** `download-cv.php` gained an `?inline=1` mode
+(Content-Disposition: inline). The admin detail modal now has "View in
+browser" (embeds a PDF preview iframe), "Open in new tab", and "Download".
+Non-PDF files fall back to open/download (browsers can't render docx inline).
+
+**3. Auto-close + deadline countdown.** Jobs now auto-close once their
+`closes_at` date passes: a shared `close_expired_jobs()` runs whenever the
+public or admin job lists are read, `apply.php` refuses expired postings,
+and `cron-close-jobs.php` provides a daily safety-net cron. A countdown
+warning (`src/lib/jobTime.ts`) shows only inside the last 5 days —
+"5 days left" … "1 day left", then hours on the final day ("6 hrs left") —
+on the public careers cards, the job detail page, and the admin jobs table.
+
+**Files added:** `server/api/_lib/status-emails.php`, `server/api/_lib/jobs-maintenance.php`,
+`server/cron-close-jobs.php`, `src/lib/jobTime.ts`
+**Files changed:** `server/schema.sql` (+status_note cols), `server/mail-config.php` (SMTP pass),
+`server/api/admin/applications.php`, `server/api/admin/download-cv.php`, `server/api/jobs.php`,
+`server/api/admin/jobs.php`, `server/api/apply.php`, `server/README.md`,
+`src/admin/{ApplicationsManager.tsx,JobsManager.tsx,types.ts}`,
+`src/pages/Careers/{index.tsx,Careers.module.css,JobDetailPage.tsx,JobDetail.module.css}`
