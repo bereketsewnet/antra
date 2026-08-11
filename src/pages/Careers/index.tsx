@@ -116,23 +116,25 @@ export function CareersPage() {
                           <img src={job.thumbnail} alt="" className={styles.cardImage} loading="lazy" />
                         </div>
                       )}
-                      <div className={styles.cardMeta}>
-                        <span className={`${styles.metaTag} ${styles.metaType}`}>
-                          {EMPLOYMENT_TYPE_LABELS[job.employment_type] ?? job.employment_type}
-                        </span>
-                        {job.department && <span className={styles.metaTag}>{job.department}</span>}
-                        {(() => {
-                          const tl = jobTimeLeft(job.closes_at)
-                          return tl && tl.urgent && !tl.closed
-                            ? <span className={`${styles.metaTag} ${styles.metaUrgent}`}>⏳ {tl.label}</span>
-                            : null
-                        })()}
-                      </div>
-                      <h2 className={styles.cardTitle}>{job.title}</h2>
-                      {job.summary && <p className={styles.cardSummary}>{job.summary}</p>}
-                      <div className={styles.cardFoot}>
-                        {job.location && <span className={styles.cardLocation}>{job.location}</span>}
-                        <span className={styles.cardCta} aria-hidden="true">View role →</span>
+                      <div className={styles.cardBody}>
+                        <div className={styles.cardMeta}>
+                          <span className={`${styles.metaTag} ${styles.metaType}`}>
+                            {EMPLOYMENT_TYPE_LABELS[job.employment_type] ?? job.employment_type}
+                          </span>
+                          {job.department && <span className={styles.metaTag}>{job.department}</span>}
+                          {(() => {
+                            const tl = jobTimeLeft(job.closes_at)
+                            return tl && tl.urgent && !tl.closed
+                              ? <span className={`${styles.metaTag} ${styles.metaUrgent}`}>⏳ {tl.label}</span>
+                              : null
+                          })()}
+                        </div>
+                        <h2 className={styles.cardTitle}>{job.title}</h2>
+                        {job.summary && <p className={styles.cardSummary}>{job.summary}</p>}
+                        <div className={styles.cardFoot}>
+                          {job.location && <span className={styles.cardLocation}>{job.location}</span>}
+                          <span className={styles.cardCta} aria-hidden="true">View role →</span>
+                        </div>
                       </div>
                     </Link>
                   </motion.div>

@@ -95,19 +95,27 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: clamp(16px, 2vw, 24px);
+  align-items: start;   /* natural heights — image cards don't stretch text cards */
 }
 
 .card {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  height: 100%;
-  padding: clamp(24px, 2.6vw, 32px);
+  overflow: hidden;     /* clip the banner image to the rounded corners */
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid var(--white-10);
   border-radius: 10px;
   text-decoration: none;
   transition: border-color 0.25s var(--ease-out), transform 0.25s var(--ease-out), background 0.25s var(--ease-out);
+}
+
+/* Padded content area — used by every card, with or without an image */
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: clamp(24px, 2.6vw, 32px);
+  flex: 1;
 }
 
 :global([data-theme="light"]) .card {
@@ -121,10 +129,9 @@
 }
 
 .cardImageWrap {
-  margin: calc(clamp(24px, 2.6vw, 32px) * -1) calc(clamp(24px, 2.6vw, 32px) * -1) 4px;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  border-radius: 10px 10px 0 0;
+  flex-shrink: 0;
 }
 
 .cardImage {

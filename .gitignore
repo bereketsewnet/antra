@@ -37,3 +37,6 @@ server/uploads/
 *.njsproj
 *.sln
 *.sw?
+
+# Deploy build artifacts (zips)
+/deploy/

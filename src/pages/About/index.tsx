@@ -4,7 +4,8 @@ import { AboutHeroSection } from './HeroSection'
 import { OurStorySection } from './OurStorySection'
 import { MissionSection } from './MissionSection'
 import { ValuesSection } from './ValuesSection'
-import { LeadersSection } from './LeadersSection'
+// Temporarily hidden at the website owner's request.
+// import { LeadersSection } from './LeadersSection'
 import { AboutMapSection } from './MapSection'
 
 const pageVariants = {
@@ -41,7 +42,9 @@ export function AboutPage() {
         <OurStorySection />
         <MissionSection />
         <ValuesSection />
+        {/* Temporarily hidden at the website owner's request.
         <LeadersSection />
+        */}
         <AboutMapSection />
       </motion.main>
     </>

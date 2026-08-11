@@ -4,7 +4,11 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useTheme } from '@/contexts/ThemeContext'
 import styles from './Navbar.module.css'
 
-const servicePractices = [
+type NavChild = { label: string; to?: string; hash?: string }
+type SubmenuItem = { label: string; hash: string; children?: NavChild[] }
+type NavItem = { label: string; to: string; submenu?: SubmenuItem[] }
+
+const servicePractices: NavChild[] = [
   { label: '01 · Organizational Transformation',    to: '/consultancy/practices/org' },
   { label: '02 · Leadership Development Programs',  to: '/consultancy/practices/leadership' },
   { label: '03 · Training on People Management',    to: '/consultancy/practices/people-mgmt' },
@@ -13,14 +17,14 @@ const servicePractices = [
   { label: '06 · Coaching & Mentorship',            to: '/consultancy/practices/coaching' },
 ]
 
-const productLines = [
+const productLines: NavChild[] = [
   { label: '01 · Electric Vehicles',        hash: 'product-ev' },
   { label: '02 · Construction Machineries', hash: 'product-construction' },
   { label: '03 · Sanitary Equipment',       hash: 'product-sanitary' },
   { label: '04 · Medical Equipment',        hash: 'product-medical' },
 ]
 
-const links = [
+const links: NavItem[] = [
   { label: 'Home',        to: '/' },
   {
     label: 'About',
@@ -29,7 +33,8 @@ const links = [
       { label: 'Who We Are',      hash: 'who-we-are' },
       { label: 'Mission',         hash: 'our-mission' },
       { label: 'Core Values',     hash: 'core-values' },
-      { label: 'Our Leaders',     hash: 'meet-our-leaders' },
+      // Temporarily hidden at the website owner's request.
+      // { label: 'Our Leaders',     hash: 'meet-our-leaders' },
     ],
   },
   {

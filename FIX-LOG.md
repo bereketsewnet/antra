@@ -1672,3 +1672,21 @@ content is always visible once the surveys load. (Renders nothing at all when
 there are no published surveys / the API is unreachable, as before.)
 
 **Files:** `src/pages/Consultancy/SurveySection.tsx`
+
+---
+
+## 89. Fix: careers job card with a thumbnail broke the card shape
+The card used negative margins to full-bleed the image, with the card also
+forcing equal heights (`height: 100%` + grid `stretch`) and no
+`overflow: hidden`. So a card WITH an image rendered taller and its image
+sat outside the padded flow, making that card look misshapen and pushing
+the text-only cards in the row to stretch with big empty gaps.
+
+Refactored to the standard "image banner + padded body" pattern: the card
+is now `overflow: hidden` with no padding; the image is a clean full-width
+banner clipped to the rounded top; and all text lives in a new padded
+`.cardBody`. Grid switched to `align-items: start` so image cards no longer
+stretch the text-only cards. Image and no-image cards now share one clean
+shape.
+
+**Files:** `src/pages/Careers/index.tsx`, `src/pages/Careers/Careers.module.css`

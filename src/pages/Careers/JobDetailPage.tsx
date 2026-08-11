@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { motion, useInView } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { SEO } from '@/components/SEO'
 import {
   apiGet, apiPostForm, EMPLOYMENT_TYPE_LABELS,
@@ -20,7 +20,6 @@ export function JobDetailPage() {
   const [loadError, setLoadError] = useState<string | null>(null)
 
   const formRef = useRef<HTMLDivElement>(null)
-  const inView = useInView(formRef, { once: true, margin: '-60px' })
 
   const [form, setForm] = useState({ name: '', email: '', phone: '', cover_letter: '' })
   const [cv, setCv] = useState<File | null>(null)

@@ -47,5 +47,11 @@
   AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/json image/svg+xml application/xml
 </IfModule>
 
-# 5. UTF-8 default
+# 5. Block direct web access to server-side config / secret files
+#    (they are only ever included by PHP; this stops them being fetched by URL)
+<FilesMatch "^(\.env.*|config\.php|mail-config\.php)$">
+  Require all denied
+</FilesMatch>
+
+# 6. UTF-8 default
 AddDefaultCharset UTF-8

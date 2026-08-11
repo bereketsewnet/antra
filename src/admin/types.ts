@@ -25,6 +25,7 @@ export interface AdminJob {
   location: string | null
   employment_type: string
   summary: string | null
+  thumbnail: string | null
   description: string | null
   requirements: string | null
   salary_range: string | null
